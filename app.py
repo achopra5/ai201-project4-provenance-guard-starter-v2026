@@ -33,6 +33,8 @@ from flask import Flask, jsonify, request
 import audit
 import config
 import detector
+import scoring
+import stylometry
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = config.MAX_REQUEST_BYTES
@@ -199,17 +201,26 @@ def submit():
     except detector.DetectorUnavailable:
         return error_response("detector_unavailable", "The local detector is unavailable. Please try again later.", 503)
 
+    style_score = stylometry.style_signal(payload["text"])
+    try:
+        confidence = scoring.combine_signals(model_score, style_score)
+        guess, label = scoring.score_to_label(confidence)
+    except ValueError:
+        app.logger.exception("Invalid signal or scoring configuration")
+        return error_response("scoring_unavailable", "The writing could not be scored. Please try again later.", 503)
+
     content_id = str(uuid.uuid4())
-    # Single-signal milestone. Two-signal scoring replaces this in the next pass.
-    guess = "unsure"
-    label = ("We cannot reliably determine how this writing was created. "
-             "This label is not an accusation. The writer can request a review.")
-    audit.log_decision(content_id=content_id, creator_id=payload["creator_id"],
-                       guess=guess, model_score=model_score,
-                       combined_score=model_score, label=label)
+    try:
+        audit.log_decision(content_id=content_id, creator_id=payload["creator_id"],
+                           guess=guess, model_score=model_score,
+                           style_score=style_score, combined_score=confidence,
+                           label=label)
+    except OSError:
+        app.logger.exception("Could not persist submission decision")
+        return error_response("storage_unavailable", "The decision could not be saved. Please try again later.", 503)
     return jsonify({"content_id": content_id, "guess": guess,
-                    "confidence": model_score, "label": label,
-                    "model_score": model_score, "style_score": None,
+                    "confidence": confidence, "label": label,
+                    "model_score": model_score, "style_score": style_score,
                     "status": "decided"})
 
 
