@@ -21,6 +21,12 @@ ROOT = Path(__file__).parent
 HOST = os.getenv("HOST", "127.0.0.1")
 PORT = int(os.getenv("PORT", "5000"))
 
+# Bound request parsing and inference cost. Oversized requests are rejected.
+MAX_REQUEST_BYTES = 128 * 1024
+MAX_TEXT_CHARS = 20_000
+MAX_CREATOR_ID_CHARS = 200
+MAX_REASONING_CHARS = 4_000
+
 # Flask's debug mode gives anyone who can reach the service an interactive
 # Python prompt inside your process. Fine on loopback, a gift to strangers
 # anywhere else — so it turns itself off the moment HOST isn't loopback.
