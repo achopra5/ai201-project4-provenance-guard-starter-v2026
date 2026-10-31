@@ -42,11 +42,13 @@ for yourself where it lands.
 """
 
 import math
+import threading
 
 import config
 
 _model = None
 _tokenizer = None
+_load_lock = threading.Lock()
 
 
 class DetectorUnavailable(RuntimeError):
@@ -59,27 +61,33 @@ def _load():
     if _model is not None:
         return _model, _tokenizer
 
-    try:
-        import torch  # noqa: F401
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-    except ImportError as exc:
-        raise DetectorUnavailable(
-            f"transformers or torch isn't installed ({exc}).\n"
-            f"Run: pip install -r requirements.txt"
-        ) from exc
+    with _load_lock:
+        if _model is not None:
+            return _model, _tokenizer
+        try:
+            import torch  # noqa: F401
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+        except ImportError as exc:
+            raise DetectorUnavailable(
+                f"transformers or torch isn't installed ({exc}).\n"
+                f"Run: pip install -r requirements.txt"
+            ) from exc
 
-    try:
-        _tokenizer = AutoTokenizer.from_pretrained(config.DETECTOR_MODEL)
-        _model = AutoModelForCausalLM.from_pretrained(config.DETECTOR_MODEL)
-        _model.eval()
-    except Exception as exc:  # noqa: BLE001
-        raise DetectorUnavailable(
-            f"Couldn't load '{config.DETECTOR_MODEL}': {exc}\n"
-            f"The first run downloads about 550 MB — check your connection and "
-            f"that you have disk space free."
-        ) from exc
+        try:
+            tokenizer = AutoTokenizer.from_pretrained(config.DETECTOR_MODEL)
+            model = AutoModelForCausalLM.from_pretrained(config.DETECTOR_MODEL)
+            model.eval()
+        except Exception as exc:  # noqa: BLE001
+            raise DetectorUnavailable(
+                f"Couldn't load '{config.DETECTOR_MODEL}': {exc}\n"
+                f"The first run downloads about 550 MB — check your connection and "
+                f"that you have disk space free."
+            ) from exc
 
-    return _model, _tokenizer
+        # Publish only a fully loaded pair, so another request cannot observe
+        # a half-initialized model or trigger a second simultaneous load.
+        _tokenizer, _model = tokenizer, model
+        return _model, _tokenizer
 
 
 def perplexity(text: str) -> float:
@@ -90,9 +98,9 @@ def perplexity(text: str) -> float:
     but that range shifts with topic and length, which is one reason the raw
     number isn't what you score on.
     """
-    import torch
-
     model, tokenizer = _load()
+
+    import torch
 
     encoded = tokenizer(
         text,
@@ -110,7 +118,13 @@ def perplexity(text: str) -> float:
         output = model(input_ids, labels=input_ids)
 
     # The model's loss here IS mean negative log-likelihood per token.
-    return float(math.exp(output.loss.item()))
+    loss = output.loss.item()
+    if not math.isfinite(loss):
+        raise DetectorUnavailable("The local model returned a non-finite loss.")
+    try:
+        return float(math.exp(loss))
+    except OverflowError as exc:
+        raise DetectorUnavailable("The local model returned an unscorable loss.") from exc
 
 
 def model_signal(text: str) -> float:

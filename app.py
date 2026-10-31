@@ -184,7 +184,7 @@ def health():
 @app.post("/submit")
 # @limiter.limit(f"{config.RATE_LIMIT_PER_MINUTE}/minute;{config.RATE_LIMIT_PER_DAY}/day")
 def submit():
-    """Validate writing, score it with the cached detector, and persist a decision."""
+    """Validate writing, combine two signals, label, and persist a decision."""
     payload, error = json_object()
     if error is not None:
         return error
@@ -226,32 +226,28 @@ def submit():
 
 @app.post("/appeal")
 def appeal():
-    """
-    A writer says you got it wrong. ← TODO — Milestone 5
-
-    Expects JSON:
-        {"content_id": "...", "reasoning": "..."}
-
-    Should:
-      1. Check the content_id actually exists — `audit.entries_for(id)` tells
-         you. A typo here fails silently and looks like a broken endpoint,
-         which is the single most common way this milestone eats an hour.
-      2. Record the appeal with `audit.log_appeal(...)`, which moves the item
-         to `under_review`.
-      3. Confirm to the writer. No automatic re-checking needed.
-
-    This is the smallest endpoint in the project and the one that matters most
-    to the person on the other end. It's the only thing standing between a
-    wrong accusation and nothing at all.
-    """
-    payload = request.get_json(silent=True) or {}
-
-    # TODO: delete this and build the route.
-    return jsonify({
-        "error": "not_implemented",
-        "message": "POST /appeal isn't built yet — see the TODO in app.py.",
-        "you_sent": payload,
-    }), 501
+    """Append a writer's review request without overwriting the decision."""
+    payload, error = json_object()
+    if error is not None:
+        return error
+    for name, maximum in (("content_id", 36),
+                          ("reasoning", config.MAX_REASONING_CHARS)):
+        error = string_field(payload, name, maximum)
+        if error is not None:
+            return error
+    try:
+        decisions = [entry for entry in audit.entries_for(payload["content_id"])
+                     if entry.get("status") == "decided"]
+        if not decisions:
+            return error_response("content_not_found", "No submission exists for that content_id.", 404)
+        audit.log_appeal(content_id=payload["content_id"],
+                         creator_id=decisions[0]["creator_id"],
+                         reasoning=payload["reasoning"])
+    except OSError:
+        app.logger.exception("Could not read or persist an appeal")
+        return error_response("storage_unavailable", "The review request could not be saved. Please try again later.", 503)
+    return jsonify({"content_id": payload["content_id"], "status": "under_review",
+                    "message": "Your review request was recorded. The writing is now under review."})
 
 
 # ── Already works ─────────────────────────────────────────────────────────────
