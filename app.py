@@ -18,8 +18,8 @@ doesn't, it's the service itself.
 Routes:
 
     POST /ping        the worked example. Already works. Don't edit it
-    POST /submit      ← YOU BUILD THIS (Milestone 3, 4, 5)
-    POST /appeal      ← YOU BUILD THIS (Milestone 5)
+    POST /submit      validate, score with two signals, label, log
+    POST /appeal      record a review request, preserving the original decision
     GET  /log         the audit log. Already works
     GET  /health      is the service up, and is the model loaded
 """
@@ -179,7 +179,7 @@ def health():
     })
 
 
-# ── YOU BUILD THIS ────────────────────────────────────────────────────────────
+# ── Unit 7 submission and appeal pipeline ─────────────────────────────────────
 
 @app.post("/submit")
 # @limiter.limit(f"{config.RATE_LIMIT_PER_MINUTE}/minute;{config.RATE_LIMIT_PER_DAY}/day")

@@ -1,0 +1,108 @@
+{
+  "timestamp": "2026-10-31T15:27:33+00:00",
+  "produced_by": "scripts/capture_sample.py::main",
+  "url": "http://127.0.0.1:5057",
+  "interactions": [
+    {
+      "command": "curl --silent --show-error --fail-with-body --max-time 90 -X GET http://127.0.0.1:5057/health",
+      "method": "GET",
+      "route": "/health",
+      "request": null,
+      "response": {
+        "detector_loaded": false,
+        "detector_model": "gpt2",
+        "log_entries": 0,
+        "ok": true,
+        "rate_limiting": false
+      }
+    },
+    {
+      "command": "curl --silent --show-error --fail-with-body --max-time 90 -X POST http://127.0.0.1:5057/ping -H 'Content-Type: application/json' -d '{\"message\": \"hello\"}'",
+      "method": "POST",
+      "route": "/ping",
+      "request": {
+        "message": "hello"
+      },
+      "response": {
+        "ok": true,
+        "service": "provenance-guard",
+        "you_sent": "hello"
+      }
+    },
+    {
+      "command": "curl --silent --show-error --fail-with-body --max-time 90 -X POST http://127.0.0.1:5057/submit -H 'Content-Type: application/json' -d '{\"text\": \"A writing platform needs clear rules. Writers should understand how their work will be reviewed and how to ask for help when the automated system makes a mistake.\", \"creator_id\": \"sample-writer\"}'",
+      "method": "POST",
+      "route": "/submit",
+      "request": {
+        "text": "A writing platform needs clear rules. Writers should understand how their work will be reviewed and how to ask for help when the automated system makes a mistake.",
+        "creator_id": "sample-writer"
+      },
+      "response": {
+        "confidence": 0.5163738683127572,
+        "content_id": "bf425427-67ea-40b0-bbd3-c62d7501fde4",
+        "guess": "unsure",
+        "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+        "model_score": 0.5739,
+        "status": "decided",
+        "style_score": 0.45884773662551437
+      }
+    },
+    {
+      "command": "curl --silent --show-error --fail-with-body --max-time 90 -X POST http://127.0.0.1:5057/appeal -H 'Content-Type: application/json' -d '{\"content_id\": \"bf425427-67ea-40b0-bbd3-c62d7501fde4\", \"reasoning\": \"Please review this demonstration submission and its automated estimate.\"}'",
+      "method": "POST",
+      "route": "/appeal",
+      "request": {
+        "content_id": "bf425427-67ea-40b0-bbd3-c62d7501fde4",
+        "reasoning": "Please review this demonstration submission and its automated estimate."
+      },
+      "response": {
+        "content_id": "bf425427-67ea-40b0-bbd3-c62d7501fde4",
+        "message": "Your review request was recorded. The writing is now under review.",
+        "status": "under_review"
+      }
+    },
+    {
+      "command": "curl --silent --show-error --fail-with-body --max-time 90 -X GET 'http://127.0.0.1:5057/log?limit=2'",
+      "method": "GET",
+      "route": "/log?limit=2",
+      "request": null,
+      "response": {
+        "count": 2,
+        "entries": [
+          {
+            "combined_score": 0.5163738683127572,
+            "content_id": "bf425427-67ea-40b0-bbd3-c62d7501fde4",
+            "creator_id": "sample-writer",
+            "guess": "unsure",
+            "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+            "model_score": 0.5739,
+            "status": "decided",
+            "style_score": 0.45884773662551437,
+            "timestamp": "2026-10-31T15:27:34+00:00"
+          },
+          {
+            "content_id": "bf425427-67ea-40b0-bbd3-c62d7501fde4",
+            "creator_id": "sample-writer",
+            "event": "appeal",
+            "reasoning": "Please review this demonstration submission and its automated estimate.",
+            "status": "under_review",
+            "timestamp": "2026-10-31T15:27:34+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "command": "curl --silent --show-error --fail-with-body --max-time 90 -X GET http://127.0.0.1:5057/health",
+      "method": "GET",
+      "route": "/health",
+      "request": null,
+      "response": {
+        "detector_loaded": true,
+        "detector_model": "gpt2",
+        "log_entries": 2,
+        "ok": true,
+        "rate_limiting": false
+      }
+    }
+  ]
+}

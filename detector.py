@@ -1,13 +1,13 @@
 """
 Signal one: the model signal.
 
-This is the signal that "reads the text for meaning". It runs a language model
-on your own machine and asks one question: **how predictable is this text?**
+This signal uses a local language model's next-token probabilities, rather than
+surface counts, to ask: **how predictable is this text?** It does not establish
+meaning or authorship.
 
-The idea is the one every AI-detection product is built on. A language model
-writes by repeatedly picking a likely next word, so text a model produced tends
-to be text a model finds easy to predict. Human writing wanders more — odd word
-choices, abrupt turns, the specific rather than the typical.
+The heuristic is that generated writing may be predictable to a language model.
+Human writing can be predictable too; unusual AI writing can surprise a model.
+This is a rough signal, not a general test of who wrote a passage.
 
 The measure is called **perplexity**. Low perplexity means "I could have
 guessed this"; high perplexity means "that surprised me". This module turns
@@ -133,7 +133,7 @@ def model_signal(text: str) -> float:
 
     Perplexity is unbounded and roughly log-distributed, so it gets squashed
     onto 0–1 rather than clipped. The midpoint below is the perplexity that
-    maps to 0.5 — text this surprising is a coin flip.
+    maps to 0.5 on this heuristic scale, not a probability of authorship.
 
     You may want to move that midpoint once you've run the four calibration
     inputs in Milestone 4 and seen what your own text actually scores. If you
