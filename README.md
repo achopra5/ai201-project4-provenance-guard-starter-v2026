@@ -72,9 +72,15 @@
 <!-- Write the rule in words, then give the numbers. What happens when the two
      signals disagree? -->
 
-**The rule:**
+**The rule:** Equal weighting of model predictability and surface style.
+Disagreement is averaged: 0.9 and 0.1 produce 0.5 (unsure). This policy was
+approved before implementation; see [the policy record](docs/policy.md).
 
-**The numbers:**
+**The numbers:** `confidence = 0.5 * model_score + 0.5 * style_score`.
+Human at `score <= 0.20`, AI at `score >= 0.85`, unsure between them.
+These are heuristic scores, not calibrated probabilities. The wide unsure band
+prioritizes avoiding false accusations and accepts more missed AI text.
+No automatic penalty or removal is performed.
 
 **Where it lives:** `scoring.py::combine_signals`
 
