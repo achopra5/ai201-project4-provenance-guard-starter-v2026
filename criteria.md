@@ -1,134 +1,59 @@
 # Acceptance criteria — Provenance Guard
 
-Five criteria that say what "working" means for this service, written in unit 7
-**before** you built it.
+These five criteria and their reasons were provided by the project owner on
+October 31, 2026, before implementation and new evaluation results. Their wording
+is preserved below. The earlier environment transcript included the starter
+model's default demonstration score; it was not an evaluation of these criteria.
 
-**All five are yours.** None are given.
+## 1. False positives — Protect human writers
 
-An acceptance criterion names a number or something plainly observable. *"The
-detector is accurate"* is an opinion — and perfect AI detection isn't possible
-anyway, so it's an opinion about something nobody can deliver. *"Of 10 pieces I
-wrote myself, at most 1 is labelled high-confidence AI"* is a criterion.
+My suggested target: Out of 20 pieces of writing known to be human-written, no more than 1 should receive a high-confidence AI label.
 
-Under each, write a sentence or two on **why that target**. *"I allow at most 1
-false positive in 10 because on a writing site a wrong accusation costs more
-than a missed detection"* is a real answer.
+**Why this target:** Wrongly accusing a real writer is more harmful than failing to identify some AI-generated content. This gives us a strict but measurable target of 5% on our test sample.
 
-> Missing your own targets next unit costs you nothing. Setting a target so
-> easy you can't miss it does.
+## 2. Score separation — Can the detector distinguish the groups?
 
----
+My suggested target: Test 10 known-human and 10 known-AI samples. The average AI-likelihood score for AI writing should be at least 0.20 higher than the human-writing average.
 
-## Pick numbers you can defend
+**Why this target:** If both groups receive similar scores, combining two signals isn't accomplishing much. We should expect some measurable distinction, even if individual predictions are imperfect.
 
-**Cover at least three of these five areas.** They're prompts, not a form.
+## 3. Label coverage — Do all three outcomes work?
 
-| Area | A question it could answer |
-|---|---|
-| False positives | How often may a human's writing get called AI? |
-| Score spread | How far apart should clearly-AI and clearly-human text score? |
-| Label coverage | Is every one of your three labels actually reachable? |
-| The appeal path | Does an appeal always change status and always get recorded? |
-| Bad input | What happens when `text` is missing, empty, or enormous? |
+My suggested target: Test 7 numerical scores, including 0, 1, values near both thresholds, and values inside each classification region. All 7 must map to the expected label, and all three labels must appear.
 
-Two things worth knowing before you pick numbers:
+**Why this target:** The system must reliably distinguish between AI, human, and unsure. Every valid score needs exactly one outcome.
 
-- **The expensive mistake is one-sided.** Missing some AI text costs the site a
-  little. Accusing a real writer costs that person a lot. A criterion that
-  treats both errors as equally bad is describing a system nobody would ship.
-- **Unit 8 tests across three trials, and the target has to hold across all
-  three.** Your first signal runs a model, so identical input can score
-  differently twice. A target of "at most 1 in 10" against trials of 2, 1, 2 is
-  a **miss**.
+## 4. Appeals — Can writers challenge a decision?
 
----
-## 1.
+My suggested target: Submit 5 valid appeals for existing content IDs. All 5 must be recorded with their reasoning, change to under_review, and appear in the audit log.
 
-<!-- Your criterion. It must name a number. -->
+**Why this target:** Since the detector can be wrong, the appeal mechanism needs to work every time. We shouldn't make someone depend on an unreliable process to challenge an accusation.
 
+## 5. Invalid inputs — Does the API reject bad requests?
 
+My suggested target: Test 6 invalid submissions: missing text, empty text, whitespace-only text, non-string text, missing creator ID, and malformed JSON. All 6 should return a suitable 4xx error without creating a successful submission record.
 
-**Why this target:**
-
-
+**Why this target:** Invalid inputs should not silently produce misleading classifications or crash the backend.
 
 ---
 
-## 2.
+## Reproduction notes (clarifications, not revised targets)
 
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
-
----
-
-## 3.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
-
----
-
-## 4.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
-
----
-
-## 5.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
-
----
-
-<!-- ─────────────────────────────────────────────────────────────────────────
-     UNIT 8 — read this before you change anything above.
-
-     If a criterion turns out to be BROKEN rather than merely unmet, you can
-     revise it, and that earns credit. But never delete or edit the original
-     line. Add the revision underneath, like this:
-
-         ## 2. Uncertain cases land in the unsure band
-
-         The system handles uncertain cases well.
-
-         **Why this target:** ...
-
-         > **Revised in unit 8:** Text I judged borderline scores between
-         > 0.4 and 0.6 in at least 4 of 5 cases.
-         >
-         > **Why revised:** "well" gave me nothing to check. I couldn't
-         > reach a verdict from it at all.
-
-     That's a revision because the criterion couldn't be MEASURED.
-
-     Lowering a target because you missed it is not a revision, and it costs
-     you the point:
-
-         ✗ "At most 1 of 10 of my own pieces flagged as AI" → "at most 3
-            of 10", because 1 of 10 turned out to be hard.
-
-     A number you missed stays where it is, gets diagnosed, and gets a fix
-     attempted. That's where the points are.
-     ───────────────────────────────────────────────────────────────────────── -->
+- The approved score means the combined AI-likeness index returned as
+  `confidence`, not a calibrated probability. `ai` is the high-confidence AI label.
+- Criterion 3's seven scores are `0`, `0.20`, `0.200001`, `0.50`, `0.849999`,
+  `0.85`, and `1`; expected guesses are `human`, `human`, `unsure`, `unsure`,
+  `unsure`, `ai`, and `ai`. Additional boundary tests may supplement these.
+- Use five distinct existing submissions for criterion 4, preserve each appeal's
+  exact reasoning, and verify both the original decision and latest status.
+- For criterion 5, use `123` as the non-string text and a truncated JSON body
+  for malformed JSON. A suitable error is HTTP 400; no `status: decided` event
+  may be written for these requests.
+- Freeze and identify sample origins before evaluating criteria 1 and 2. The
+  10 human pieces for criterion 2 may be a declared subset of the 20 for
+  criterion 1. A result on this sample is not a population error-rate estimate.
+- Unit 8 evaluates the fixed criteria across three trials. Report any missed
+  target honestly. Do not lower it after seeing results; retain original wording
+  and append a reasoned revision only if a criterion itself is untestable.
+- Unit 7 calibration examples are a small diagnostic set, not the 20/10/10
+  acceptance evaluation. The Unit 8 attack and criterion runners stay unused.
