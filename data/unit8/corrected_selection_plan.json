@@ -1,0 +1,176 @@
+{
+  "corpus_id": "owner-confirmed-three-documents-v2",
+  "created_on": "2026-11-04",
+  "author": "Aditya Chopra",
+  "authorship_attestation": "Owner explicitly confirms personal authorship without generative AI of the three named documents on November 4, 2026.",
+  "privacy": "Excerpt text remains in ignored .private/; commit only source metadata, hashes, offsets, and numerical results.",
+  "normalization": "pypdf layout extraction per page, collapse whitespace only; preserve all non-whitespace Unicode, spelling, grammar, and punctuation.",
+  "selection_algorithm": {
+    "word_window": 50,
+    "minimum_tail_words": 25,
+    "minimum_region_words": 25,
+    "order": "source order below, region order, then round-robin candidates across documents until 20; fixed first 10 for separation",
+    "tail_policy": "Append a tail shorter than 25 words to the previous window in the same region; never join separate regions."
+  },
+  "eligibility_policy": "Fixed source-position regions reviewed for personal authorship and nonsensitive subject matter before corrected scoring. Exclude application prompts, instructor feedback, quoted material, personal/family details, teacher descriptions, and repeated challenge narrative in UC. Regions and windows are contiguous; no prose rewriting.",
+  "prior_exposure": "Historical mixed-author evaluation used some overlapping source material. This is a corrected, deterministic cohort, not a newly blind holdout. Selection does not use historical or new model scores.",
+  "sources": [
+    {
+      "filename": "THE TRANSITION.pdf",
+      "pdf_sha256": "9542a432a3f1c4d13faedb2230052b6b08a7553063eb3defdfbe06b7e8f91db3",
+      "canonical_text_sha256": "cc6e295cf744705cfed2b7a11ee0dab422df1b372063af247668bec21774064f",
+      "pages": [
+        {
+          "page": 1,
+          "start": 0,
+          "end": 3066
+        },
+        {
+          "page": 2,
+          "start": 3067,
+          "end": 3702
+        }
+      ],
+      "eligible_regions": [
+        {
+          "start": 407,
+          "end": 853
+        },
+        {
+          "start": 854,
+          "end": 1684
+        },
+        {
+          "start": 1685,
+          "end": 1988
+        },
+        {
+          "start": 2801,
+          "end": 3281
+        },
+        {
+          "start": 3282,
+          "end": 3702
+        }
+      ]
+    },
+    {
+      "filename": "supplemental essays.pdf",
+      "pdf_sha256": "74324238b99094cc7c401899d48936a44013e0bc621f6552f4e3e665d236d5ce",
+      "canonical_text_sha256": "cdcd5db62ed5a6c28d10fd4e242785e6c8dacc06a0ef0bed3af52cf579ea4e29",
+      "pages": [
+        {
+          "page": 1,
+          "start": 0,
+          "end": 2180
+        },
+        {
+          "page": 2,
+          "start": 2181,
+          "end": 2560
+        }
+      ],
+      "eligible_regions": [
+        {
+          "start": 84,
+          "end": 406
+        },
+        {
+          "start": 486,
+          "end": 822
+        },
+        {
+          "start": 988,
+          "end": 1309
+        },
+        {
+          "start": 1446,
+          "end": 1853
+        },
+        {
+          "start": 1854,
+          "end": 2180
+        },
+        {
+          "start": 2269,
+          "end": 2385
+        },
+        {
+          "start": 2386,
+          "end": 2560
+        }
+      ]
+    },
+    {
+      "filename": "UC.pdf",
+      "pdf_sha256": "1c79483c6d88aef6661f3e1c0c786f71843c981bfc9514a147d589754791b43d",
+      "canonical_text_sha256": "a764c37bdb6a7cee9e3c1eefef4551a7847eec046b0666a35c4b4d4ce1e1dd8e",
+      "pages": [
+        {
+          "page": 1,
+          "start": 0,
+          "end": 2001
+        },
+        {
+          "page": 2,
+          "start": 2002,
+          "end": 3660
+        },
+        {
+          "page": 3,
+          "start": 3661,
+          "end": 5076
+        },
+        {
+          "page": 4,
+          "start": 5077,
+          "end": 6578
+        },
+        {
+          "page": 5,
+          "start": 6579,
+          "end": 8382
+        },
+        {
+          "page": 6,
+          "start": 8383,
+          "end": 8398
+        }
+      ],
+      "eligible_regions": [
+        {
+          "start": 166,
+          "end": 740
+        },
+        {
+          "start": 741,
+          "end": 1466
+        },
+        {
+          "start": 1467,
+          "end": 1735
+        },
+        {
+          "start": 3308,
+          "end": 3753
+        },
+        {
+          "start": 6406,
+          "end": 6590
+        },
+        {
+          "start": 6967,
+          "end": 7463
+        },
+        {
+          "start": 7464,
+          "end": 7738
+        },
+        {
+          "start": 7866,
+          "end": 8341
+        }
+      ]
+    }
+  ]
+}

@@ -26,6 +26,11 @@ SCENARIOS = [
 
 def load_cohorts(data_dir=DATA_DIR):
     """Validate provenance declarations/counts before permitting any evaluation."""
+    # The old mixed corpus remains historical evidence, never the active
+    # fallback after the owner corrected authorship and privacy requirements.
+    if Path(data_dir).resolve() == DATA_DIR.resolve() and (DATA_DIR / "corrected_human_manifest.json").exists():
+        import corrected_corpus
+        return corrected_corpus.load()
     manifests = {}
     for key in ("human", "ai"):
         path = Path(data_dir) / f"{key}_samples.json"
@@ -58,6 +63,9 @@ def load_cohorts(data_dir=DATA_DIR):
 
 def snapshot(cohorts):
     """Capture exact data, original criteria, and expected boundary answers."""
+    if cohorts["human"].get("commit_excerpt_text") is False:
+        import corrected_corpus
+        return {**corrected_corpus.public_snapshot(), "boundary_cases": BOUNDARY_CASES}
     return {"cohorts": cohorts, "boundary_cases": BOUNDARY_CASES,
             "criteria_sha256": hashlib.sha256((config.ROOT / "criteria.md").read_bytes()).hexdigest()}
 
