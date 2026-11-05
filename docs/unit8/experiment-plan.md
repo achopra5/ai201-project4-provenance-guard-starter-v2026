@@ -113,3 +113,26 @@ placeholder/missing human samples, overwrite an experiment, or run after with
 changed cohorts. The attack runner saves raw response evidence and checkpoints
 all completed attempts, preserves parse errors as a preflight blocker rather
 than silently skipping rows, and requires identical source-file hashes after.
+
+## Completed baseline checkpoint
+
+The actual 15-request flood returned eight 200s followed by seven 429s. The
+service was then restarted with the same policy and retained log for the staff
+baseline. All 56 staff inputs executed; raw output is
+`results/unit8/attacks_before.json`. Its objective-specific review records
+47 HELD and 9 BROKE, with 56/56 HTTP-to-audit correlations and no 5xx/crashes.
+The nine evasion misses all received unsure. No detection improvement or
+acceptance evaluation has occurred. See `docs/unit8/baseline-analysis.md` and
+the updated README for every attack and ten real audit entries.
+
+Final preparation verification passed 9 environment checks and 47 deterministic
+tests; the earlier four real-model integration checks also passed, with their
+new rejection-event expectation. Source comparisons confirm the original
+criteria, both signal implementations, scoring/labels, and the Unit 7 audit
+prefix remain intact. The local server was stopped after the baseline to avoid
+leaving an idle inference process. On receipt of the owner's 20 samples and
+publication/authorship confirmation, freeze `human_samples.json`, commit the
+cohort, start the same enabled policy with fresh in-memory counters, and run
+`run_eval.py --label before --url http://127.0.0.1:5058`. Do not rerun the staff
+before set or overwrite the recorded artifacts. Improvement selection follows
+that completed criteria baseline.

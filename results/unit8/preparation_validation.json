@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-11-05T01:29:04.105501+00:00",
+  "purpose": "Preparation/instrumentation regression evidence; not acceptance trials.",
+  "preservation": {
+    "criteria.md": "Unchanged from Unit 7",
+    "scoring.py": "Unchanged from Unit 7",
+    "stylometry.py": "Unchanged from Unit 7",
+    "detector.py": "Unchanged from Unit 7",
+    "docs/policy.md": "Unchanged from Unit 7"
+  },
+  "unit7_audit_prefix_preserved": true,
+  "attack_requests_correlated": 56,
+  "checks": [
+    {
+      "command": [
+        "/Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv/bin/python",
+        "test.py"
+      ],
+      "exit_code": 0,
+      "stdout": "\nAI201 environment check\n------------------------------------------------------------\n[PASS] Python version\n         3.12.7 on Darwin\n[PASS] Virtual environment\n         /Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv\n[PASS] Pinned packages\n         all 7 import cleanly\n[PASS] Free disk space\n         476.8 GB\n[PASS] Memory\n         24.0 GB\n[PASS] PyTorch\n         2.15.0\n[PASS] Flask\n         flask and flask-limiter both import\n[PASS] Detector model\n         already downloaded\n[PASS] The service\n         /ping answers \u2014 the starter works before you edit it\n------------------------------------------------------------\n9 passed, 0 failed, 0 to look at, 0 skipped\n\nYou're set. See you in class.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "----------------------------------------------------------------------\nRan 47 tests in 0.221s\n\nOK\n"
+    }
+  ]
+}

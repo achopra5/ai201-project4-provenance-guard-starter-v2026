@@ -1,0 +1,2278 @@
+{
+  "produced_by": "scripts/review_attack_run.py::main/review",
+  "raw_evidence_sha256": "e9ffdd89907cfb7921f0e82059efbfbb747383236a4f24c5c7fdb1ba76e98b40",
+  "label": "before",
+  "rules": "Objective-specific rules in scripts/review_attack_run.py; unsure counts as evasion miss, not an AI accusation or a successful instruction override.",
+  "count": 56,
+  "family_counts": {
+    "evasion": {
+      "BROKE": 9,
+      "HELD": 1
+    },
+    "false_positive": {
+      "HELD": 8
+    },
+    "prompt_injection": {
+      "HELD": 6
+    },
+    "malformed": {
+      "HELD": 20
+    },
+    "flood_same_creator": {
+      "HELD": 12
+    }
+  },
+  "status_counts": {
+    "200": 37,
+    "400": 14,
+    "413": 1,
+    "429": 4
+  },
+  "rows": [
+    {
+      "id": "EV01",
+      "family": "evasion",
+      "targets": "signal two: typos raise word variety",
+      "status": 200,
+      "content_id": "4ac2f781-0a95-4956-a176-1835ef8e6349",
+      "creator_id": "attacker_EV01",
+      "guess": "unsure",
+      "confidence": 0.3839451661117901,
+      "model_score": 0.1635,
+      "style_score": 0.6043903322235802,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "47ef2a14-6853-4454-b691-43305bbd3268",
+        "response_text": "{\"confidence\":0.3839451661117901,\"content_id\":\"4ac2f781-0a95-4956-a176-1835ef8e6349\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.1635,\"status\":\"decided\",\"style_score\":0.6043903322235802}\n",
+        "retry_after": null,
+        "elapsed_seconds": 1.646756165951956
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:23+00:00",
+          "content_id": "4ac2f781-0a95-4956-a176-1835ef8e6349",
+          "creator_id": "attacker_EV01",
+          "guess": "unsure",
+          "model_score": 0.1635,
+          "style_score": 0.6043903322235802,
+          "combined_score": 0.3839451661117901,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "47ef2a14-6853-4454-b691-43305bbd3268",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV02",
+      "family": "evasion",
+      "targets": "signal two: broken-up sentences raise length spread",
+      "status": 200,
+      "content_id": "8502761f-0783-4853-9121-d53b233b378d",
+      "creator_id": "attacker_EV02",
+      "guess": "unsure",
+      "confidence": 0.4837926240678424,
+      "model_score": 0.5943,
+      "style_score": 0.3732852481356848,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "6e7b33d5-b264-499b-b741-87d726f86476",
+        "response_text": "{\"confidence\":0.4837926240678424,\"content_id\":\"8502761f-0783-4853-9121-d53b233b378d\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.5943,\"status\":\"decided\",\"style_score\":0.3732852481356848}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03878479095874354
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "8502761f-0783-4853-9121-d53b233b378d",
+          "creator_id": "attacker_EV02",
+          "guess": "unsure",
+          "model_score": 0.5943,
+          "style_score": 0.3732852481356848,
+          "combined_score": 0.4837926240678424,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "6e7b33d5-b264-499b-b741-87d726f86476",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV03",
+      "family": "evasion",
+      "targets": "signal two: a pasted quotation changes the shape",
+      "status": 200,
+      "content_id": "145d4136-ff66-4b39-8823-a2761537f894",
+      "creator_id": "attacker_EV03",
+      "guess": "unsure",
+      "confidence": 0.5796950444740667,
+      "model_score": 0.6662,
+      "style_score": 0.4931900889481334,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "27e52429-fc87-46cb-a7b7-269222ef77e7",
+        "response_text": "{\"confidence\":0.5796950444740667,\"content_id\":\"145d4136-ff66-4b39-8823-a2761537f894\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.6662,\"status\":\"decided\",\"style_score\":0.4931900889481334}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.04780399997252971
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "145d4136-ff66-4b39-8823-a2761537f894",
+          "creator_id": "attacker_EV03",
+          "guess": "unsure",
+          "model_score": 0.6662,
+          "style_score": 0.4931900889481334,
+          "combined_score": 0.5796950444740667,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "27e52429-fc87-46cb-a7b7-269222ef77e7",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV04",
+      "family": "evasion",
+      "targets": "signal one: unusual words raise perplexity",
+      "status": 200,
+      "content_id": "23e46062-aeaf-4210-aaae-d7a80bf197d8",
+      "creator_id": "attacker_EV04",
+      "guess": "unsure",
+      "confidence": 0.6031025251200415,
+      "model_score": 0.6114,
+      "style_score": 0.5948050502400829,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "cc211377-bee5-42e7-b273-57970bed617b",
+        "response_text": "{\"confidence\":0.6031025251200415,\"content_id\":\"23e46062-aeaf-4210-aaae-d7a80bf197d8\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.6114,\"status\":\"decided\",\"style_score\":0.5948050502400829}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03962766600307077
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "23e46062-aeaf-4210-aaae-d7a80bf197d8",
+          "creator_id": "attacker_EV04",
+          "guess": "unsure",
+          "model_score": 0.6114,
+          "style_score": 0.5948050502400829,
+          "combined_score": 0.6031025251200415,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "cc211377-bee5-42e7-b273-57970bed617b",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV05",
+      "family": "evasion",
+      "targets": "both signals: heavy human editing pass",
+      "status": 200,
+      "content_id": "c094ffa7-d570-4802-8e96-57ed87aec17e",
+      "creator_id": "attacker_EV05",
+      "guess": "unsure",
+      "confidence": 0.3776314142052121,
+      "model_score": 0.3212,
+      "style_score": 0.43406282841042426,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "bee23275-e4aa-42bc-a97b-23534e177399",
+        "response_text": "{\"confidence\":0.3776314142052121,\"content_id\":\"c094ffa7-d570-4802-8e96-57ed87aec17e\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.3212,\"status\":\"decided\",\"style_score\":0.43406282841042426}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.039920292038004845
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "c094ffa7-d570-4802-8e96-57ed87aec17e",
+          "creator_id": "attacker_EV05",
+          "guess": "unsure",
+          "model_score": 0.3212,
+          "style_score": 0.43406282841042426,
+          "combined_score": 0.3776314142052121,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "bee23275-e4aa-42bc-a97b-23534e177399",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV06",
+      "family": "evasion",
+      "targets": "signal two: one very long sentence and one very short",
+      "status": 200,
+      "content_id": "dfa1d787-f703-46ac-85d0-b24fba9021ad",
+      "creator_id": "attacker_EV06",
+      "guess": "unsure",
+      "confidence": 0.47385,
+      "model_score": 0.5727,
+      "style_score": 0.375,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "84d5f091-daeb-4752-a52a-e75606a64348",
+        "response_text": "{\"confidence\":0.47385,\"content_id\":\"dfa1d787-f703-46ac-85d0-b24fba9021ad\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.5727,\"status\":\"decided\",\"style_score\":0.375}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03977191698504612
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "dfa1d787-f703-46ac-85d0-b24fba9021ad",
+          "creator_id": "attacker_EV06",
+          "guess": "unsure",
+          "model_score": 0.5727,
+          "style_score": 0.375,
+          "combined_score": 0.47385,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "84d5f091-daeb-4752-a52a-e75606a64348",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV07",
+      "family": "evasion",
+      "targets": "signal two: padding with punctuation",
+      "status": 200,
+      "content_id": "40461566-edfb-4781-8940-c4495d59a46b",
+      "creator_id": "attacker_EV07",
+      "guess": "unsure",
+      "confidence": 0.5431,
+      "model_score": 0.5862,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "eca25ff7-6110-45f4-8c3a-58cc5ad1dfe2",
+        "response_text": "{\"confidence\":0.5431,\"content_id\":\"40461566-edfb-4781-8940-c4495d59a46b\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.5862,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.04315895901527256
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "40461566-edfb-4781-8940-c4495d59a46b",
+          "creator_id": "attacker_EV07",
+          "guess": "unsure",
+          "model_score": 0.5862,
+          "style_score": 0.5,
+          "combined_score": 0.5431,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "eca25ff7-6110-45f4-8c3a-58cc5ad1dfe2",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV08",
+      "family": "evasion",
+      "targets": "signal one: text below the token window",
+      "status": 200,
+      "content_id": "ba42af81-444a-46e6-9355-4b40114401a0",
+      "creator_id": "attacker_EV08",
+      "guess": "unsure",
+      "confidence": 0.3726,
+      "model_score": 0.2452,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "339a600c-3adc-4547-9124-c72f26fe0c2c",
+        "response_text": "{\"confidence\":0.3726,\"content_id\":\"ba42af81-444a-46e6-9355-4b40114401a0\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.2452,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.020413208985701203
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "ba42af81-444a-46e6-9355-4b40114401a0",
+          "creator_id": "attacker_EV08",
+          "guess": "unsure",
+          "model_score": 0.2452,
+          "style_score": 0.5,
+          "combined_score": 0.3726,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "339a600c-3adc-4547-9124-c72f26fe0c2c",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV09",
+      "family": "evasion",
+      "targets": "both: AI text with a human opening paragraph bolted on",
+      "status": 200,
+      "content_id": "eb969b69-bb11-4c3a-8028-735007630dd9",
+      "creator_id": "attacker_EV09",
+      "guess": "unsure",
+      "confidence": 0.5981551395572442,
+      "model_score": 0.7042,
+      "style_score": 0.49211027911448824,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "BROKE",
+      "note": "",
+      "http": {
+        "request_id": "cd11f151-51be-4fde-a3ab-2df8998301bd",
+        "response_text": "{\"confidence\":0.5981551395572442,\"content_id\":\"eb969b69-bb11-4c3a-8028-735007630dd9\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.7042,\"status\":\"decided\",\"style_score\":0.49211027911448824}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.054851582972332835
+      },
+      "review_reason": "Known staff AI example did not receive the AI label; unsure counts as a detection miss, not a confident-human claim.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "eb969b69-bb11-4c3a-8028-735007630dd9",
+          "creator_id": "attacker_EV09",
+          "guess": "unsure",
+          "model_score": 0.7042,
+          "style_score": 0.49211027911448824,
+          "combined_score": 0.5981551395572442,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "cd11f151-51be-4fde-a3ab-2df8998301bd",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "EV10",
+      "family": "evasion",
+      "targets": "signal two: repeated stanza structure",
+      "status": 200,
+      "content_id": "e275f4cb-5324-4b02-9c7f-d73f1681816f",
+      "creator_id": "attacker_EV10",
+      "guess": "ai",
+      "confidence": 0.8701347436334713,
+      "model_score": 0.9792,
+      "style_score": 0.7610694872669427,
+      "label": "This writing shows patterns associated with AI-generated text. This is an automated estimate, not proof of AI use. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "0ea5d8b8-8c26-4997-a93d-f527a7585e39",
+        "response_text": "{\"confidence\":0.8701347436334713,\"content_id\":\"e275f4cb-5324-4b02-9c7f-d73f1681816f\",\"guess\":\"ai\",\"label\":\"This writing shows patterns associated with AI-generated text. This is an automated estimate, not proof of AI use. The writer can request a review.\",\"model_score\":0.9792,\"status\":\"decided\",\"style_score\":0.7610694872669427}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.04054558399366215
+      },
+      "review_reason": "AI example retained the AI label.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "e275f4cb-5324-4b02-9c7f-d73f1681816f",
+          "creator_id": "attacker_EV10",
+          "guess": "ai",
+          "model_score": 0.9792,
+          "style_score": 0.7610694872669427,
+          "combined_score": 0.8701347436334713,
+          "label": "This writing shows patterns associated with AI-generated text. This is an automated estimate, not proof of AI use. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "0ea5d8b8-8c26-4997-a93d-f527a7585e39",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FP01",
+      "family": "false_positive",
+      "targets": "plain, clear human writing with no flourishes",
+      "status": 200,
+      "content_id": "64242e04-b7de-4193-ad33-933db33f2259",
+      "creator_id": "attacker_FP01",
+      "guess": "unsure",
+      "confidence": 0.5874335819760321,
+      "model_score": 0.6175,
+      "style_score": 0.5573671639520642,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "08c843f8-97c4-4d7c-8b12-9439af1d1d15",
+        "response_text": "{\"confidence\":0.5874335819760321,\"content_id\":\"64242e04-b7de-4193-ad33-933db33f2259\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.6175,\"status\":\"decided\",\"style_score\":0.5573671639520642}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.046106207999400795
+      },
+      "review_reason": "Staff-designated human text was not accused of AI authorship.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "64242e04-b7de-4193-ad33-933db33f2259",
+          "creator_id": "attacker_FP01",
+          "guess": "unsure",
+          "model_score": 0.6175,
+          "style_score": 0.5573671639520642,
+          "combined_score": 0.5874335819760321,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "08c843f8-97c4-4d7c-8b12-9439af1d1d15",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FP02",
+      "family": "false_positive",
+      "targets": "human writing in a formal register",
+      "status": 200,
+      "content_id": "24f6014f-3798-4984-afeb-b9ee226282eb",
+      "creator_id": "attacker_FP02",
+      "guess": "unsure",
+      "confidence": 0.6858897680653837,
+      "model_score": 0.7387,
+      "style_score": 0.6330795361307674,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "b13fb891-ff29-47d4-bc83-25b87461cd1c",
+        "response_text": "{\"confidence\":0.6858897680653837,\"content_id\":\"24f6014f-3798-4984-afeb-b9ee226282eb\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.7387,\"status\":\"decided\",\"style_score\":0.6330795361307674}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.04027162498096004
+      },
+      "review_reason": "Staff-designated human text was not accused of AI authorship.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "24f6014f-3798-4984-afeb-b9ee226282eb",
+          "creator_id": "attacker_FP02",
+          "guess": "unsure",
+          "model_score": 0.7387,
+          "style_score": 0.6330795361307674,
+          "combined_score": 0.6858897680653837,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "b13fb891-ff29-47d4-bc83-25b87461cd1c",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FP03",
+      "family": "false_positive",
+      "targets": "a non-native English speaker writing carefully",
+      "status": 200,
+      "content_id": "b17e78c1-17a6-4728-aa09-d514c832025c",
+      "creator_id": "attacker_FP03",
+      "guess": "unsure",
+      "confidence": 0.7035167430583585,
+      "model_score": 0.8051,
+      "style_score": 0.601933486116717,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "4d2b40be-0a0b-486a-8304-72a90a4bbe17",
+        "response_text": "{\"confidence\":0.7035167430583585,\"content_id\":\"b17e78c1-17a6-4728-aa09-d514c832025c\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.8051,\"status\":\"decided\",\"style_score\":0.601933486116717}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03882312501082197
+      },
+      "review_reason": "Staff-designated human text was not accused of AI authorship.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "b17e78c1-17a6-4728-aa09-d514c832025c",
+          "creator_id": "attacker_FP03",
+          "guess": "unsure",
+          "model_score": 0.8051,
+          "style_score": 0.601933486116717,
+          "combined_score": 0.7035167430583585,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "4d2b40be-0a0b-486a-8304-72a90a4bbe17",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FP04",
+      "family": "false_positive",
+      "targets": "a student essay written to a rubric",
+      "status": 200,
+      "content_id": "c33b96fb-5dd1-4750-a7cb-3bb382a10621",
+      "creator_id": "attacker_FP04",
+      "guess": "unsure",
+      "confidence": 0.6906198382371427,
+      "model_score": 0.8329,
+      "style_score": 0.5483396764742855,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "929e592f-e8c7-4cc3-8351-e7cd6eb8ae91",
+        "response_text": "{\"confidence\":0.6906198382371427,\"content_id\":\"c33b96fb-5dd1-4750-a7cb-3bb382a10621\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.8329,\"status\":\"decided\",\"style_score\":0.5483396764742855}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03693979198578745
+      },
+      "review_reason": "Staff-designated human text was not accused of AI authorship.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "c33b96fb-5dd1-4750-a7cb-3bb382a10621",
+          "creator_id": "attacker_FP04",
+          "guess": "unsure",
+          "model_score": 0.8329,
+          "style_score": 0.5483396764742855,
+          "combined_score": 0.6906198382371427,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "929e592f-e8c7-4cc3-8351-e7cd6eb8ae91",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FP05",
+      "family": "false_positive",
+      "targets": "technical documentation written by a person",
+      "status": 200,
+      "content_id": "d5afbf7e-f086-46a7-ad09-89113d4c7f3f",
+      "creator_id": "attacker_FP05",
+      "guess": "unsure",
+      "confidence": 0.7217383504855444,
+      "model_score": 0.8005,
+      "style_score": 0.6429767009710886,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "d5e9ba0b-d67a-40c0-b9b5-f99fdbfb29d9",
+        "response_text": "{\"confidence\":0.7217383504855444,\"content_id\":\"d5afbf7e-f086-46a7-ad09-89113d4c7f3f\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.8005,\"status\":\"decided\",\"style_score\":0.6429767009710886}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03781008400255814
+      },
+      "review_reason": "Staff-designated human text was not accused of AI authorship.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "d5afbf7e-f086-46a7-ad09-89113d4c7f3f",
+          "creator_id": "attacker_FP05",
+          "guess": "unsure",
+          "model_score": 0.8005,
+          "style_score": 0.6429767009710886,
+          "combined_score": 0.7217383504855444,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "d5e9ba0b-d67a-40c0-b9b5-f99fdbfb29d9",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FP06",
+      "family": "false_positive",
+      "targets": "a person imitating a formal template",
+      "status": 200,
+      "content_id": "5744f6f6-8e30-4d3b-8d8b-04adec093762",
+      "creator_id": "attacker_FP06",
+      "guess": "unsure",
+      "confidence": 0.7062658335767765,
+      "model_score": 0.8814,
+      "style_score": 0.5311316671535531,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "188aed31-e741-4ecc-819f-bf54c5c99014",
+        "response_text": "{\"confidence\":0.7062658335767765,\"content_id\":\"5744f6f6-8e30-4d3b-8d8b-04adec093762\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.8814,\"status\":\"decided\",\"style_score\":0.5311316671535531}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.036269792006351054
+      },
+      "review_reason": "Staff-designated human text was not accused of AI authorship.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "5744f6f6-8e30-4d3b-8d8b-04adec093762",
+          "creator_id": "attacker_FP06",
+          "guess": "unsure",
+          "model_score": 0.8814,
+          "style_score": 0.5311316671535531,
+          "combined_score": 0.7062658335767765,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "188aed31-e741-4ecc-819f-bf54c5c99014",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FP07",
+      "family": "false_positive",
+      "targets": "human writing that repeats a phrase deliberately",
+      "status": 200,
+      "content_id": "19129e51-f9d3-49d7-a771-053cc38df690",
+      "creator_id": "attacker_FP07",
+      "guess": "unsure",
+      "confidence": 0.7069704072768053,
+      "model_score": 0.8816,
+      "style_score": 0.5323408145536104,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "947ff2f5-2c1a-4629-9a07-9502e2bf78dd",
+        "response_text": "{\"confidence\":0.7069704072768053,\"content_id\":\"19129e51-f9d3-49d7-a771-053cc38df690\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.8816,\"status\":\"decided\",\"style_score\":0.5323408145536104}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.038418416981585324
+      },
+      "review_reason": "Staff-designated human text was not accused of AI authorship.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "19129e51-f9d3-49d7-a771-053cc38df690",
+          "creator_id": "attacker_FP07",
+          "guess": "unsure",
+          "model_score": 0.8816,
+          "style_score": 0.5323408145536104,
+          "combined_score": 0.7069704072768053,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "947ff2f5-2c1a-4629-9a07-9502e2bf78dd",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FP08",
+      "family": "false_positive",
+      "targets": "very short genuine human submission",
+      "status": 200,
+      "content_id": "64d25c69-0585-4978-9046-066d73e11380",
+      "creator_id": "attacker_FP08",
+      "guess": "unsure",
+      "confidence": 0.41115,
+      "model_score": 0.3223,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "95d039e5-b6d4-42e1-8379-44fc7173d47d",
+        "response_text": "{\"confidence\":0.41115,\"content_id\":\"64d25c69-0585-4978-9046-066d73e11380\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.3223,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.022079834016039968
+      },
+      "review_reason": "Staff-designated human text was not accused of AI authorship.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "64d25c69-0585-4978-9046-066d73e11380",
+          "creator_id": "attacker_FP08",
+          "guess": "unsure",
+          "model_score": 0.3223,
+          "style_score": 0.5,
+          "combined_score": 0.41115,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "95d039e5-b6d4-42e1-8379-44fc7173d47d",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "PI01",
+      "family": "prompt_injection",
+      "targets": "instruction to ignore the check",
+      "status": 200,
+      "content_id": "34925c72-edb5-4125-a34f-330020db9be5",
+      "creator_id": "attacker_PI01",
+      "guess": "unsure",
+      "confidence": 0.44883309193469484,
+      "model_score": 0.4625,
+      "style_score": 0.43516618386938966,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "1f4825bd-e418-4d62-82bc-6c7020630489",
+        "response_text": "{\"confidence\":0.44883309193469484,\"content_id\":\"34925c72-edb5-4125-a34f-330020db9be5\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.4625,\"status\":\"decided\",\"style_score\":0.43516618386938966}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03228674997808412
+      },
+      "review_reason": "No requested human override or hostile label; structured audit inspected separately for PI05.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "34925c72-edb5-4125-a34f-330020db9be5",
+          "creator_id": "attacker_PI01",
+          "guess": "unsure",
+          "model_score": 0.4625,
+          "style_score": 0.43516618386938966,
+          "combined_score": 0.44883309193469484,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "1f4825bd-e418-4d62-82bc-6c7020630489",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "PI02",
+      "family": "prompt_injection",
+      "targets": "instruction disguised as a system message",
+      "status": 200,
+      "content_id": "48e8ecd9-8ff1-41f7-8615-00bd8303c8b2",
+      "creator_id": "attacker_PI02",
+      "guess": "unsure",
+      "confidence": 0.30235933369779905,
+      "model_score": 0.2044,
+      "style_score": 0.4003186673955981,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "69719bd2-9c42-488f-9d91-f1b4c4ae9e89",
+        "response_text": "{\"confidence\":0.30235933369779905,\"content_id\":\"48e8ecd9-8ff1-41f7-8615-00bd8303c8b2\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.2044,\"status\":\"decided\",\"style_score\":0.4003186673955981}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03277745802188292
+      },
+      "review_reason": "No requested human override or hostile label; structured audit inspected separately for PI05.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "48e8ecd9-8ff1-41f7-8615-00bd8303c8b2",
+          "creator_id": "attacker_PI02",
+          "guess": "unsure",
+          "model_score": 0.2044,
+          "style_score": 0.4003186673955981,
+          "combined_score": 0.30235933369779905,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "69719bd2-9c42-488f-9d91-f1b4c4ae9e89",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "PI03",
+      "family": "prompt_injection",
+      "targets": "instruction wrapped in the writer's voice",
+      "status": 200,
+      "content_id": "98f744f6-705a-480f-a4b9-5351c7cbaaf6",
+      "creator_id": "attacker_PI03",
+      "guess": "unsure",
+      "confidence": 0.5651732235458178,
+      "model_score": 0.5943,
+      "style_score": 0.5360464470916356,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "4e7f252c-9908-4839-93ac-f1a96fc7d741",
+        "response_text": "{\"confidence\":0.5651732235458178,\"content_id\":\"98f744f6-705a-480f-a4b9-5351c7cbaaf6\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.5943,\"status\":\"decided\",\"style_score\":0.5360464470916356}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0348390830331482
+      },
+      "review_reason": "No requested human override or hostile label; structured audit inspected separately for PI05.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "98f744f6-705a-480f-a4b9-5351c7cbaaf6",
+          "creator_id": "attacker_PI03",
+          "guess": "unsure",
+          "model_score": 0.5943,
+          "style_score": 0.5360464470916356,
+          "combined_score": 0.5651732235458178,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "4e7f252c-9908-4839-93ac-f1a96fc7d741",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "PI04",
+      "family": "prompt_injection",
+      "targets": "attempt to make the label text hostile",
+      "status": 200,
+      "content_id": "c79c3162-7ed2-43e2-b4ad-d76a44143a77",
+      "creator_id": "attacker_PI04",
+      "guess": "unsure",
+      "confidence": 0.4821829559871398,
+      "model_score": 0.4998,
+      "style_score": 0.46456591197427954,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "81be4502-bdd6-4523-a282-b386b3949252",
+        "response_text": "{\"confidence\":0.4821829559871398,\"content_id\":\"c79c3162-7ed2-43e2-b4ad-d76a44143a77\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.4998,\"status\":\"decided\",\"style_score\":0.46456591197427954}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.03442045801784843
+      },
+      "review_reason": "No requested human override or hostile label; structured audit inspected separately for PI05.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "c79c3162-7ed2-43e2-b4ad-d76a44143a77",
+          "creator_id": "attacker_PI04",
+          "guess": "unsure",
+          "model_score": 0.4998,
+          "style_score": 0.46456591197427954,
+          "combined_score": 0.4821829559871398,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "81be4502-bdd6-4523-a282-b386b3949252",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "PI05",
+      "family": "prompt_injection",
+      "targets": "attempt to inject into the audit log",
+      "status": 200,
+      "content_id": "e1611a07-645b-4240-8964-c3dd3c857489",
+      "creator_id": "attacker_PI05",
+      "guess": "unsure",
+      "confidence": 0.44688881064162755,
+      "model_score": 0.6401,
+      "style_score": 0.25367762128325516,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "e0b8a157-acd8-4a4c-a62e-85bc2acdc426",
+        "response_text": "{\"confidence\":0.44688881064162755,\"content_id\":\"e1611a07-645b-4240-8964-c3dd3c857489\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.6401,\"status\":\"decided\",\"style_score\":0.25367762128325516}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.030268582981079817
+      },
+      "review_reason": "No requested human override or hostile label; structured audit inspected separately for PI05.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "e1611a07-645b-4240-8964-c3dd3c857489",
+          "creator_id": "attacker_PI05",
+          "guess": "unsure",
+          "model_score": 0.6401,
+          "style_score": 0.25367762128325516,
+          "combined_score": 0.44688881064162755,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "e0b8a157-acd8-4a4c-a62e-85bc2acdc426",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "PI06",
+      "family": "prompt_injection",
+      "targets": "instruction plus real human text",
+      "status": 200,
+      "content_id": "86a730c3-7438-4f6a-8cc6-ca67727e0cc7",
+      "creator_id": "attacker_PI06",
+      "guess": "unsure",
+      "confidence": 0.5602466722181709,
+      "model_score": 0.5583,
+      "style_score": 0.562193344436342,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "56f9f4ec-e868-4e94-b107-890f730bc9ec",
+        "response_text": "{\"confidence\":0.5602466722181709,\"content_id\":\"86a730c3-7438-4f6a-8cc6-ca67727e0cc7\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.5583,\"status\":\"decided\",\"style_score\":0.562193344436342}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.050076084036845714
+      },
+      "review_reason": "No requested human override or hostile label; structured audit inspected separately for PI05.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "86a730c3-7438-4f6a-8cc6-ca67727e0cc7",
+          "creator_id": "attacker_PI06",
+          "guess": "unsure",
+          "model_score": 0.5583,
+          "style_score": 0.562193344436342,
+          "combined_score": 0.5602466722181709,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "56f9f4ec-e868-4e94-b107-890f730bc9ec",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "MF01",
+      "family": "malformed",
+      "targets": "text is only whitespace",
+      "status": 400,
+      "content_id": null,
+      "creator_id": "attacker_MF01",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "4de867d7-3ccd-435d-b528-5aec5d2684a0",
+        "response_text": "{\"error\":\"invalid_text\",\"message\":\"text must be a nonblank string.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0019063749932684004
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "creator_id": "attacker_MF01",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_text",
+          "request_id": "4de867d7-3ccd-435d-b528-5aec5d2684a0",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "MF02",
+      "family": "malformed",
+      "targets": "text is a single character",
+      "status": 400,
+      "content_id": null,
+      "creator_id": "attacker_MF02",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "f60d064b-29a9-45f1-82fb-2a5ee99dc746",
+        "response_text": "{\"error\":\"unscorable_text\",\"message\":\"Text is too short to score \\u2014 a few sentences at least.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.001513750001322478
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "creator_id": "attacker_MF02",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "unscorable_text",
+          "request_id": "f60d064b-29a9-45f1-82fb-2a5ee99dc746",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "MF03",
+      "family": "malformed",
+      "targets": "text is control characters",
+      "status": 200,
+      "content_id": "25598b16-4468-4901-bb47-a210420184fb",
+      "creator_id": "attacker_MF03",
+      "guess": "unsure",
+      "confidence": 0.25,
+      "model_score": 0.0,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "7774e632-c928-450e-99a3-1b83994f48d8",
+        "response_text": "{\"confidence\":0.25,\"content_id\":\"25598b16-4468-4901-bb47-a210420184fb\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.022287125000730157
+      },
+      "review_reason": "Text-level edge case handled safely without a crash or confident authorship claim. Nonblank strings are permitted by the baseline contract.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "25598b16-4468-4901-bb47-a210420184fb",
+          "creator_id": "attacker_MF03",
+          "guess": "unsure",
+          "model_score": 0.0,
+          "style_score": 0.5,
+          "combined_score": 0.25,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "7774e632-c928-450e-99a3-1b83994f48d8",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "MF04",
+      "family": "malformed",
+      "targets": "text is only punctuation",
+      "status": 200,
+      "content_id": "57bd854d-2b33-45b1-8380-39433027a932",
+      "creator_id": "attacker_MF04",
+      "guess": "unsure",
+      "confidence": 0.2556,
+      "model_score": 0.0112,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "6111e642-8916-42d5-a704-f7bdaa69488e",
+        "response_text": "{\"confidence\":0.2556,\"content_id\":\"57bd854d-2b33-45b1-8380-39433027a932\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0112,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.022873374982737005
+      },
+      "review_reason": "Text-level edge case handled safely without a crash or confident authorship claim. Nonblank strings are permitted by the baseline contract.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "57bd854d-2b33-45b1-8380-39433027a932",
+          "creator_id": "attacker_MF04",
+          "guess": "unsure",
+          "model_score": 0.0112,
+          "style_score": 0.5,
+          "combined_score": 0.2556,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "6111e642-8916-42d5-a704-f7bdaa69488e",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "MF05",
+      "family": "malformed",
+      "targets": "text is a very long single word",
+      "status": 200,
+      "content_id": "40071a0f-8a03-4d29-8b99-0eb5ab139b3c",
+      "creator_id": "attacker_MF05",
+      "guess": "unsure",
+      "confidence": 0.7488,
+      "model_score": 0.9976,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "a8c69c0d-be86-4ccc-9fb9-4dc0281b9d48",
+        "response_text": "{\"confidence\":0.7488,\"content_id\":\"40071a0f-8a03-4d29-8b99-0eb5ab139b3c\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.9976,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.11843004199909046
+      },
+      "review_reason": "Text-level edge case handled safely without a crash or confident authorship claim. Nonblank strings are permitted by the baseline contract.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "40071a0f-8a03-4d29-8b99-0eb5ab139b3c",
+          "creator_id": "attacker_MF05",
+          "guess": "unsure",
+          "model_score": 0.9976,
+          "style_score": 0.5,
+          "combined_score": 0.7488,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "a8c69c0d-be86-4ccc-9fb9-4dc0281b9d48",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "MF06",
+      "family": "malformed",
+      "targets": "text is emoji only",
+      "status": 200,
+      "content_id": "47363148-3f47-4c54-a7dd-52abfc9d307b",
+      "creator_id": "attacker_MF06",
+      "guess": "unsure",
+      "confidence": 0.7484500000000001,
+      "model_score": 0.9969,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "ad5d6ac3-be54-4444-af25-e279c63288ee",
+        "response_text": "{\"confidence\":0.7484500000000001,\"content_id\":\"47363148-3f47-4c54-a7dd-52abfc9d307b\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.9969,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.11972108302870765
+      },
+      "review_reason": "Text-level edge case handled safely without a crash or confident authorship claim. Nonblank strings are permitted by the baseline contract.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "47363148-3f47-4c54-a7dd-52abfc9d307b",
+          "creator_id": "attacker_MF06",
+          "guess": "unsure",
+          "model_score": 0.9969,
+          "style_score": 0.5,
+          "combined_score": 0.7484500000000001,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "ad5d6ac3-be54-4444-af25-e279c63288ee",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "MF07",
+      "family": "malformed",
+      "targets": "text is right-to-left script",
+      "status": 200,
+      "content_id": "2654c659-0b3f-4649-927b-d63b4f32a7da",
+      "creator_id": "attacker_MF07",
+      "guess": "unsure",
+      "confidence": 0.7032,
+      "model_score": 0.9064,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "abe5b5b2-5476-408c-a1b8-d9e65ebab683",
+        "response_text": "{\"confidence\":0.7032,\"content_id\":\"2654c659-0b3f-4649-927b-d63b4f32a7da\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.9064,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.04579137498512864
+      },
+      "review_reason": "Text-level edge case handled safely without a crash or confident authorship claim. Nonblank strings are permitted by the baseline contract.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "2654c659-0b3f-4649-927b-d63b4f32a7da",
+          "creator_id": "attacker_MF07",
+          "guess": "unsure",
+          "model_score": 0.9064,
+          "style_score": 0.5,
+          "combined_score": 0.7032,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "abe5b5b2-5476-408c-a1b8-d9e65ebab683",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "MF08",
+      "family": "malformed",
+      "targets": "text is 60,000 characters",
+      "status": 413,
+      "content_id": null,
+      "creator_id": "attacker_MF08",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "87cf76a0-e684-45f4-a326-e09bc35c29db",
+        "response_text": "{\"error\":\"input_too_large\",\"message\":\"text must be at most 20000 characters.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0017390410066582263
+      },
+      "review_reason": "Excessive text rejected with HTTP 413 before inference.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_MF08",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "input_too_large",
+          "request_id": "87cf76a0-e684-45f4-a326-e09bc35c29db",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 413,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ01",
+      "family": "malformed",
+      "targets": "no text field at all",
+      "status": 400,
+      "content_id": null,
+      "creator_id": "attacker_RQ01",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "62fe8c0e-b55c-466c-8463-9b5ad52e267b",
+        "response_text": "{\"error\":\"invalid_text\",\"message\":\"text must be a nonblank string.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0013925409875810146
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_RQ01",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_text",
+          "request_id": "62fe8c0e-b55c-466c-8463-9b5ad52e267b",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ02",
+      "family": "malformed",
+      "targets": "no creator_id",
+      "status": 400,
+      "content_id": null,
+      "creator_id": null,
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "ac3a6b52-d841-4548-94c5-1076d46ce259",
+        "response_text": "{\"error\":\"invalid_creator_id\",\"message\":\"creator_id must be a nonblank string.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.001339541980996728
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "unknown",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_creator_id",
+          "request_id": "ac3a6b52-d841-4548-94c5-1076d46ce259",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ03",
+      "family": "malformed",
+      "targets": "text is a number",
+      "status": 400,
+      "content_id": null,
+      "creator_id": "attacker_RQ03",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "443c98e4-fe19-41f5-bfcf-14fecca7bb7b",
+        "response_text": "{\"error\":\"invalid_text\",\"message\":\"text must be a nonblank string.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.001181375002488494
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_RQ03",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_text",
+          "request_id": "443c98e4-fe19-41f5-bfcf-14fecca7bb7b",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ04",
+      "family": "malformed",
+      "targets": "text is a list",
+      "status": 400,
+      "content_id": null,
+      "creator_id": "attacker_RQ04",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "6a746b1c-c4f2-4a0a-8fe5-e18084072954",
+        "response_text": "{\"error\":\"invalid_text\",\"message\":\"text must be a nonblank string.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0012725419946946204
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_RQ04",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_text",
+          "request_id": "6a746b1c-c4f2-4a0a-8fe5-e18084072954",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ05",
+      "family": "malformed",
+      "targets": "text is null",
+      "status": 400,
+      "content_id": null,
+      "creator_id": "attacker_RQ05",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "a8666e76-d61e-4362-bf8c-0ad3603213f0",
+        "response_text": "{\"error\":\"invalid_text\",\"message\":\"text must be a nonblank string.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0014530000044032931
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_RQ05",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_text",
+          "request_id": "a8666e76-d61e-4362-bf8c-0ad3603213f0",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ06",
+      "family": "malformed",
+      "targets": "creator_id is an object",
+      "status": 400,
+      "content_id": null,
+      "creator_id": {
+        "id": "x"
+      },
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "21d671ee-9bcc-4d4a-b286-3ad81d764d0b",
+        "response_text": "{\"error\":\"invalid_creator_id\",\"message\":\"creator_id must be a nonblank string.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0012729589943774045
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "unknown",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_creator_id",
+          "request_id": "21d671ee-9bcc-4d4a-b286-3ad81d764d0b",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ07",
+      "family": "malformed",
+      "targets": "body is a JSON array, not an object",
+      "status": 400,
+      "content_id": null,
+      "creator_id": null,
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "9cbdb734-7e9a-4ea7-8461-5370740d85df",
+        "response_text": "{\"error\":\"invalid_json\",\"message\":\"Send a JSON object with Content-Type: application/json.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0014365409733727574
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "unknown",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_json",
+          "request_id": "9cbdb734-7e9a-4ea7-8461-5370740d85df",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ08",
+      "family": "malformed",
+      "targets": "body is unparseable JSON",
+      "status": 400,
+      "content_id": null,
+      "creator_id": null,
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "cf99ce63-9d88-4e5c-952f-ba58ed05dde9",
+        "response_text": "{\"error\":\"invalid_json\",\"message\":\"Send a JSON object with Content-Type: application/json.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0013217080268077552
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "unknown",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_json",
+          "request_id": "cf99ce63-9d88-4e5c-952f-ba58ed05dde9",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ09",
+      "family": "malformed",
+      "targets": "body is empty",
+      "status": 400,
+      "content_id": null,
+      "creator_id": null,
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "62f37ae1-f85c-459e-87df-16ab09a222cd",
+        "response_text": "{\"error\":\"invalid_json\",\"message\":\"Send a JSON object with Content-Type: application/json.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0012794170179404318
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "unknown",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_json",
+          "request_id": "62f37ae1-f85c-459e-87df-16ab09a222cd",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ10",
+      "family": "malformed",
+      "targets": "body is form-encoded, not JSON",
+      "status": 400,
+      "content_id": null,
+      "creator_id": null,
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "8955177a-3926-4292-af0e-1ff103691da5",
+        "response_text": "{\"error\":\"invalid_json\",\"message\":\"Send a JSON object with Content-Type: application/json.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0015206669922918081
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "unknown",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_json",
+          "request_id": "8955177a-3926-4292-af0e-1ff103691da5",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ11",
+      "family": "malformed",
+      "targets": "body is JSON claiming to be plain text",
+      "status": 400,
+      "content_id": null,
+      "creator_id": null,
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "08f4362d-e3b4-4c6e-950f-fa6c270ef7ea",
+        "response_text": "{\"error\":\"invalid_json\",\"message\":\"Send a JSON object with Content-Type: application/json.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0012955410056747496
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "unknown",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_json",
+          "request_id": "08f4362d-e3b4-4c6e-950f-fa6c270ef7ea",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "RQ12",
+      "family": "malformed",
+      "targets": "deeply nested JSON",
+      "status": 400,
+      "content_id": null,
+      "creator_id": "attacker_RQ12",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "09562103-6ffe-42a2-a47c-97aea6c82818",
+        "response_text": "{\"error\":\"invalid_text\",\"message\":\"text must be a nonblank string.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0012630830169655383
+      },
+      "review_reason": "Invalid JSON/type/missing/blank/unscorable input rejected with HTTP 400.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_RQ12",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "invalid_text",
+          "request_id": "09562103-6ffe-42a2-a47c-97aea6c82818",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    },
+    {
+      "id": "FL01_01",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 200,
+      "content_id": "49d498de-b123-43fe-9397-9e5c4d095c86",
+      "creator_id": "attacker_flood",
+      "guess": "unsure",
+      "confidence": 0.26435,
+      "model_score": 0.0287,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "efbcf3b3-e560-4d6f-ace1-e630959ac6e8",
+        "response_text": "{\"confidence\":0.26435,\"content_id\":\"49d498de-b123-43fe-9397-9e5c4d095c86\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0287,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.018406207964289933
+      },
+      "review_reason": "Within the approved burst allowance.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "49d498de-b123-43fe-9397-9e5c4d095c86",
+          "creator_id": "attacker_flood",
+          "guess": "unsure",
+          "model_score": 0.0287,
+          "style_score": 0.5,
+          "combined_score": 0.26435,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "efbcf3b3-e560-4d6f-ace1-e630959ac6e8",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FL01_02",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 200,
+      "content_id": "c5ac8aa7-4f3e-47c7-b89a-05c356a4839b",
+      "creator_id": "attacker_flood",
+      "guess": "unsure",
+      "confidence": 0.26435,
+      "model_score": 0.0287,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "fb77def6-e0a8-444c-b295-5a879d7b27f5",
+        "response_text": "{\"confidence\":0.26435,\"content_id\":\"c5ac8aa7-4f3e-47c7-b89a-05c356a4839b\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0287,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.01903929200489074
+      },
+      "review_reason": "Within the approved burst allowance.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "c5ac8aa7-4f3e-47c7-b89a-05c356a4839b",
+          "creator_id": "attacker_flood",
+          "guess": "unsure",
+          "model_score": 0.0287,
+          "style_score": 0.5,
+          "combined_score": 0.26435,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "fb77def6-e0a8-444c-b295-5a879d7b27f5",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FL01_03",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 200,
+      "content_id": "1494ac3c-828f-4b57-af31-bc3139921668",
+      "creator_id": "attacker_flood",
+      "guess": "unsure",
+      "confidence": 0.26435,
+      "model_score": 0.0287,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "6644e916-f8ef-4d54-a982-15fe0eb14e66",
+        "response_text": "{\"confidence\":0.26435,\"content_id\":\"1494ac3c-828f-4b57-af31-bc3139921668\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0287,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.01812825002707541
+      },
+      "review_reason": "Within the approved burst allowance.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "1494ac3c-828f-4b57-af31-bc3139921668",
+          "creator_id": "attacker_flood",
+          "guess": "unsure",
+          "model_score": 0.0287,
+          "style_score": 0.5,
+          "combined_score": 0.26435,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "6644e916-f8ef-4d54-a982-15fe0eb14e66",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FL01_04",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 200,
+      "content_id": "68c27905-552e-4ec6-950f-1a126a8ce428",
+      "creator_id": "attacker_flood",
+      "guess": "unsure",
+      "confidence": 0.26435,
+      "model_score": 0.0287,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "214cd30e-dfde-4e85-adbc-5d9918c9d35f",
+        "response_text": "{\"confidence\":0.26435,\"content_id\":\"68c27905-552e-4ec6-950f-1a126a8ce428\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0287,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.019423209014348686
+      },
+      "review_reason": "Within the approved burst allowance.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "68c27905-552e-4ec6-950f-1a126a8ce428",
+          "creator_id": "attacker_flood",
+          "guess": "unsure",
+          "model_score": 0.0287,
+          "style_score": 0.5,
+          "combined_score": 0.26435,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "214cd30e-dfde-4e85-adbc-5d9918c9d35f",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FL01_05",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 200,
+      "content_id": "d9933f2c-00b8-4986-b1ec-3891458baab7",
+      "creator_id": "attacker_flood",
+      "guess": "unsure",
+      "confidence": 0.26435,
+      "model_score": 0.0287,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "4c2f0847-6233-4dfa-9b4f-79ef3acb979c",
+        "response_text": "{\"confidence\":0.26435,\"content_id\":\"d9933f2c-00b8-4986-b1ec-3891458baab7\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0287,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.020439417043235153
+      },
+      "review_reason": "Within the approved burst allowance.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "d9933f2c-00b8-4986-b1ec-3891458baab7",
+          "creator_id": "attacker_flood",
+          "guess": "unsure",
+          "model_score": 0.0287,
+          "style_score": 0.5,
+          "combined_score": 0.26435,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "4c2f0847-6233-4dfa-9b4f-79ef3acb979c",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FL01_06",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 200,
+      "content_id": "9dc0b317-e417-441b-ba24-c301d398c6e7",
+      "creator_id": "attacker_flood",
+      "guess": "unsure",
+      "confidence": 0.26435,
+      "model_score": 0.0287,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "5e65541a-8bb7-4ce8-be4f-de9dc2675f36",
+        "response_text": "{\"confidence\":0.26435,\"content_id\":\"9dc0b317-e417-441b-ba24-c301d398c6e7\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0287,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.019175332970917225
+      },
+      "review_reason": "Within the approved burst allowance.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "9dc0b317-e417-441b-ba24-c301d398c6e7",
+          "creator_id": "attacker_flood",
+          "guess": "unsure",
+          "model_score": 0.0287,
+          "style_score": 0.5,
+          "combined_score": 0.26435,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "5e65541a-8bb7-4ce8-be4f-de9dc2675f36",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FL01_07",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 200,
+      "content_id": "bc8a8df3-d40a-4af9-a45c-711ce9c52ca7",
+      "creator_id": "attacker_flood",
+      "guess": "unsure",
+      "confidence": 0.26435,
+      "model_score": 0.0287,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "3c629503-e2dc-415a-aba0-d1f1e0568f37",
+        "response_text": "{\"confidence\":0.26435,\"content_id\":\"bc8a8df3-d40a-4af9-a45c-711ce9c52ca7\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0287,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.018339333997573704
+      },
+      "review_reason": "Within the approved burst allowance.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "bc8a8df3-d40a-4af9-a45c-711ce9c52ca7",
+          "creator_id": "attacker_flood",
+          "guess": "unsure",
+          "model_score": 0.0287,
+          "style_score": 0.5,
+          "combined_score": 0.26435,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "3c629503-e2dc-415a-aba0-d1f1e0568f37",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FL01_08",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 200,
+      "content_id": "02f29faa-8f75-4b1d-9fd1-4fb36e2328eb",
+      "creator_id": "attacker_flood",
+      "guess": "unsure",
+      "confidence": 0.26435,
+      "model_score": 0.0287,
+      "style_score": 0.5,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "9f9a65d1-f827-4627-a28a-b617ccaf1027",
+        "response_text": "{\"confidence\":0.26435,\"content_id\":\"02f29faa-8f75-4b1d-9fd1-4fb36e2328eb\",\"guess\":\"unsure\",\"label\":\"We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.\",\"model_score\":0.0287,\"status\":\"decided\",\"style_score\":0.5}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.018522917001973838
+      },
+      "review_reason": "Within the approved burst allowance.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "content_id": "02f29faa-8f75-4b1d-9fd1-4fb36e2328eb",
+          "creator_id": "attacker_flood",
+          "guess": "unsure",
+          "model_score": 0.0287,
+          "style_score": 0.5,
+          "combined_score": 0.26435,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "9f9a65d1-f827-4627-a28a-b617ccaf1027",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ]
+    },
+    {
+      "id": "FL01_09",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 429,
+      "content_id": null,
+      "creator_id": "attacker_flood",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "5fd6e344-e2d6-451f-99cf-f4bd476a0e00",
+        "response_text": "{\"error\":\"rate_limited\",\"limit\":\"8 per 1 minute\",\"message\":\"Too many submissions. Try again shortly.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0016205409774556756
+      },
+      "review_reason": "Above the approved burst allowance; rejected before inference.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_flood",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "rate_limited",
+          "request_id": "5fd6e344-e2d6-451f-99cf-f4bd476a0e00",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 429,
+          "source_ip": "127.0.0.1",
+          "limit": "8 per 1 minute"
+        }
+      ]
+    },
+    {
+      "id": "FL01_10",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 429,
+      "content_id": null,
+      "creator_id": "attacker_flood",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "e6f671dc-dd49-4a8f-a10a-de64084da30f",
+        "response_text": "{\"error\":\"rate_limited\",\"limit\":\"8 per 1 minute\",\"message\":\"Too many submissions. Try again shortly.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0014303330099210143
+      },
+      "review_reason": "Above the approved burst allowance; rejected before inference.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_flood",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "rate_limited",
+          "request_id": "e6f671dc-dd49-4a8f-a10a-de64084da30f",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 429,
+          "source_ip": "127.0.0.1",
+          "limit": "8 per 1 minute"
+        }
+      ]
+    },
+    {
+      "id": "FL01_11",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 429,
+      "content_id": null,
+      "creator_id": "attacker_flood",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "5b3fdb59-71a0-409e-9a7f-fcd2aab0ab9d",
+        "response_text": "{\"error\":\"rate_limited\",\"limit\":\"8 per 1 minute\",\"message\":\"Too many submissions. Try again shortly.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0016503329970873892
+      },
+      "review_reason": "Above the approved burst allowance; rejected before inference.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_flood",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "rate_limited",
+          "request_id": "5b3fdb59-71a0-409e-9a7f-fcd2aab0ab9d",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 429,
+          "source_ip": "127.0.0.1",
+          "limit": "8 per 1 minute"
+        }
+      ]
+    },
+    {
+      "id": "FL01_12",
+      "family": "flood_same_creator",
+      "targets": "20 rapid submissions from one creator",
+      "status": 429,
+      "content_id": null,
+      "creator_id": "attacker_flood",
+      "guess": null,
+      "confidence": null,
+      "model_score": null,
+      "style_score": null,
+      "label": null,
+      "error": null,
+      "verdict": "HELD",
+      "note": "",
+      "http": {
+        "request_id": "d3336527-dab4-4141-af1e-b9fd9fda13c2",
+        "response_text": "{\"error\":\"rate_limited\",\"limit\":\"8 per 1 minute\",\"message\":\"Too many submissions. Try again shortly.\"}\n",
+        "retry_after": null,
+        "elapsed_seconds": 0.0015892080264165998
+      },
+      "review_reason": "Above the approved burst allowance; rejected before inference.",
+      "audit_ok": true,
+      "audit_events": [
+        {
+          "timestamp": "2026-11-05T01:22:25+00:00",
+          "creator_id": "attacker_flood",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "rate_limited",
+          "request_id": "d3336527-dab4-4141-af1e-b9fd9fda13c2",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 429,
+          "source_ip": "127.0.0.1",
+          "limit": "8 per 1 minute"
+        }
+      ]
+    }
+  ]
+}
