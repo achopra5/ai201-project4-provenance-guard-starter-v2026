@@ -1,0 +1,162 @@
+{
+  "produced_by": "scripts/compare_corrected_eval.py::main",
+  "cohort_sha256": "49f5da7d11a651df575bc570f908b33b059559661baf01590605e8572e8ba8bb",
+  "corrected_criteria_executed_per_version": [
+    1,
+    2
+  ],
+  "new_trials_total": 12,
+  "historical_results_preserved": true,
+  "attack_artifacts_not_changed_or_rerun": true,
+  "human_sample_count": 20,
+  "human_source_document_count": 3,
+  "separation_human_subset": [
+    "owner-human-01",
+    "owner-human-02",
+    "owner-human-03",
+    "owner-human-04",
+    "owner-human-05",
+    "owner-human-06",
+    "owner-human-07",
+    "owner-human-08",
+    "owner-human-09",
+    "owner-human-10"
+  ],
+  "criterion_summary": [
+    {
+      "criterion": 1,
+      "source": "corrected rerun",
+      "before": {
+        "values": [
+          "0/20 AI labels; 20/20 usable",
+          "0/20 AI labels; 20/20 usable",
+          "0/20 AI labels; 20/20 usable"
+        ],
+        "verdict": "MET"
+      },
+      "after": {
+        "values": [
+          "0/20 AI labels; 20/20 usable",
+          "0/20 AI labels; 20/20 usable",
+          "0/20 AI labels; 20/20 usable"
+        ],
+        "verdict": "MET"
+      }
+    },
+    {
+      "criterion": 2,
+      "source": "corrected rerun",
+      "before": {
+        "values": [
+          "AI mean - human mean = -0.012319",
+          "AI mean - human mean = -0.012319",
+          "AI mean - human mean = -0.012319"
+        ],
+        "verdict": "MISSED"
+      },
+      "after": {
+        "values": [
+          "AI mean - human mean = -0.012319",
+          "AI mean - human mean = -0.012319",
+          "AI mean - human mean = -0.012319"
+        ],
+        "verdict": "MISSED"
+      }
+    },
+    {
+      "criterion": 3,
+      "source": "unchanged historical trial evidence; not rerun for corpus correction",
+      "before": {
+        "values": [
+          "7/7 correct",
+          "7/7 correct",
+          "7/7 correct"
+        ],
+        "verdict": "MET"
+      },
+      "after": {
+        "values": [
+          "7/7 correct",
+          "7/7 correct",
+          "7/7 correct"
+        ],
+        "verdict": "MET"
+      }
+    },
+    {
+      "criterion": 4,
+      "source": "unchanged historical trial evidence; not rerun for corpus correction",
+      "before": {
+        "values": [
+          "5/5 appeal lifecycles",
+          "5/5 appeal lifecycles",
+          "5/5 appeal lifecycles"
+        ],
+        "verdict": "MET"
+      },
+      "after": {
+        "values": [
+          "5/5 appeal lifecycles",
+          "5/5 appeal lifecycles",
+          "5/5 appeal lifecycles"
+        ],
+        "verdict": "MET"
+      }
+    },
+    {
+      "criterion": 5,
+      "source": "unchanged historical trial evidence; not rerun for corpus correction",
+      "before": {
+        "values": [
+          "6/6 invalid cases rejected with no decisions",
+          "6/6 invalid cases rejected with no decisions",
+          "6/6 invalid cases rejected with no decisions"
+        ],
+        "verdict": "MET"
+      },
+      "after": {
+        "values": [
+          "6/6 invalid cases rejected with no decisions",
+          "6/6 invalid cases rejected with no decisions",
+          "6/6 invalid cases rejected with no decisions"
+        ],
+        "verdict": "MET"
+      }
+    }
+  ],
+  "component_means": {
+    "before": {
+      "human_cases": {
+        "model_score": 0.51483,
+        "style_score": 0.5476830743724138,
+        "confidence": 0.5312565371862069
+      },
+      "ai_cases": {
+        "model_score": 0.50964,
+        "style_score": 0.5282341796501296,
+        "confidence": 0.5189370898250648
+      }
+    },
+    "after": {
+      "human_cases": {
+        "model_score": 0.51483,
+        "style_score": 0.5476830743724138,
+        "confidence": 0.5312565371862069
+      },
+      "ai_cases": {
+        "model_score": 0.50964,
+        "style_score": 0.5282341796501296,
+        "confidence": 0.5189370898250648
+      }
+    }
+  },
+  "historical_mixed_gap": -0.056844013164074614,
+  "corrected_gap": -0.0123194473611421,
+  "gap_change_due_to_dataset_correction": 0.044524565802932514,
+  "before_after_corrected_values_equal": true,
+  "conclusion": "Corrected criteria 1 and 2 retain their original verdicts: false positives MET; separation MISSED. The less-negative separation reflects the dataset correction, not a code improvement. Criteria 3\u20135 retain explicitly identified historical MET evidence.",
+  "input_sha256": {
+    "eval_before.json": "1a9e4effae47e54d9157e825eac1a291a8a97623968ce82965dfda251796eaa5",
+    "eval_after.json": "96e1073bc21dde3f70c426d85beeeaa36e91e25b44ee8f60bb2dba805eecf269"
+  }
+}
