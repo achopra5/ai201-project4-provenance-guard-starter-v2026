@@ -108,15 +108,9 @@ def record_rejected_request(response):
 
 
 # ── Rate limiting — UNIT 8 ────────────────────────────────────────────────────
-# Off until you turn it on. In unit 8, Milestone 1:
-#
-#   1. Set RATE_LIMITING_ENABLED = True in config.py (or AI201_RATE_LIMITS=1)
-#   2. Choose your numbers there
-#   3. Uncomment the @limiter.limit(...) line on /submit below
-#
-# The order doesn't matter. While limiting is off, that decorator is a no-op
-# that quietly does nothing, so uncommenting it early costs you nothing — but
-# it also means no 429 until you've done step 1.
+# Owner-approved policy is configured in config.py. Set AI201_RATE_LIMITS=0
+# only for explicitly isolated development checks; before/after experiments
+# retain the same enabled policy. In-memory counters reset on service restart.
 #
 # The storage backend is preconfigured, which stops Flask-Limiter printing a
 # warning on every start. In-memory is right for one laptop and wrong for
@@ -141,23 +135,19 @@ if config.RATE_LIMITING_ENABLED:
     from flask_limiter.util import get_remote_address
 
     def rate_limit_key():
-        """
-        Who a request counts against.
+        """Stated creator ID, with source-IP fallback for invalid/missing IDs.
 
-        Falling back to the caller's address is the easy version. Unit 8's
-        stretch asks about per-creator limits instead — and the difference
-        matters: one script can look like a thousand callers, and one household
-        can look like one.
+        These identifiers are not authenticated. Rotating valid IDs can evade
+        this cap; namespaces prevent an ID from colliding with an IP fallback.
         """
-        payload = request.get_json(silent=True)
-        # A body that parses as JSON but isn't an object — a bare list or
-        # string — has no .get. Without this guard the key function raises
-        # BEFORE the route runs, and a malformed request becomes a 500 that
-        # looks like your handler crashed when your handler never ran.
-        if not isinstance(payload, dict):
-            return get_remote_address()
-        creator = payload.get("creator_id")
-        return creator if isinstance(creator, str) and creator.strip() else get_remote_address()
+        try:
+            payload = request.get_json(silent=True)
+        except RequestEntityTooLarge:
+            return "ip:" + get_remote_address()
+        creator = payload.get("creator_id") if isinstance(payload, dict) else None
+        if isinstance(creator, str) and creator.strip() and len(creator) <= config.MAX_CREATOR_ID_CHARS:
+            return "creator:" + creator
+        return "ip:" + get_remote_address()
 
     limiter = Limiter(
         key_func=rate_limit_key,
@@ -209,6 +199,10 @@ def health():
         "detector_model": config.DETECTOR_MODEL,
         "detector_loaded": loaded,
         "rate_limiting": config.RATE_LIMITING_ENABLED,
+        "rate_limit_policy": {"per_minute": config.RATE_LIMIT_PER_MINUTE,
+                              "per_day": config.RATE_LIMIT_PER_DAY,
+                              "caller": "creator_id; source IP for missing/invalid ID",
+                              "storage": config.RATE_LIMIT_STORAGE},
         "log_entries": len(audit.read_entries()),
     })
 
@@ -216,7 +210,7 @@ def health():
 # ── Unit 7 submission and appeal pipeline ─────────────────────────────────────
 
 @app.post("/submit")
-# @limiter.limit(f"{config.RATE_LIMIT_PER_MINUTE}/minute;{config.RATE_LIMIT_PER_DAY}/day")
+@limiter.limit(f"{config.RATE_LIMIT_PER_MINUTE}/minute;{config.RATE_LIMIT_PER_DAY}/day")
 def submit():
     """Validate writing, combine two signals, label, and persist a decision."""
     payload, error = json_object()

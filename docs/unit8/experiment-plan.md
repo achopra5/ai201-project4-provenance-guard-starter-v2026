@@ -93,3 +93,23 @@ responses, failures, and real audit evidence for independent reproduction.
 
 No before/after outcomes, flood sequence, or chosen improvement exists yet.
 This is a preparation record, not a completed Unit 8 submission.
+
+## Owner decisions and source availability — November 4
+
+The owner approved 8 submissions/minute and 100/day, keyed by a valid nonblank
+creator ID with source-IP fallback. The implementation uses separate `creator:`
+and `ip:` namespaces; IDs longer than the existing 200-character limit fall
+back to the IP. No authentication is claimed. Rate limiting is enabled by
+default. The owner identified `/Users/adi/Downloads/attack_set` as the staff set.
+Both CSV files were copied to `data/unit8/staff_attack_set`; only their header
+rows were displayed before execution. Their payloads remain unread by the agent
+until the full baseline completes. The owner will supply human samples in chat;
+that manifest and explicit publication/authorship confirmation remain pending.
+
+The evaluator now has explicit paths for all five criteria and checks exact
+case counts, all three trials, source/criteria fingerprints, failed responses,
+appeal histories, and rejected requests' audit events. It refuses to evaluate
+placeholder/missing human samples, overwrite an experiment, or run after with
+changed cohorts. The attack runner saves raw response evidence and checkpoints
+all completed attempts, preserves parse errors as a preflight blocker rather
+than silently skipping rows, and requires identical source-file hashes after.
