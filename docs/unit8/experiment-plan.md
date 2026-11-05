@@ -161,3 +161,23 @@ without deleting any audit history. Both source hashes and cohort fingerprints
 match. Only MF03 handling changed; all attack and criterion verdicts remain the
 same. See `docs/unit8/final-report.md` and the completed README for final results,
 remaining failures, exact commands, and the submission handoff.
+
+## Owner-authorship correction — November 4, 2026
+
+After the original completion, the owner confirmed personal non-AI authorship of
+only THE TRANSITION, supplemental essays, and UC, requested a corrected private
+cohort, and required preserving all old artifacts and the single improvement.
+A new deterministic source-position/word-window cohort was frozen in `3a8a441`:
+20 non-overlapping excerpts from three works, private text with public metadata
+only. The first ten form the fixed separation subset; the same AI set remains.
+Earlier mixed-author inputs/results remain historical and are not the active
+cohort. Prior source exposure is disclosed; selection uses no scores.
+
+Affected criteria 1–2 were each executed three times against exact historical
+runtime exports `8524fa8` and `ea0dbd4`, with verified source hashes and fresh,
+unchanged limiter settings. Corrected false positives are 0/20 throughout;
+corrected separation is -0.0123194473611421 throughout, still below +0.20.
+The historical mixed gap (-0.056844013164074614) is preserved. Criteria 3–5
+retain their unaffected original evidence and are explicitly not claimed as new
+trials. No production code, staff attack artifact, original criterion, or second
+improvement was changed. See the updated final report and corrected results.

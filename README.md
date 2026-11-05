@@ -323,13 +323,15 @@ validation record and submission steps.
 
 ---
 
-**Unit 8 status — November 4, 2026:** Completed locally: approved limits and
-full audit instrumentation, both complete 56-case staff runs, all five criteria
-across three real trials before and after, diagnoses, and one measured handling
-improvement. Four criteria are MET; score separation is MISSED. The owner approved
-the mixed-author human excerpts and their coursework use before scoring. Unit 7's
-write-up above is the historical baseline; current results are below. Nothing
-has been pushed or submitted automatically.
+**Unit 8 status — corrected evaluation, November 4, 2026:** The active human
+corpus now uses only the three documents the owner personally confirmed writing
+without generative AI. Twenty source-position-selected excerpts were frozen before
+corrected scoring; text stays local and only hashes/offsets/results are committed.
+Criteria 1–2 were rerun three times on each exact historical code version.
+Criteria 3–5 retain explicitly identified, unchanged historical trial evidence.
+The original 56-attack before/after runs and single improvement are unchanged.
+Four criteria remain MET; separation remains MISSED. Historical mixed-author
+results are retained below as historical evidence, not the active cohort.
 
 ## Rate Limiting
 
@@ -625,6 +627,134 @@ they do not amount to verification of the writer.
 
 ## Run Log and Verdicts
 
+### Current owner-confirmed correction
+
+The owner confirmed personally writing `THE TRANSITION.pdf`,
+`supplemental essays.pdf`, and `UC.pdf` without generative AI. The active cohort
+contains only 20 non-overlapping excerpts from these documents. Application
+questions, instructor feedback, quoted text, family details, and uncertain
+materials were excluded. These are **20 excerpts from three works**, not 20
+independent works. Human origin is supported by the owner's explicit authorship
+attestation, not a detector's judgment.
+
+The [selection plan](data/unit8/corrected_selection_plan.json) defines score-free
+source intervals and a fixed word-window/source-order procedure. The
+[public manifest](data/unit8/corrected_human_manifest.json) records source PDF
+hashes, page/document offsets, sample hashes, and the fixed first-ten separation
+subset. Text remains in ignored `.private/`; no full personal PDFs or corrected
+excerpt prose are committed. Some source material appeared in the historical
+run, so this is not claimed to be an unseen holdout. The selection was frozen in
+`3a8a441` before any corrected scores were obtained. Extraction collapses
+whitespace only; it preserves original words, grammar, punctuation, and Unicode.
+
+The dedicated runner executed the affected criteria against the exact recorded
+service versions: `8524fa8` before improvement and `ea0dbd4` after. All six
+runtime file hashes match their corresponding original staff-run records. Each
+version ran with fresh counters, cached GPT-2, identical 8/minute and 100/day
+limits, the same corrected human samples, and the unchanged ten AI samples.
+Main's production code was not modified or swapped during these experiments.
+
+```bash
+.venv/bin/python scripts/run_corrected_eval.py --label before --port 5059
+.venv/bin/python scripts/run_corrected_eval.py --label after --port 5060
+.venv/bin/python scripts/compare_corrected_eval.py
+```
+
+| Criterion | Original target | Current before trials 1 / 2 / 3 | Current after trials 1 / 2 / 3 | Verdict | Evidence scope |
+|---|---|---|---|---|---|
+| 1. False positives | At most 1 of 20 human pieces labelled ai | 0/20 AI labels; 20/20 usable / 0/20 AI labels; 20/20 usable / 0/20 AI labels; 20/20 usable | 0/20 AI labels; 20/20 usable / 0/20 AI labels; 20/20 usable / 0/20 AI labels; 20/20 usable | MET | corrected rerun |
+| 2. Score separation | AI mean - human mean >= 0.20; 10 samples each | AI mean - human mean = -0.012319 / AI mean - human mean = -0.012319 / AI mean - human mean = -0.012319 | AI mean - human mean = -0.012319 / AI mean - human mean = -0.012319 / AI mean - human mean = -0.012319 | MISSED | corrected rerun |
+| 3. Label coverage | 7/7 specified scores correct; all 3 labels | 7/7 correct / 7/7 correct / 7/7 correct | 7/7 correct / 7/7 correct / 7/7 correct | MET | unchanged historical trial evidence; not rerun for corpus correction |
+| 4. Appeals | 5/5 distinct appeals recorded with reasoning and under_review | 5/5 appeal lifecycles / 5/5 appeal lifecycles / 5/5 appeal lifecycles | 5/5 appeal lifecycles / 5/5 appeal lifecycles / 5/5 appeal lifecycles | MET | unchanged historical trial evidence; not rerun for corpus correction |
+| 5. Invalid inputs | 6/6 specified invalid submissions return 400 without decisions | 6/6 invalid cases rejected with no decisions / 6/6 invalid cases rejected with no decisions / 6/6 invalid cases rejected with no decisions | 6/6 invalid cases rejected with no decisions / 6/6 invalid cases rejected with no decisions / 6/6 invalid cases rejected with no decisions | MET | unchanged historical trial evidence; not rerun for corpus correction |
+
+The two corrected JSON artifacts contain all **12 newly executed trials**,
+with 120 actual submission events per version. The six original trial records
+for each unaffected criterion 3–5 are carried forward, not relabeled as new runs.
+The original targets and criteria wording remain unchanged.
+
+- [Corrected before results](results/unit8/corrected/eval_before.json)
+- [Corrected after results](results/unit8/corrected/eval_after.json)
+- [Corrected comparison](results/unit8/corrected/comparison.json)
+- [Corrected before audit](results/unit8/corrected/audit_before.jsonl) and
+  [after audit](results/unit8/corrected/audit_after.jsonl), without source text.
+
+**Actual first-trial fields** from `scripts/run_corrected_eval.py` through the
+unchanged `run_eval.py::run_trial` functions (full case responses remain in the
+linked artifacts; no private text is embedded):
+
+```json
+[
+  {
+    "phase": "before",
+    "criterion": 1,
+    "trial": 1,
+    "verdict": "MET",
+    "passed": true,
+    "value": "0/20 AI labels; 20/20 usable",
+    "false_positives": 0,
+    "usable": 20,
+    "denominator": 20
+  },
+  {
+    "phase": "before",
+    "criterion": 2,
+    "trial": 1,
+    "verdict": "MISSED",
+    "passed": false,
+    "value": "AI mean - human mean = -0.012319",
+    "human_mean": 0.5312565371862069,
+    "ai_mean": 0.5189370898250648,
+    "difference": -0.0123194473611421
+  },
+  {
+    "phase": "after",
+    "criterion": 1,
+    "trial": 1,
+    "verdict": "MET",
+    "passed": true,
+    "value": "0/20 AI labels; 20/20 usable",
+    "false_positives": 0,
+    "usable": 20,
+    "denominator": 20
+  },
+  {
+    "phase": "after",
+    "criterion": 2,
+    "trial": 1,
+    "verdict": "MISSED",
+    "passed": false,
+    "value": "AI mean - human mean = -0.012319",
+    "human_mean": 0.5312565371862069,
+    "ai_mean": 0.5189370898250648,
+    "difference": -0.0123194473611421
+  }
+]
+```
+
+**Measured correction:** False positives remain 0/20 in every corrected trial.
+The corrected human mean is 0.5312565371862069; the unchanged AI mean is
+0.5189370898250648. The gap is **−0.0123194473611421**, versus the historical
+mixed-corpus **−0.056844013164074614**: a change of +0.044524565802932514 due to
+the dataset correction, not a code improvement. Both historical code versions
+give identical corrected values. The original +0.20 target is still MISSED.
+
+**Corrected separation diagnosis:** Human/model mean 0.514830 versus AI/model
+0.509640; human/style mean 0.5476830743724138 versus AI/style 0.5282341796501296.
+Both components still rank this fixed AI group lower on average. Their equal
+mean inherits that ordering. A convex reweighting alone cannot reach +0.20;
+threshold changes do not change this numerical criterion. Window length,
+genre, shared source works, and PDF extraction limit generalization. The change
+from the old mean cannot be attributed to authorship correction alone because
+the declared excerpt boundaries and normalization differ too.
+
+The nine attack misses and their diagnoses remain unchanged: see
+[the historical baseline analysis](docs/unit8/baseline-analysis.md). This corpus
+correction is not a second detection improvement and did not rerun or rewrite
+any staff attack outcome.
+
+### Historical mixed-author evaluation (superseded for criteria 1–2)
+
 The owner supplied and approved a **mixed-author** human corpus. It contains
 20 distinct excerpts from five PDFs and instructor feedback, with source/page
 references and hashes. Human origin is user-attested; it is not independently
@@ -720,7 +850,7 @@ reasoning and history; all six actual invalid requests return 400 with no
 decision, supported by their request-ID audit events. MET requires all three
 trials; preparation tests were not substituted for these results.
 
-**Diagnosis of criterion 2:** The mean model score is 0.562880 for human and
+**Historical mixed-corpus diagnosis of criterion 2:** The mean model score is 0.562880 for human and
 0.509640 for AI; style means are 0.588682 and 0.528234. Both signals order the
 groups opposite the desired direction, and averaging preserves that error.
 The actual combined difference is −0.056844. A convex reweighting alone cannot
@@ -837,10 +967,12 @@ responses and their actual audit events. The same judgment rules apply.
 | FL01_11 | flood_same_creator | 20 rapid submissions from one creator | 429 | — | — | — | — | HELD |
 | FL01_12 | flood_same_creator | 20 rapid submissions from one creator | 429 | — | — | — | — | HELD |
 
-### Criteria — After, three actual trials
+### Historical full five-criterion after run (mixed-author corpus)
 
-The service was restarted again with the same rate policy and fresh counters,
-matching the before criteria run. Exact cohort/criteria fingerprint:
+This original full run is retained as historical evidence. The corrected
+criteria 1–2 above supersede its human-dependent metrics; criteria 3–5 remain
+valid unaffected evidence. The original service was restarted with fresh
+counters and unchanged policy. Historical cohort/criteria fingerprint:
 `689e45fb7ebd3004835e13f5625998543c105ca2b9ae2de28d59316f0c52447f`.
 
 ```bash
@@ -954,14 +1086,14 @@ are preserved in [the baseline analysis](docs/unit8/baseline-analysis.md):
   assigning confident AI labels from so little evidence would change the
   owner's safety tradeoff. The conservative fallback remains intentional.
 
-**Criterion 2 remains MISSED in all six before/after trials.** Human mean
-0.575781 exceeds AI mean 0.518937. Both signal mean differences are negative,
+**Criterion 2 remains MISSED in all six corrected before/after trials.** Human
+mean 0.531257 exceeds AI mean 0.518937. Both signal mean differences are negative,
 so convex reweighting cannot reach +0.20. Next collect an independently verified,
 more diverse evaluation corpus with document/author-level separation, report
 uncertainty, and investigate better provenance evidence. The current frozen
 cohort must remain in the record; replacing difficult samples or lowering the
-target would not fix this miss. The small, correlated, mixed-author sample and
-user-attested ground truth limit generalization.
+target would not fix this miss. The 20 correlated excerpts from three owner-confirmed source documents and
+small sample size limit generalization. Earlier mixed-author results remain historical.
 
 The remaining three text-only edge types (punctuation, a long single word,
 emoji) and Arabic still produce safe unsure responses rather than categorical
@@ -987,11 +1119,21 @@ excerpts before scoring and made the single documented control-character guard
 under the authorized engineering scope. No owner code edits, manual tests, or
 review of the final results are claimed.
 
+**Corpus-correction decision:** The owner subsequently confirmed personal
+non-AI authorship of the three named PDFs, required exclusion of mixed/uncertain
+sources, and required private excerpt storage with public metadata/results.
+Codex froze the deterministic selection, reran only the affected criteria on
+both exact historical code versions, and preserved all earlier evidence. No
+new detector/threshold policy was selected and no owner manual testing is claimed.
+
 ### Final verification and handoff
 
 The original `criteria.md`, both signals, score combination, thresholds, and
-labels remain unchanged. All earlier audit entries are retained. Final checks
-and the local commit sequence are in [the Unit 8 report](docs/unit8/final-report.md).
+labels remain unchanged. All earlier audit entries are retained. The corrected source/privacy validation, final checks,
+and local commit sequence are in [the Unit 8 report](docs/unit8/final-report.md).
+The correction passed 9 environment checks and 54 tests; source re-extraction
+matched all frozen hashes and boundaries. [Correction verification](results/unit8/corrected/verification.json)
+also checks preservation and excludes private text from introduced public files.
 No GitHub push or Course Portal submission has been performed.
 
 <!-- ═════════════════════════════════════════════════════════════════════

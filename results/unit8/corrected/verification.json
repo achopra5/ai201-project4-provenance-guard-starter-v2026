@@ -1,0 +1,67 @@
+{
+  "recorded_at": "2026-11-05T02:24:26.926656+00:00",
+  "historical_reference_commit": "6401d3b",
+  "all_original_result_files_preserved": 20,
+  "original_criteria_and_production_files_unchanged": true,
+  "original_global_audit_unchanged": true,
+  "corrected_sources": 3,
+  "corrected_excerpts": 20,
+  "private_text_git_ignored": true,
+  "new_public_files_scanned_for_full_excerpts_and_15_word_fragments": [
+    ".gitignore",
+    "README.md",
+    "corrected_corpus.py",
+    "data/unit8/README.md",
+    "data/unit8/corrected_human_manifest.json",
+    "data/unit8/corrected_selection_plan.json",
+    "docs/unit8/experiment-plan.md",
+    "docs/unit8/final-report.md",
+    "docs/unit8/historical-final-report-mixed.md",
+    "results/unit8/corrected/audit_after.jsonl",
+    "results/unit8/corrected/audit_before.jsonl",
+    "results/unit8/corrected/comparison.json",
+    "results/unit8/corrected/eval_after.json",
+    "results/unit8/corrected/eval_before.json",
+    "scenarios.py",
+    "scripts/build_corrected_corpus.py",
+    "scripts/compare_corrected_eval.py",
+    "scripts/run_corrected_eval.py",
+    "tests/test_corrected_corpus.py"
+  ],
+  "cohort_sha256": "49f5da7d11a651df575bc570f908b33b059559661baf01590605e8572e8ba8bb",
+  "corrected_criteria_per_version": [
+    1,
+    2
+  ],
+  "new_trials": 12,
+  "real_submissions": 240,
+  "audit_correlations_before": 120,
+  "audit_correlations_after": 120,
+  "historical_runtime_hashes_verified": true,
+  "commands": [
+    {
+      "command": [
+        "/Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv/bin/python",
+        "test.py"
+      ],
+      "exit_code": 0,
+      "stdout": "\nAI201 environment check\n------------------------------------------------------------\n[PASS] Python version\n         3.12.7 on Darwin\n[PASS] Virtual environment\n         /Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv\n[PASS] Pinned packages\n         all 7 import cleanly\n[PASS] Free disk space\n         476.8 GB\n[PASS] Memory\n         24.0 GB\n[PASS] PyTorch\n         2.15.0\n[PASS] Flask\n         flask and flask-limiter both import\n[PASS] Detector model\n         already downloaded\n[PASS] The service\n         /ping answers \u2014 the starter works before you edit it\n------------------------------------------------------------\n9 passed, 0 failed, 0 to look at, 0 skipped\n\nYou're set. See you in class.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "----------------------------------------------------------------------\nRan 54 tests in 0.201s\n\nOK\n"
+    }
+  ],
+  "scope": "Only affected criteria rerun; historical criteria 3\u20135 carried forward, no attacks or improvement modified."
+}

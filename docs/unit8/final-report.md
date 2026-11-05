@@ -1,249 +1,174 @@
-# Unit 8 final report — Provenance Guard
+# Unit 8 final report — corrected owner-authored corpus
 
-Completed locally November 4, 2026. The human corpus was created from the owner's
-supplied PDFs and feedback and approved before scoring. Both complete staff runs
-and all 30 criterion trials actually executed. The result is an honest evaluation
-with one remaining missed target, not an accuracy or production-readiness claim.
+Updated November 4, 2026. This report supersedes the mixed-author human-dependent
+metrics. The [previous report](historical-final-report-mixed.md), every original
+raw result, the 56-attack baseline/after artifacts, original criteria, and the
+single improvement remain preserved. No history was rewritten or pushed.
 
-## Implementation and approved policy
+## Correction and privacy
 
-`app.py` and `audit.py` add request correlation and rejection auditing while
-retaining all nine successful-decision fields and append-only appeal history.
-400/404/413/429/503 responses on submission/appeal paths are observable without
-logging full submitted writing or fabricating absent content IDs or scores.
+The owner explicitly confirmed personally writing `THE TRANSITION.pdf`,
+`supplemental essays.pdf`, and `UC.pdf` without generative AI, authorized their
+non-sensitive coursework excerpts, and required local-only corpus text. Only
+these three documents supply the active human cohort. Application questions,
+instructor feedback, example essays, quoted material, family details, and other
+uncertain text are excluded from the fixed eligible source positions.
 
-The owner approved 8 submissions/minute and 100/day on `/submit`: a valid,
-nonblank creator ID up to 200 characters, otherwise source IP. Separate key
-namespaces prevent a creator string from colliding with an IP fallback. IDs are
-unauthenticated and can be rotated; the cap does not cover global coordinated
-abuse. In-memory counters reset on service restart; the audit log is retained.
+The score-independent selection was frozen in `3a8a441` before corrected scoring.
+The public selection plan records source PDF hashes and reviewed character
+intervals. The builder takes consecutive 50-word windows within those intervals,
+merges a final tail shorter than 25 words into the preceding window, and cycles
+through document candidate lists in fixed order until 20 distinct excerpts are
+selected. No scores are imported or consulted by the builder. It preserves all
+non-whitespace Unicode, spelling, grammar, and punctuation; only extraction
+whitespace is collapsed. Word windows may cut sentences, a disclosed limitation.
 
-The real 15-request flood returned:
+There are 7 excerpts from THE TRANSITION, 6 from supplemental essays, and 7 from
+UC: **20 excerpts from three source documents, not 20 independent works**.
+All 20 test false positives. The fixed first ten IDs test separation against the
+same original ten AI samples. Some passages overlap material exposed in the
+historical evaluation; this is a corrected deterministic dataset, not a newly
+blind holdout. Selection did not depend on historical or corrected scores.
 
-```text
-200 200 200 200 200 200 200 200 429 429 429 429 429 429 429
-```
+Public reproducibility inputs are `data/unit8/corrected_selection_plan.json` and
+`data/unit8/corrected_human_manifest.json`: source/page/document positions,
+word/character counts, source and sample SHA-256 hashes, and the frozen subset.
+The actual excerpt text and extracted sources remain under ignored `.private/`.
+No full personal PDFs or newly selected excerpt prose are committed. Authorized
+access to the original PDFs is required to reproduce private text from metadata.
+Earlier approved mixed-author excerpts/snapshots remain unchanged historical
+records as requested; no new corrected text is added to them.
 
-The enabled policy was reported by `/health`. The day window and scope/fallback
-behavior are also tested using a controlled clock and small test-only limits;
-we did not send 101 expensive real-model requests under one identity just to
-exhaust the day limit. This distinguishes actual flood evidence from unit tests.
+## Exact code versions and experimental conditions
 
-## Staff attacks
+`scripts/run_corrected_eval.py` exported the six exact runtime files from
+`8524fa8` (before) and `ea0dbd4` (after) to ignored local directories. Their file
+hashes match the corresponding original attack-run runtime hashes. Each run
+started its own fresh local server using the existing environment, cached GPT-2,
+loopback networking, debug off, and the same enabled 8/minute and 100/day policy.
+Creator IDs were unique per legitimate request and no rate limit was disabled.
+The processes shut down after each experiment; main's production files were not
+swapped, changed, or used as a substitute for the historical versions.
 
-The owner identified `/Users/adi/Downloads/attack_set`. Only CSV headers were
-displayed before the full baseline. The two copied source files are frozen with
-SHA-256 hashes. Actual counts are 10 evasion, 8 false positive, 6 injection,
-20 malformed, and 12 shared-creator flood: 56 total. The flood rows describe
-20 submissions but contain 12; all actual rows ran, and none were invented.
+The two corrected runs have the identical manifest/criteria/boundary fingerprint:
+`49f5da7d11a651df575bc570f908b33b059559661baf01590605e8572e8ba8bb`.
+Each version executed criterion 1 three times and criterion 2 three times:
+**12 new real trials, 240 actual submissions total**. Only these two criteria
+are human-corpus dependent. Criteria 3–5 retain their explicitly identified
+original three-trial-per-version evidence; they were not claimed as newly rerun.
 
-All 56 ran before and after. Fresh processes established the same counter
-conditions before each complete phase, without clearing audit history. There
-were no 5xx responses or service crashes. Every attempt in both runs has exactly
-one matching request-ID audit event.
+## Current criterion values and verdicts
 
-| Family | Before HELD / BROKE | After HELD / BROKE |
-|---|---|---|
-| Evasion | 1 / 9 | 1 / 9 |
-| False positive | 8 / 0 | 8 / 0 |
-| Prompt injection | 6 / 0 | 6 / 0 |
-| Malformed | 20 / 0 | 20 / 0 |
-| Shared-creator flood | 12 / 0 | 12 / 0 |
-| Total | 47 / 9 | 47 / 9 |
+The original `criteria.md` is unchanged. Each target must hold in all three
+trials; missing responses cannot shrink denominators or be counted as passes.
 
-Judgments are explicitly objective-specific. Unsure on known staff AI counts as
-an evasion miss, but unsure on human text is not an accusation or a confident
-human certification. The first eight permitted flood requests are expected 200s;
-the four above the cap are 429. Text-level edge cases are judged against the
-published contract and safe uncertain handling; Arabic/emoji are not forbidden
-merely by category. Injection verdicts concern requested output/audit overrides,
-not proof that any score movement was caused by following instructions.
+| Criterion | Original target | Before trials 1 / 2 / 3 | After trials 1 / 2 / 3 | Verdict | Evidence |
+|---|---|---|---|---|---|
+| 1. False positives | At most 1 of 20 human excerpts labelled AI | 0/20 / 0/20 / 0/20 | 0/20 / 0/20 / 0/20 | MET | Corrected reruns |
+| 2. Separation | AI mean - human mean >= 0.20 on 10+10 | -0.012319 / -0.012319 / -0.012319 | -0.012319 / -0.012319 / -0.012319 | MISSED | Corrected reruns |
+| 3. Labels | 7/7 fixed numerical mappings; all 3 labels | 7/7 / 7/7 / 7/7 | 7/7 / 7/7 / 7/7 | MET | Original unaffected trials |
+| 4. Appeals | 5/5 reasoning, status, and history checks | 5/5 / 5/5 / 5/5 | 5/5 / 5/5 / 5/5 | MET | Original unaffected trials |
+| 5. Invalid input | 6/6 specified inputs return 400, no decision | 6/6 / 6/6 / 6/6 | 6/6 / 6/6 / 6/6 | MET | Original unaffected trials |
 
-All nine broken IDs are EV01–EV09. Their exact scores, stage/mechanism mappings,
-and causal limits are in `docs/unit8/baseline-analysis.md`. Key mechanisms include
-model sensitivity to wording, surface variability, and the explicit neutral
-style fallback for one sentence or fewer than 20 words. No paired ablation was
-performed where needed to prove an edit's causal effect; those remain hypotheses.
+Corrected human mean is **0.5312565371862069**. The unchanged AI mean is
+**0.5189370898250648**. Their difference is **-0.0123194473611421**, identical
+before and after. The historical mixed-corpus gap was -0.056844013164074614;
+the new gap differs by +0.044524565802932514. This numerical change comes from
+the dataset correction, not a code improvement, and the +0.20 target remains
+MISSED. Boundary, appeal, invalid-input, and false-positive verdicts do not change.
 
-For a legitimate writer, FP05 is the least comfortable staff outcome: human
-technical documentation gets combined 0.721738, still unsure. No staff human
-sample was called AI, and no automatic penalty occurred. Uncertainty and the
-review burden remain real limitations rather than invented false accusations.
+The corrected component means are:
 
-The README includes all 56 before and after rows and ten actual before audit
-entries, including a 400 and a 429. Full raw replies, reviewed events, source
-hashes, and the comparison are retained under `results/unit8/`.
+- Model: human 0.514830, AI 0.509640; gap -0.005190.
+- Style: human 0.5476830743724138, AI 0.5282341796501296;
+  gap -0.0194488947222842.
 
-## The original criteria — three trials per phase
+Both components still rank the AI group lower on average; their equal average
+inherits that ordering. Convex reweighting alone cannot produce a +0.20 gap,
+and thresholds do not affect this numerical criterion. Genre, fixed window
+length, shared documents, extraction, and small sample size limit generalization.
+The numerical change cannot be attributed to author confirmation alone because
+the declared excerpt boundaries/normalization also changed. No sample was
+removed, reordered, rewritten, or replaced after corrected scores were observed.
 
-The owner supplied and committed the criteria as `26e6ce2` before Unit 7's new
-results; the earlier supplied transcript's default detector demo is disclosed.
-`criteria.md` is byte-for-byte unchanged in Unit 8. The fixed owner-approved
-cohort was committed as `f787792` before acceptance scoring.
+Raw cases and exact responses are in `results/unit8/corrected/eval_before.json`
+and `eval_after.json`. Each phase has 120 matching text-free audit events in its
+own `.jsonl` file, leaving the original global audit log untouched. The corrected
+comparison identifies historical versus rerun evidence for every criterion.
+Public results store only metadata/hashes, scores, replies, IDs, and audit fields;
+they do not embed the private human corpus.
 
-| Criterion | Original target | Before trials 1 / 2 / 3 | After trials 1 / 2 / 3 | Verdict both phases |
-|---|---|---|---|---|
-| Human false positives | At most 1/20 AI labels | 0/20 / 0/20 / 0/20 | 0/20 / 0/20 / 0/20 | MET |
-| Score separation | AI mean - human mean >= 0.20 on 10+10 | -0.056844 / -0.056844 / -0.056844 | -0.056844 / -0.056844 / -0.056844 | MISSED |
-| Numerical label coverage | All 7 correct, all 3 labels | 7/7 / 7/7 / 7/7 | 7/7 / 7/7 / 7/7 | MET |
-| Appeals | All 5 reasoning/status/history checks | 5/5 / 5/5 / 5/5 | 5/5 / 5/5 / 5/5 | MET |
-| Invalid inputs | All 6 specified cases: 400, no decision | 6/6 / 6/6 / 6/6 | 6/6 / 6/6 / 6/6 | MET |
+## Unchanged attacks, limiter, and single improvement
 
-`run_eval.py` actually executes all five criteria three times per phase. Boundary
-checks are direct `scoring.py::score_to_label` calls, clearly distinguished from
-HTTP requests. Appeals use distinct real submission IDs and exact reasoning,
-compare original decisions, and inspect latest persisted status. Invalid-input
-checks correlate real rejection events and verify no successful decision. Errors
-or 429s are never silently dropped from the fixed denominators. Preparation unit
-tests were not substituted for these experiments.
+The original staff files and both complete 56-case attack runs are unchanged and
+were not rerun for this correction. Each still records 47 HELD and 9 BROKE:
+9 unsure evasion outcomes (EV01–EV09), no staff-human AI accusations, and the
+same injection/malformed/flood judgments. The original complete baseline and
+failure diagnoses remain in `docs/unit8/baseline-analysis.md` and the README.
 
-Model/combined scores are deterministic; identical three-trial results are
-expected and all are saved. Raw evidence is in `eval_before.json` and
-`eval_after.json`, with generated `.md` tables and actual first-trial JSON.
-The combined cohort/criteria/boundary fingerprint matches in both:
-`689e45fb7ebd3004835e13f5625998543c105ca2b9ae2de28d59316f0c52447f`.
+The only substantive improvement is still `ea0dbd4`: reject unsupported C0
+controls (except tab/newline/carriage return) and DEL before inference. The
+original after run changed only MF03 from 200/decided with scores to a useful
+400/rejected event, without improving detection verdict totals. There is no
+second signal/weight/threshold/label/handling change in this correction.
+Both historical versions give the same corrected human-dependent results.
 
-### Why separation was missed
+The original approved policy remains 8/minute and 100/day per valid stated
+creator ID, source-IP fallback, with unauthenticated-ID limitations. The original
+real flood remains eight 200s followed by seven 429s. Its records, original
+465-event global audit log, and all previous evidence are preserved byte for byte.
 
-All 20 separation requests in every trial returned usable decisions. Human
-combined mean is 0.5757811029891394; AI mean is 0.5189370898250648. The model means
-are human 0.562880 and AI 0.509640; style means are human 0.5886822059782788 and
-AI 0.5282341796501296. Both component mean differences are negative, and averaging
-preserves that reversed group ordering. This is a signal/combination limitation,
-not a transport failure, missing-data problem, or threshold issue. Convex
-reweighting alone cannot yield the required positive 0.20 difference.
+## Reproduction, checks, and limitations
 
-The AI cohort includes creative prose and poetry, while human excerpts include
-formal narratives and feedback. Genre, repeated source works, and extraction
-may contribute; a controlled causal test would be needed to isolate them. No
-sample was removed, replaced, or reordered after observing scores.
-
-### Human-source qualification
-
-The owner provided five PDFs and instructor feedback, stated all were human
-written, and explicitly approved the proposed mixed-author corpus and committing
-its excerpts. The file has 20 distinct source-linked excerpts, not 20 independent
-works/authors. Some passages are example essays or instructor comments, so they
-are not all attributed to Aditya Chopra. Human origin is user-attested rather
-than independently verified. This differs from the course suggestion to use
-one's own writing and limits what the results establish.
-
-Samples 1–10 are the fixed separation subset. PDF ligatures and whitespace were
-normalized; prompts/page furniture and incomplete fragments were excluded.
-Original words/grammar were not rewritten. Source hashes, page references, and
-exact excerpt boundaries are in `data/unit8/human_samples.json`. Only the approved
-excerpts, not full personal PDFs, are committed. Ten AI pieces were generated
-and fixed before scoring. All these qualifications remain visible in the record.
-
-## Exactly one measured improvement
-
-Dedicated commit `ea0dbd4` adds one pre-inference rule: reject C0 control
-characters except tab/newline/carriage return, plus DEL, with HTTP 400 and a
-useful `unsupported_control_characters` error. No signal, weight, threshold,
-label, rate policy, original target, or cohort was changed.
-
-The observed MF03 route weakness was a control-bearing string accepted for
-inference and an authorship estimate. It was HELD under the permissive baseline
-contract, not a crash or forced label; the narrower handling opportunity and
-scope cost were documented before implementing it. This change responds to
-that observation and makes no promise to solve detector accuracy.
-
-After measurement, MF03 alone changes from HTTP 200/decided with scores to
-HTTP 400/rejected without content ID or scores. The guard is before the model
-call, verified by a test that the model is not invoked. All other 55 attack
-cases retain status, guess, label, and scores. Total HTTP 200s change 37→36 and
-400s 14→15, with one 413 and four 429s in each phase.
-
-The change helps input handling and avoids one completed inference/decision on
-this set. It does not improve attack verdict totals, false positives, score
-separation, or criterion verdicts. No detection regressions were measured;
-intentional use of the rejected controls now requires cleanup. Ordinary tabs,
-line breaks, Unicode, emoji, and Arabic remain allowed. Cold/warm elapsed times
-are not used to invent a latency or cost reduction. No second substantive fix
-was added.
-
-## Remaining failures and why the work stops here
-
-EV01–EV09 remain unsure. Next investigations are paired spelling/vocabulary
-ablations (EV01/EV04/EV05), matched sentence/quotation/mixed-text experiments
-(EV02/EV03/EV06/EV09), and useful short-text provenance/evidence handling
-(EV07/EV08). Each ID remains mapped to its actual stage and evidence in the
-baseline analysis. The missed separation target needs better evaluation and
-provenance evidence; changing weights cannot repair these group means.
-
-Broader signal replacement, more datasets, authenticated identities, global
-inference budgeting, staffed appeals, or a shared audit database would each be
-additional independent work. The assignment calls for one measured change, so
-these remain documented instead of being bundled into the experiment. IDs can
-rotate around quotas; the current log lock coordinates threads only; recording
-under_review is not a completed human review. This is a local coursework service.
-
-The production preference remains the owner's: minimize false accusations and
-accept more missed AI labels, with the platform bearing missed-detection and
-review costs. Automated estimates must not alone justify punishment; practical
-appeals need actual staff/process beyond this recording endpoint.
-
-## Reproduction and verification
-
-Commands actually executed, using the existing environment and cached weights:
+Selection used pypdf from the existing bundled document runtime; the exact
+version is recorded in the public manifest. No package/model downloads or hosted
+API calls were needed. Reproduction commands (use a Python with pypdf for the
+first two) are:
 
 ```bash
+python scripts/build_corrected_corpus.py --source-dir /path/to/original/pdfs
+python scripts/build_corrected_corpus.py --source-dir /path/to/original/pdfs --verify
+.venv/bin/python scripts/run_corrected_eval.py --label before --port 5059
+.venv/bin/python scripts/run_corrected_eval.py --label after --port 5060
+.venv/bin/python scripts/compare_corrected_eval.py
 .venv/bin/python test.py
 .venv/bin/python -m unittest discover -s tests -q
-HF_HUB_OFFLINE=1 .venv/bin/python scripts/check_integration.py --output results/unit8/integration_final.json
-HF_HUB_OFFLINE=1 AI201_DEBUG=0 PORT=5058 .venv/bin/python app.py
-.venv/bin/python run_attacks.py --flood 15 --url http://127.0.0.1:5058 --creator unit8-flood-baseline
-.venv/bin/python run_attacks.py --set data/unit8/staff_attack_set --label before --url http://127.0.0.1:5058
-.venv/bin/python run_eval.py --label before --url http://127.0.0.1:5058
-.venv/bin/python run_attacks.py --set data/unit8/staff_attack_set --label after --url http://127.0.0.1:5058
-.venv/bin/python run_eval.py --label after --url http://127.0.0.1:5058
-.venv/bin/python scripts/review_attack_run.py --label before
-.venv/bin/python scripts/review_attack_run.py --label after
-.venv/bin/python scripts/compare_unit8.py
 ```
 
-The service was restarted between each complete experiment to give fresh
-in-memory counters with identical 8/minute and 100/day settings, without clearing
-audit history. Review/compare scripts ran after their respective complete raw
-runs. Completed artifacts deliberately refuse overwriting; reproduction should
-use a separate checkout/output directory while retaining these originals and
-the frozen manifests. The integration helper accepts a fresh `--output` path.
+Builders and runners refuse to overwrite frozen inputs or completed trials.
+Use a separate checkout/output location for a repeat while retaining committed
+metadata/results and owner-private sources. Default scenario loading selects
+only the corrected private corpus; a checkout without private text fails clearly
+rather than silently reverting to mixed-author history. Public snapshots redact
+private text. New tests cover deterministic disjoint selection, hash/order
+validation, local-only snapshots, publication guards, and missing-private-input
+behavior. Final validation passed 9 environment checks and 54 tests, and exact
+PDF re-extraction reproduced every frozen boundary, hash, and private excerpt.
+`results/unit8/corrected/verification.json` records the actual outputs, 240 audit
+correlations, preservation checks, and a scan for private excerpt/15-word-fragment
+leaks in introduced public files.
 
-Final checks: 9 environment checks passed; 49 deterministic tests passed; four
-real-model integration checks passed. The model loaded once across repeated
-submissions; all three labels remain reachable; a real appeal persisted; the
-new invalid-control rejection and allowed line formatting are covered. No
-packages, model downloads, or hosted model keys were needed. The installed
-Transformers fallback warning for `loss_type=None` remains harmless to these
-successful checks. Individual acceptance failures are scientific findings,
-separate from regression-test failures.
+The detector remains a heuristic pattern service, not proof of authorship.
+EV01–EV09 and criterion 2 remain unresolved for the same documented reasons.
+Further classifier changes would be additional improvements and were not made.
+The owner's preference remains avoiding false accusations, accepting more unsure
+AI outcomes with costs borne by the platform. Appeals still require a staffed
+process beyond recording under_review; creator IDs can rotate around quotas;
+thread locks are not a multi-worker database. These limitations are not hidden
+by the corrected cohort or unchanged MET verdicts.
 
-## Git history and submission
+## Local history and handoff
 
-Unit 7 history and its original audit prefix are preserved. Meaningful Unit 8
-milestones, in order:
+Original Unit 7/8 history is intact. Correction milestones include:
 
-- `51ef938`: rejection instrumentation and experimental plan.
-- `1e663ad`: approved limiter and instrumentation tests.
-- `e9d674e`: staff sources, fixed AI cohort, and repeatable evaluation harnesses.
-- `dcd9c52`: complete staff baseline, flood, and per-failure diagnoses.
-- `f787792`: approved human excerpt cohort frozen before acceptance scores.
-- `8524fa8`: all 15 baseline criteria trials and separation diagnosis.
-- `ea0dbd4`: the one substantive handling improvement, committed separately.
-- `d53dd5f`: both after experiments and measured comparison.
-- The subsequent final documentation/verification commit completes this report.
+- `3a8a441`: deterministic corrected metadata/private-text controls frozen before scoring.
+- `cd7ffd6`: historical-version correction harness and privacy/selection tests.
+- `5d48ff8`: all six corrected before trials and audit events.
+- `0c54540`: all six corrected after trials and honest dataset comparison.
+- The final correction documentation/validation commit completes this report.
 
-The README records actual owner decisions and Codex work without inventing owner
-code edits, manual testing, or review of final outcomes. The working tree and
-staged files are checked before handoff; virtual environments, secrets, caches,
-and weights are excluded. No history is rewritten, and no new repo is created.
-
-No push or portal submission has been performed. After reviewing the corpus,
-results, and limitations, the owner can authorize a push or run:
-
-```bash
-git push origin main
-```
-
-Then submit the same fork URL to CodePath:
-https://github.com/achopra5/ai201-project4-provenance-guard-starter-v2026
+The owner supplied the authorship and privacy correction; Codex extracted and
+froze the source-position cohort, ran the historical services, and updated reports.
+No owner code edits, manual tests, or final review are invented. No push or portal
+submission was performed. Review the corrected metadata/results before authorizing
+any later push; the same repository URL remains the eventual CodePath submission.
