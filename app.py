@@ -28,7 +28,7 @@ import uuid
 
 from werkzeug.exceptions import RequestEntityTooLarge
 
-from flask import Flask, jsonify, request
+from flask import Flask, g, jsonify, request
 
 import audit
 import config
@@ -63,6 +63,48 @@ def string_field(payload, name, max_chars):
     if len(value) > max_chars:
         return error_response("input_too_large", f"{name} must be at most {max_chars} characters.", 413)
     return None
+
+
+# Unit 8 instrumentation adds context without changing validation or scoring.
+@app.before_request
+def identify_request():
+    if request.path in ("/submit", "/appeal"):
+        g.audit_request_id = str(uuid.uuid4())
+
+
+def audit_context():
+    return {"request_id": g.audit_request_id, "path": request.path,
+            "method": request.method}
+
+
+@app.after_request
+def record_rejected_request(response):
+    if request.path not in ("/submit", "/appeal"):
+        return response
+    response.headers["X-Request-ID"] = g.audit_request_id
+    if response.status_code < 400:
+        return response
+    # Avoid retaining submitted writing or reparsing a rejected oversized body.
+    try:
+        payload = request.get_json(silent=True)
+    except RequestEntityTooLarge:
+        payload = None
+    creator = payload.get("creator_id") if isinstance(payload, dict) else None
+    if not isinstance(creator, str) or not creator.strip() or len(creator) > config.MAX_CREATOR_ID_CHARS:
+        creator = "unknown"
+    # JSON can contain lone surrogates; metadata must remain writable UTF-8.
+    creator = creator.encode("utf-8", errors="replace").decode("utf-8")
+    body = response.get_json(silent=True) or {}
+    metadata = {**audit_context(), "http_status": response.status_code,
+                "source_ip": request.remote_addr}
+    if "limit" in body:
+        metadata["limit"] = body["limit"]
+    try:
+        audit.log_rejection(creator_id=creator,
+                            reason=body.get("error", "http_error"), **metadata)
+    except OSError:
+        app.logger.exception("Could not persist rejection audit event")
+    return response
 
 
 # ── Rate limiting — UNIT 8 ────────────────────────────────────────────────────
@@ -131,14 +173,6 @@ if config.RATE_LIMITING_ENABLED:
 
         ⚠️ An attack that shows up only as an absence is one you'll never find.
         """
-        payload = request.get_json(silent=True)
-        if not isinstance(payload, dict):
-            payload = {}
-        audit.log_rejection(
-            creator_id=payload.get("creator_id", "unknown"),
-            reason="rate_limited",
-            limit=str(exc.description),
-        )
         return jsonify({
             "error": "rate_limited",
             "message": "Too many submissions. Try again shortly.",
@@ -214,7 +248,7 @@ def submit():
         audit.log_decision(content_id=content_id, creator_id=payload["creator_id"],
                            guess=guess, model_score=model_score,
                            style_score=style_score, combined_score=confidence,
-                           label=label)
+                           label=label, http_status=200, **audit_context())
     except OSError:
         app.logger.exception("Could not persist submission decision")
         return error_response("storage_unavailable", "The decision could not be saved. Please try again later.", 503)
@@ -242,7 +276,7 @@ def appeal():
             return error_response("content_not_found", "No submission exists for that content_id.", 404)
         audit.log_appeal(content_id=payload["content_id"],
                          creator_id=decisions[0]["creator_id"],
-                         reasoning=payload["reasoning"])
+                         reasoning=payload["reasoning"], http_status=200, **audit_context())
     except OSError:
         app.logger.exception("Could not read or persist an appeal")
         return error_response("storage_unavailable", "The review request could not be saved. Please try again later.", 503)

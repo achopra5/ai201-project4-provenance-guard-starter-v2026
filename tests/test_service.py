@@ -31,6 +31,12 @@ class ServiceTests(unittest.TestCase):
         patcher = patch.object(detector, "model_signal", return_value=0.7)
         self.model = patcher.start()
         self.addCleanup(patcher.stop)
+        # Validation/scoring regression checks isolate the limiter. Dedicated
+        # Unit 8 tests exercise real limits separately with fresh counters.
+        if hasattr(service.limiter, "enabled"):
+            patcher = patch.object(service.limiter, "enabled", False)
+            patcher.start()
+            self.addCleanup(patcher.stop)
         self.client = service.app.test_client()
 
     def submit(self, **changes):
@@ -76,7 +82,7 @@ class ServiceTests(unittest.TestCase):
                 self.assertEqual(self.client.post("/submit", json=body).status_code, 400)
         self.assertEqual(self.client.post("/submit", data='{"text":', content_type="application/json").status_code, 400)
         self.model.assert_not_called()
-        self.assertEqual(audit.read_entries(), [])
+        self.assertFalse(any(e.get("status") == "decided" for e in audit.read_entries()))
 
     def test_missing_nonobject_and_wrong_media_json(self):
         for raw in ("", "null", "[]", '"text"', "123", "false"):
@@ -101,7 +107,7 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(self.submit(text="x" * (config.MAX_TEXT_CHARS + 1)).status_code, 413)
         self.assertEqual(self.submit(creator_id="x" * (config.MAX_CREATOR_ID_CHARS + 1)).status_code, 413)
         self.model.assert_not_called()
-        self.assertEqual(audit.read_entries(), [])
+        self.assertFalse(any(e.get("status") == "decided" for e in audit.read_entries()))
 
     def test_body_limit_is_json_and_precedes_inference(self):
         response = self.client.post("/submit", data="x" * (config.MAX_REQUEST_BYTES + 1), content_type="application/json")
@@ -119,21 +125,21 @@ class ServiceTests(unittest.TestCase):
         response = self.submit(text="a")
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json["error"], "unscorable_text")
-        self.assertEqual(audit.read_entries(), [])
+        self.assertFalse(any(e.get("status") == "decided" for e in audit.read_entries()))
 
     def test_detector_unavailable_is_not_a_decision(self):
         self.model.side_effect = detector.DetectorUnavailable("local path should stay private")
         response = self.submit()
         self.assertEqual(response.status_code, 503)
         self.assertNotIn("local path", response.get_data(as_text=True))
-        self.assertEqual(audit.read_entries(), [])
+        self.assertFalse(any(e.get("status") == "decided" for e in audit.read_entries()))
 
     def test_invalid_signal_is_not_a_decision(self):
         for score in (math.nan, math.inf, -0.1, 1.1):
             with self.subTest(score=score), patch.object(service.app.logger, "exception"):
                 self.model.return_value = score
                 self.assertEqual(self.submit().status_code, 503)
-        self.assertEqual(audit.read_entries(), [])
+        self.assertFalse(any(e.get("status") == "decided" for e in audit.read_entries()))
 
     def test_storage_failure_does_not_report_success(self):
         with patch.object(audit, "log_decision", side_effect=OSError("disk full")), patch.object(service.app.logger, "exception"):
@@ -178,13 +184,13 @@ class ServiceTests(unittest.TestCase):
                      {"content_id": [], "reasoning": "Review"}):
             with self.subTest(body=body):
                 self.assertEqual(self.client.post("/appeal", json=body).status_code, 400)
-        self.assertEqual(len(audit.read_entries()), 1)
+        self.assertEqual(sum(e.get("status") == "decided" for e in audit.read_entries()), 1)
 
     def test_appeal_reason_length_limit(self):
         content_id = self.submit().json["content_id"]
         response = self.client.post("/appeal", json={"content_id": content_id, "reasoning": "x" * (config.MAX_REASONING_CHARS + 1)})
         self.assertEqual(response.status_code, 413)
-        self.assertEqual(len(audit.read_entries()), 1)
+        self.assertEqual(sum(e.get("status") == "decided" for e in audit.read_entries()), 1)
 
     def test_repeated_appeals_append_and_survive_module_reload(self):
         content_id = self.submit().json["content_id"]
@@ -200,7 +206,7 @@ class ServiceTests(unittest.TestCase):
         content_id = self.submit().json["content_id"]
         with patch.object(audit, "log_appeal", side_effect=OSError("disk full")), patch.object(service.app.logger, "exception"):
             self.assertEqual(self.client.post("/appeal", json={"content_id": content_id, "reasoning": "Review"}).status_code, 503)
-        self.assertEqual(len(audit.read_entries()), 1)
+        self.assertEqual(sum(e.get("status") == "decided" for e in audit.read_entries()), 1)
 
 
 class SignalTests(unittest.TestCase):
