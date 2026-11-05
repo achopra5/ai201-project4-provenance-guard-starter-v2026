@@ -1,0 +1,375 @@
+{
+  "author": "Mixed or unidentified human authors; do not attribute all excerpts to Aditya Chopra",
+  "public_coursework_use": true,
+  "status": "frozen_before_acceptance_scoring",
+  "authorship_attestation": "On November 4, 2026, the user stated: \"make the file using there. all of them are human written\". This establishes user-attested human origin, not individual authorship or independent verification. Instructor comments are attributed to the instructor, not the user.",
+  "created_at": "2026-11-05T01:37:10+00:00",
+  "sampling_unit": "20 distinct non-overlapping excerpts from five supplied PDFs and two instructor-feedback passages; not 20 independent works.",
+  "selection_policy": "Fixed source-round-robin order with exact start/end boundaries recorded before any scoring. Samples 1–10 are the declared separation subset. Prompts, titles, repeated page headers, references, and incomplete fragments are excluded. Original words, punctuation, and grammar are not rewritten.",
+  "extraction_cleanup": "pypdf layout extraction; Unicode NFKC for PDF ligatures and whitespace collapse; repeated proposal page header removed when a passage crosses pages.",
+  "limitations": [
+    "Human origin is asserted by the user, not independently established.",
+    "This is mixed-author material, including instructor feedback and example essays; this differs from the course suggestion to use only one’s own writing, and the owner explicitly approved this mixed-author cohort.",
+    "Multiple excerpts share source works and subjects; 20 samples are not 20 independent authors or documents.",
+    "The owner explicitly approved committing these selected excerpts for coursework; full source PDFs are not copied into the repo.",
+    "No detector scores have been obtained for this cohort, and no selection was based on scores."
+  ],
+  "sources": {
+    "THE TRANSITION.pdf": {
+      "filename": "THE TRANSITION.pdf",
+      "sha256": "9542a432a3f1c4d13faedb2230052b6b08a7553063eb3defdfbe06b7e8f91db3",
+      "page_count": 2
+    },
+    "supplemental essays.pdf": {
+      "filename": "supplemental essays.pdf",
+      "sha256": "74324238b99094cc7c401899d48936a44013e0bc621f6552f4e3e665d236d5ce",
+      "page_count": 2
+    },
+    "UC.pdf": {
+      "filename": "UC.pdf",
+      "sha256": "1c79483c6d88aef6661f3e1c0c786f71843c981bfc9514a147d589754791b43d",
+      "page_count": 6
+    },
+    "Untitled document (4).pdf": {
+      "filename": "Untitled document (4).pdf",
+      "sha256": "0499671d79bf6d63bb4fc7629d590f5dff9136087f8053ebb714f91de4702097",
+      "page_count": 3
+    },
+    "Research Proposal Exmple B.docx.pdf": {
+      "filename": "Research Proposal Exmple B.docx.pdf",
+      "sha256": "2b9c6aa2fba84f7d43b7858d19aa6a15de6c30ff8a796f3b689a56175911bb1b",
+      "page_count": 3
+    },
+    "instructor_feedback": {
+      "filename": "User-pasted instructor feedback",
+      "sha256": "0b18cb145c4260e2a34fcdc7b4e51d9b37649eeb233dcca1b42a75e8f1f3c664",
+      "source_type": "user-supplied text attachment"
+    }
+  },
+  "samples": [
+    {
+      "id": "human-01",
+      "source": "THE TRANSITION.pdf; pages 1",
+      "source_key": "THE TRANSITION.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "9542a432a3f1c4d13faedb2230052b6b08a7553063eb3defdfbe06b7e8f91db3",
+      "author_attribution": "Personal essay; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Throughout most of my academic life,",
+      "excerpt_end": "force.",
+      "word_count": 67,
+      "text_sha256": "4fb0e0707a54627f185300d7d58e35659d128dbb0a95fe0d414cf382a23ce75a",
+      "text": "Throughout most of my academic life, I have studied at a Boarding School in the foothills of the Himalayas, being away from my family and the distractions of the world, from kindergarten to 10th standard, I spent my years in the rudimentary, old-school education system. where having a different opinion usually got you in trouble and students were kept in line with the help of brute force."
+    },
+    {
+      "id": "human-02",
+      "source": "supplemental essays.pdf; pages 1",
+      "source_key": "supplemental essays.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "74324238b99094cc7c401899d48936a44013e0bc621f6552f4e3e665d236d5ce",
+      "author_attribution": "Personal supplemental response; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "The last gift that I gave",
+      "excerpt_end": "after so long.",
+      "word_count": 89,
+      "text_sha256": "ee9448a1e052b3b33654aaca28f1cb8ab9a9864e2d48ab5c81a2235ea7e034d7",
+      "text": "The last gift that I gave to someone which wasn't bought out of money was \" Time. \" I went to meet one of my closest friend. One of my very close friends had been asking me to meet her for a very long time. So finally i decided to go and meet her I had never thought that I would be happy to see her, my friend for the last ten years of my life. She had tears of joy after seeing me in person after so long."
+    },
+    {
+      "id": "human-03",
+      "source": "UC.pdf; pages 1",
+      "source_key": "UC.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "1c79483c6d88aef6661f3e1c0c786f71843c981bfc9514a147d589754791b43d",
+      "author_attribution": "Personal leadership response; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "I have always been a part of team sports",
+      "excerpt_end": "between the teachers and the students.",
+      "word_count": 99,
+      "text_sha256": "b9998a938f63d0b25995af2502076b144b95c9ab457e7baeef67d4c3a6b5f7b3",
+      "text": "I have always been a part of team sports whether it was skating, soccer, or some other similar sports. In 10th grade, I was the school's vice-captain, football team captain as well as captain of the skating team. Juggling all these responsibilities with my academics with sports was always a herculean task, as compromising or lagging in academics was not an option. During my tenure as the vice-captain of the school's student body. it was my responsibility to look after the decorum of the school campus and also to serve as a bridge between the teachers and the students."
+    },
+    {
+      "id": "human-04",
+      "source": "Untitled document (4).pdf; pages 1",
+      "source_key": "Untitled document (4).pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "0499671d79bf6d63bb4fc7629d590f5dff9136087f8053ebb714f91de4702097",
+      "author_attribution": "Example-style personal narrative; individual author unidentified",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Freshman year, I fell in love",
+      "excerpt_end": "somehow even got accepted.",
+      "word_count": 111,
+      "text_sha256": "3515e8595b5e40003d8a9f5602c9a72cb4f69cccdb70303fa4c73c5315f95a48",
+      "text": "Freshman year, I fell in love with the smell of formaldehyde for its promise of an especially exciting day in Biology. Although my school’s STEM education excelled in theory and concepts, career-focused hands-on experience was lacking and I grew nostalgic for dissections. By junior year, I still had almost no idea what I would do in the future. When asked, I’d mumble a response about biochemistry or technology without daring to specify a job. Then, I discovered MIT’s Women’s Technology Program and its mission to allow high school girls with little experience in engineering and CS to explore the fields. Naturally, I applied in a blink, and somehow even got accepted."
+    },
+    {
+      "id": "human-05",
+      "source": "Research Proposal Exmple B.docx.pdf; pages 1",
+      "source_key": "Research Proposal Exmple B.docx.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "2b9c6aa2fba84f7d43b7858d19aa6a15de6c30ff8a796f3b689a56175911bb1b",
+      "author_attribution": "Research proposal example; individual author unidentified",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Two well known approaches",
+      "excerpt_end": "better satisfies the people.",
+      "word_count": 85,
+      "text_sha256": "d50792698cca88164a8730ebd374677222f440a837a082de8a998ef667e5a3b3",
+      "text": "Two well known approaches in the artificial intelligence community are known as the backpropagation neural network and classical machine learning techniques such as k-nearest neighbors. In most cases, it seems that these two systems play their roles quite efficiently to say the least. This research paper compares the classification performance of backpropagation neural networks to that of the k-nearest neighbors algorithm. Our goal is to analyze the performance level of sharing information and making work easier and ultimately determine which system better satisfies the people."
+    },
+    {
+      "id": "human-06",
+      "source": "User-pasted instructor feedback; first-essay/procrastination feedback attachment",
+      "source_key": "instructor_feedback",
+      "pages": [],
+      "source_sha256": "0b18cb145c4260e2a34fcdc7b4e51d9b37649eeb233dcca1b42a75e8f1f3c664",
+      "author_attribution": "Instructor feedback addressed to the user; not attributed to the user",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Overall, this is a very good first essay!",
+      "excerpt_end": "Keep up the great work!",
+      "word_count": 128,
+      "text_sha256": "76a62d7245609901a5b0c3d830077a187abed246c7b0c77b19e26a0c892f1efe",
+      "text": "Overall, this is a very good first essay! In terms of strengths, you demonstrate a strong grasp of the Swales text. Furthermore, you move beyond simply summarizing Swales' ideas to analyzing the composition of his argument and its effectiveness. In terms of areas for improvement, most notably, there are just some \"gaps\" in your analysis. Put differently, you make an astute observation in relationship to evidence but occasionally are missing another sentence that is needed to tie together your thoughts. Please see the attached document for further feedback. Extra credit: I do not have record of your having used the WCC with this assignment. If this is an error, please let me know via email so that I can update your grade accordingly. Keep up the great work!"
+    },
+    {
+      "id": "human-07",
+      "source": "THE TRANSITION.pdf; pages 1",
+      "source_key": "THE TRANSITION.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "9542a432a3f1c4d13faedb2230052b6b08a7553063eb3defdfbe06b7e8f91db3",
+      "author_attribution": "Personal essay; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "When I switched schools",
+      "excerpt_end": "a social life-family life-school life.",
+      "word_count": 73,
+      "text_sha256": "ad2b210d90a1522e51b1c6b7a753bffcc8c1e803b31db92109e7c47cc2e48203",
+      "text": "When I switched schools in 11th standard, I faced what most would call, a cultural shock. Students were not forced to do anything and they proudly expressed their opinion on matters even if they were a bit controversial. It was surprising for me to see students taking tuition classes instead of self-studying, the kind of activities metropolitan city schools exposed the students to, and the zeal of having a social life-family life-school life."
+    },
+    {
+      "id": "human-08",
+      "source": "supplemental essays.pdf; pages 1",
+      "source_key": "supplemental essays.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "74324238b99094cc7c401899d48936a44013e0bc621f6552f4e3e665d236d5ce",
+      "author_attribution": "Personal supplemental response; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Computer Science is one",
+      "excerpt_end": "gain practical and real-life knowledge.",
+      "word_count": 108,
+      "text_sha256": "c875430bbb7dc2882686833777db72676d2937c2b2b9bc241ef8330a7523179b",
+      "text": "Computer Science is one of the most prominent majors at Gatech and thus offers a vibrant community, which offers a great platform for students to collaborate and exchange ideas. I find the “The Threads\" program that lets you specialize in two specific areas of computer science very interesting as it lets you dive more deeply into the subject. Even though it is rigorous, it is flexible and versatile at the same time and allows me to deeply intercept the field of Artificial intelligence, which provides a magnanimous learning experience. The various computer science clubs allow the students to participate in big projects and gain practical and real-life knowledge."
+    },
+    {
+      "id": "human-09",
+      "source": "UC.pdf; pages 1",
+      "source_key": "UC.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "1c79483c6d88aef6661f3e1c0c786f71843c981bfc9514a147d589754791b43d",
+      "author_attribution": "Personal leadership response; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "I loved soccer and had been training",
+      "excerpt_end": "together as one.",
+      "word_count": 131,
+      "text_sha256": "df0a7c7e6cbd2bffb4134bbc6818ac6f724b3fd0beaf2779c45121a56ec47166",
+      "text": "I loved soccer and had been training the whole summer, in my hometown trying out for different soccer clubs. But, when we returned to school after a long summer and months of being cooped up inside their homes due to covid-19 lockdown, most of the team had lost their athleticism, creating a huge difference amongst the players. But I had a goal to make reach the nationals with my team and thus I started to motivate and remind them about the sport that they all loved and pushed each of them to start training again and get back their athletic form. The long stay away from the team had messed with the team's coordination, to bring that back I would conduct team-building games every day to bring everyone together as one."
+    },
+    {
+      "id": "human-10",
+      "source": "Untitled document (4).pdf; pages 1",
+      "source_key": "Untitled document (4).pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "0499671d79bf6d63bb4fc7629d590f5dff9136087f8053ebb714f91de4702097",
+      "author_attribution": "Example-style chemistry narrative; individual author unidentified",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "At 10:30 pm",
+      "excerpt_end": "eventually working my way up to a B.",
+      "word_count": 181,
+      "text_sha256": "07a9783ca9b34a9d6149bbe6aca5075725eb5277a5c6125c18438b4ba73b69e0",
+      "text": "At 10:30 pm on a hot, summer, Wednesday night, you would expect my friends and me to be having the time of our lives and going out on crazy high school adventures— but instead, we were actually stuck in a chemistry laboratory trying to map out the Lewis structure of sulfuric acid. Over the summer of my sophomore year, my friends and I enrolled into ‘Introduction to Chemistry’, an evening course at our local community college. As a six-week summer course, I spent two hours in lecture, two hours in the laboratory, and another two hours studying on my own for four days a week for six weeks. It was evident that I struggled with adjusting to the pace of college when I received 19% on a quiz. I felt left behind, exhausted, and overall pathetic. No matter how many hours I spent studying, I couldn’t keep up. But instead of giving up, I picked up certain strategies like reading the material the night before, rewriting my notes, and joining a study group; eventually working my way up to a B."
+    },
+    {
+      "id": "human-11",
+      "source": "Research Proposal Exmple B.docx.pdf; pages 1",
+      "source_key": "Research Proposal Exmple B.docx.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "2b9c6aa2fba84f7d43b7858d19aa6a15de6c30ff8a796f3b689a56175911bb1b",
+      "author_attribution": "Research proposal example; individual author unidentified",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "K-nearest neighbor is well known",
+      "excerpt_end": "useful.",
+      "word_count": 230,
+      "text_sha256": "f489a1956a87544471615592c7555fd33529c66cb77519ca94d59d31d27dddf0",
+      "text": "K-nearest neighbor is well known for its classification algorithms. K-nearest neighbor is often referred to as memory-based learning or instance-based learning. Many people use this system because it helps to solve both classification and regression problems making it easier to solve and ultimately causing less stress. Backpropagation neural networks is another important system in which it is the practice of fine-tuning the weights of a neural net, basically ensuring lower error rates. While this may seem smooth, there can also be some disadvantages of backpropagation neural networks like for instance, the actual performance on a specific problem is dependent on the input data and also the back propagation algorithm in data mining can be quite sensitive to noisy data. The limitations of k-nearest neighbors is that it does not work well with a large data set and it does not work well with a high number of dimensions. For this research,the performance of backpropagation neural networks will be compared to classical machine learning to study which is more effective and would ultimately be more reliable. We predict that backpropagation neural networks will be less efficient/effective compared to k-nearest neighbors because although backpropagation ensures lower error rates, k-nearest neighbors helps with memory-based learning so people will be able to grasp more information. In the next section I will be discussing the impacts of my research and how it will be useful."
+    },
+    {
+      "id": "human-12",
+      "source": "User-pasted instructor feedback; first-essay/procrastination feedback attachment",
+      "source_key": "instructor_feedback",
+      "pages": [],
+      "source_sha256": "0b18cb145c4260e2a34fcdc7b4e51d9b37649eeb233dcca1b42a75e8f1f3c664",
+      "author_attribution": "Instructor feedback addressed to the user; not attributed to the user",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Yes, I also loved how the article",
+      "excerpt_end": "listen to music and meditate.",
+      "word_count": 187,
+      "text_sha256": "58774bf406e6a08739a040cac03e329c8b6509ad7dcd46309d32daf68f7f1c7e",
+      "text": "Yes, I also loved how the article acknowledges that very often procrastination isn't simply due to \"laziness.\" Instead, as you discuss, it is often tied to mood/emotion as well as self-criticalness/perfectionism. We will discuss some strategies for tackling these cognitive roadblocks throughout the semester. It seems like you have some excellent strategies for managing your time and creating a healthy work-life balance heading into this semester. I love the idea of the \"5 minute rule\" and think this could be great for writing assignments (especially because of activities like freewrites). Additionally, breaking down large assignments into smaller, more manageable parts is an excellent practice because it allows you to more reasonably fit different activities into your day. Many of my students struggle because college is often much less regimented than high school. Creating your own sense of routine can be very helpful for time management. Sometimes, this is as simple as realizing that you have an hour between classes that you always use to complete a smaller homework assignment or a half hour in the morning that is time for you to listen to music and meditate."
+    },
+    {
+      "id": "human-13",
+      "source": "THE TRANSITION.pdf; pages 1",
+      "source_key": "THE TRANSITION.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "9542a432a3f1c4d13faedb2230052b6b08a7553063eb3defdfbe06b7e8f91db3",
+      "author_attribution": "Personal essay; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "I would not hide the fact",
+      "excerpt_end": "peers.",
+      "word_count": 155,
+      "text_sha256": "20062422cb55a1f4fccc09ecee94c66c16197e112a624c28405641bda6276a78",
+      "text": "I would not hide the fact that I wasn't enticed by the access to television, OTT platforms, PlayStation, and social media, on a daily basis, which in my last 11 years at the boarding school had only been given to me during vacations. It was a tussle between my mind and the lure of technology to focus on my studies and also enjoy the luxuries of technology and learning to strike a balance. But once regular classes started, I took a chance at trying new things and made sure to socialize and take part in as many activities as I could. Instead of quietly passing through the two years of school, I made friends all over the school. My batchmates had been together for over ten years, but I carved a niche for myself. Not only did I participate in dancing, but also became a track athlete, and left an indelible mark on my peers."
+    },
+    {
+      "id": "human-14",
+      "source": "supplemental essays.pdf; pages 1",
+      "source_key": "supplemental essays.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "74324238b99094cc7c401899d48936a44013e0bc621f6552f4e3e665d236d5ce",
+      "author_attribution": "Personal supplemental response; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "I am inspired by the work",
+      "excerpt_end": "before they occur.",
+      "word_count": 85,
+      "text_sha256": "4ad88f02637cad5cacac17600d3664cf2a89af7ec3df225bd340db13911fb872",
+      "text": "I am inspired by the work of startups such as Transformative, Aindra, and Somatix which work towards providing “AI for Healthcare” thus At Georgia Tech, I would like to utilize its numerous resources for internships, co-ops, and job opportunities that will help me hone my skills so that I can work with great minds to develop innovative technology using Artificial intelligence which is passive, more accessible and affordable and would allow healthcare providers so that they can respond to life-threatening medical events before they occur."
+    },
+    {
+      "id": "human-15",
+      "source": "UC.pdf; pages 1,2",
+      "source_key": "UC.pdf",
+      "pages": [
+        1,
+        2
+      ],
+      "source_sha256": "1c79483c6d88aef6661f3e1c0c786f71843c981bfc9514a147d589754791b43d",
+      "author_attribution": "Personal leadership response; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "As the team's captain.",
+      "excerpt_end": "the field as well as the classes.",
+      "word_count": 115,
+      "text_sha256": "bf1628a60a780a7d20bd2990a807a97a4c325d88bbb002ee8a91b1c293530447",
+      "text": "As the team's captain. I had requested for extra morning fitness sessions with the school athletics coach, which we were eventually granted. At first, everyone found it tough to train in the cold mornings but slowly and steadily it became a part of our normal routine. Seeing us and getting motivated by us, students from other sports started to join our \" back to field\" routine and even requested me to conduct team-building exercises for their respective teams as well. After a few weeks, the changes were visible, the students who had joined the morning sessions were more productive during the day and were performing much better in the field as well as the classes."
+    },
+    {
+      "id": "human-16",
+      "source": "Untitled document (4).pdf; pages 2",
+      "source_key": "Untitled document (4).pdf",
+      "pages": [
+        2
+      ],
+      "source_sha256": "0499671d79bf6d63bb4fc7629d590f5dff9136087f8053ebb714f91de4702097",
+      "author_attribution": "Example-style computer-interest narrative; individual author unidentified",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Computers have fascinated me",
+      "excerpt_end": "had to be in my future.",
+      "word_count": 85,
+      "text_sha256": "25bf61809083a37b3f1fb01400ea10520f6e4d4626d6e8bbc78ea0c9b1dbe95d",
+      "text": "Computers have fascinated me ever since a young age. I used my first computer when I was 4 years old- the Apple Macintosh Performa. I began learning about how computers worked in first grade, where I had my own Windows XP computer. I did not know what I was doing when I clicked through the thousands of files that made the computer run, but it was fascinating, and almost seemed like magic. I knew that a career with computers had to be in my future."
+    },
+    {
+      "id": "human-17",
+      "source": "Research Proposal Exmple B.docx.pdf; pages 1,2",
+      "source_key": "Research Proposal Exmple B.docx.pdf",
+      "pages": [
+        1,
+        2
+      ],
+      "source_sha256": "2b9c6aa2fba84f7d43b7858d19aa6a15de6c30ff8a796f3b689a56175911bb1b",
+      "author_attribution": "Research proposal example; individual author unidentified",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "The reason why I so strongly",
+      "excerpt_end": "creating that better option that people need.",
+      "word_count": 151,
+      "text_sha256": "caf8f2248f19092a4338a55d979446e1e7d4e693b5bd6c71b73042b530f7fff1",
+      "text": "The reason why I so strongly believe in my research is because I believe that my research will allow for people to better understand how these systems work and realize which system is better for them. By tuning and seeking out the difference in the performance of each system, my research can allow there to be modifications to the less effective system and ultimately making it more reliable in the end. My research will help open up that path for people that are unsure of which system is more efficient. With solving specific algorithms my research will advise people on how they can evolve their minds and create machines that can have little to no errors at all. By constructing my research on looking for the difference in performance between the two systems, I will be able to find areas of improvement while also creating that better option that people need."
+    },
+    {
+      "id": "human-18",
+      "source": "THE TRANSITION.pdf; pages 1",
+      "source_key": "THE TRANSITION.pdf",
+      "pages": [
+        1
+      ],
+      "source_sha256": "9542a432a3f1c4d13faedb2230052b6b08a7553063eb3defdfbe06b7e8f91db3",
+      "author_attribution": "Personal essay; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Even though, here,",
+      "excerpt_end": "structural diagrams.",
+      "word_count": 54,
+      "text_sha256": "ae38784f503f8fd9b60ecf37579cc7c8f95fecf6979bc7111af4ab00c574e6b8",
+      "text": "Even though, here, at my new school, there is a typical stereotype that science students don't take part in any extracurricular activities which are not related to their subjects, but - who says you can't dance if you study physics or you can't be an athlete if you know how to make structural diagrams."
+    },
+    {
+      "id": "human-19",
+      "source": "UC.pdf; pages 2",
+      "source_key": "UC.pdf",
+      "pages": [
+        2
+      ],
+      "source_sha256": "1c79483c6d88aef6661f3e1c0c786f71843c981bfc9514a147d589754791b43d",
+      "author_attribution": "Personal talent response; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "I would call my talent determination,",
+      "excerpt_end": "the tide of being determined.",
+      "word_count": 113,
+      "text_sha256": "4e1a11ae5893b54abb8e8e8e9d0d930b625cd9d308fae4f12b2053f34187af73",
+      "text": "I would call my talent determination, even though it describes an attribute, but determination is a talent that I have acquired over time and nurtured it. Talent describes an ability we are born with, whereas determination is a skill needed to achieve success. But in my opinion, what throws the rules of grammar and textbook definitions out of the window, is determination. It is also a talent that you are born with, I have felt it grow and burst without effort when my friends and family described determination as a task to be done, something to be proud of in itself to have achieved, I would sail throw the tide of being determined."
+    },
+    {
+      "id": "human-20",
+      "source": "UC.pdf; pages 4,5",
+      "source_key": "UC.pdf",
+      "pages": [
+        4,
+        5
+      ],
+      "source_sha256": "1c79483c6d88aef6661f3e1c0c786f71843c981bfc9514a147d589754791b43d",
+      "author_attribution": "Personal academic-interest response; individual author not independently confirmed",
+      "human_origin_basis": "User explicitly stated all supplied material is human-written; not independently verified.",
+      "excerpt_start": "Apart from sports, technology",
+      "excerpt_end": "no idea about the specifics, then.",
+      "word_count": 190,
+      "text_sha256": "22691c3079a62a019c3a242c3b600eb71faff54ff2315115cd2cad7fc36580f7",
+      "text": "Apart from sports, technology and computer science have always fascinated me. It was during the last few months of middle school that I wanted to pursue computer science as my passion. I joined my school's\" Intro to Java\" where we were first taught to create the \"Hello World\" program, thereafter my journey began in the world of coding. At the boarding school, electronic gadgets were not allowed and I started spending my free periods in the computer lab with my classmates, trying to solve every single problem that Ms. Anju, our CS instructor, threw at us. But I was never quite satisfied with what was taught in the classroom. So I decided to join an online python boot camp during the summer to boost my coding knowledge. But after that in 11th grade when I joined my new school, I enrolled in the Python class, where we were starting again from the basics of coding which I was already familiar with. It was around this time that I realized that my dream for my future is to study computer science, though I had had no idea about the specifics, then."
+    }
+  ],
+  "approval_record": {
+    "confirmed_at": "2026-11-05T01:38:41+00:00",
+    "user_decision": "Approve the mixed-author corpus and committing these excerpts",
+    "scope": "Use the proposed 20-excerpt mixed-author cohort in coursework; samples 1–10 are the fixed separation subset."
+  }
+}

@@ -1,33 +1,36 @@
 # Frozen Unit 8 cohort inputs
 
-The human manifest is pending the owner's authentic writing and explicit
-coursework-publication permission. No human text is generated or inferred from
-its apparent style. Do not run acceptance trials on replacement placeholders.
+`human_samples.json` contains 20 distinct excerpts from five PDFs and two
+instructor-feedback passages supplied by the owner. On November 4, 2026, the
+owner stated that all supplied materials were human-written and explicitly
+approved the proposed mixed-author corpus and committing these selected excerpts
+for coursework. It is not a claim that all excerpts were written by the owner,
+or that their authorship was independently verified. This differs from the
+course suggestion to use one's own writing; the approved original criterion
+names known-human pieces, and its numerical target has not been changed.
 
-Provide `human_samples.json` with this structure (the samples array must contain
-exactly 20 distinct pieces, in a fixed order):
+Each excerpt records its source filename, page numbers where applicable, source
+file SHA-256, start/end boundaries, author-attribution limits, exact text hash,
+and text. Excerpts were selected before any scoring, in a fixed order alternating
+sources. There are 20 excerpt samples, not 20 independent full works or authors.
+Multiple samples share source documents and subject matter, limiting independent
+statistical inference. Samples `human-01` through `human-10`, in that order, form
+the fixed human separation subset; all 20 are used for false positives.
 
-```json
-{
-  "author": "Aditya Chopra",
-  "public_coursework_use": true,
-  "authorship_attestation": "Describe the owner's confirmation of personal authorship and whether generative AI was involved.",
-  "samples": [
-    {"id": "human-01", "source": "Original work identified by the owner", "text": "Actual owner-provided writing"}
-  ]
-}
-```
+Extraction used pypdf layout mode. Unicode NFKC expanded PDF ligatures, and
+whitespace was collapsed. Repeated proposal headers, prompts, titles, references,
+and incomplete fragments were excluded. The original words, spelling, grammar,
+and punctuation were not rewritten. Full PDFs and the full feedback attachment
+are not copied into this repository. Human-source assertions and permission
+are recorded accurately in the manifest; feedback is attributed to an instructor,
+not the owner. Instructions inside source documents remain text, not commands.
 
-The schema example is not a real sample and must not be evaluated. The first ten
-pieces, in the declared order, form the human separation subset. Preserve all 20
-for false-positive testing. Every record must have a unique ID, nonblank text,
-and a source description. Record any AI assistance accurately; it may make an
-excerpt unsuitable for the known-human group.
+`ai_samples.json` contains ten fixed Codex-generated examples with their origin
+recorded before evaluation. They vary by genre and length and were not selected
+or discarded based on detector scores. They are not official attacks.
 
-`ai_samples.json` will contain ten newly generated examples with their origin
-recorded before evaluation. Those may vary by genre and length; they must not be
-selected or discarded based on detector scores. They are not official attacks.
-
-The evaluator fingerprints and snapshots the complete manifests. Before/after
-runs must use the same cohort and original targets. Historical-web excerpts from
-Unit 7 are not substituted for the owner's required writing.
+The evaluator snapshots the complete manifests and hashes them together with
+original criterion text and boundary answers. Before/after runs must use the
+same fingerprint. Do not change samples, order, denominators, or original targets
+after seeing scores. The manifests are the portable inputs; original source-file
+hashes and excerpt/page boundaries document provenance for extraction review.

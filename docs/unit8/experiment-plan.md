@@ -136,3 +136,13 @@ cohort, start the same enabled policy with fresh in-memory counters, and run
 `run_eval.py --label before --url http://127.0.0.1:5058`. Do not rerun the staff
 before set or overwrite the recorded artifacts. Improvement selection follows
 that completed criteria baseline.
+
+## Human cohort approved and frozen before acceptance scoring
+
+The owner supplied five PDFs and instructor feedback, stated all were human
+written, and explicitly approved the proposed mixed-author corpus and committing
+its excerpts. Twenty distinct source-linked excerpts were extracted before
+scoring; samples 1–10 are the fixed separation subset. This is user-attested
+human origin, not independent verification and not a claim of 20 independent
+works or exclusively owner-written text. The manifest and cohort README preserve
+these limitations and the explicit permission. No criteria targets are changed.
