@@ -1,0 +1,221 @@
+{
+  "produced_by": "scripts/compare_unit8.py::main",
+  "input_sha256": {
+    "attacks_before.json": "e9ffdd89907cfb7921f0e82059efbfbb747383236a4f24c5c7fdb1ba76e98b40",
+    "attacks_after.json": "ebe676fa55c455d0e5eaa2146744777d9c2fd4d14c0263ba1ac4e450479e7c0e",
+    "attacks_before_reviewed.json": "43a9ffed54320f9ba7681773e31b0bd6651796a84a019c418415187efb26a84c",
+    "attacks_after_reviewed.json": "5bdc2bfcfb72de3c4039dfb1045b74d4b855bc714c3f910a87b5a5ef2aee83d7",
+    "eval_before.json": "21b5ce782df15316d160fd63fd0adea8f3385610af296fe8b3152ac406976a25",
+    "eval_after.json": "feb4f87003b637e96fbfa6b0889482cc7f66817aa5840975d1ea9038ce8062aa"
+  },
+  "same_staff_source_hashes": true,
+  "same_cohort_sha256": "689e45fb7ebd3004835e13f5625998543c105ca2b9ae2de28d59316f0c52447f",
+  "attack_totals": {
+    "before": {
+      "BROKE": 9,
+      "HELD": 47
+    },
+    "after": {
+      "BROKE": 9,
+      "HELD": 47
+    }
+  },
+  "family_counts": {
+    "before": {
+      "evasion": {
+        "BROKE": 9,
+        "HELD": 1
+      },
+      "false_positive": {
+        "HELD": 8
+      },
+      "prompt_injection": {
+        "HELD": 6
+      },
+      "malformed": {
+        "HELD": 20
+      },
+      "flood_same_creator": {
+        "HELD": 12
+      }
+    },
+    "after": {
+      "evasion": {
+        "BROKE": 9,
+        "HELD": 1
+      },
+      "false_positive": {
+        "HELD": 8
+      },
+      "prompt_injection": {
+        "HELD": 6
+      },
+      "malformed": {
+        "HELD": 20
+      },
+      "flood_same_creator": {
+        "HELD": 12
+      }
+    }
+  },
+  "status_counts": {
+    "before": {
+      "200": 37,
+      "400": 14,
+      "413": 1,
+      "429": 4
+    },
+    "after": {
+      "200": 36,
+      "400": 15,
+      "413": 1,
+      "429": 4
+    }
+  },
+  "changed_attack_cases": [
+    {
+      "id": "MF03",
+      "differences": {
+        "status": {
+          "before": 200,
+          "after": 400
+        },
+        "guess": {
+          "before": "unsure",
+          "after": null
+        },
+        "model_score": {
+          "before": 0.0,
+          "after": null
+        },
+        "style_score": {
+          "before": 0.5,
+          "after": null
+        },
+        "confidence": {
+          "before": 0.25,
+          "after": null
+        },
+        "label": {
+          "before": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "after": null
+        }
+      },
+      "before_audit": [
+        {
+          "timestamp": "2026-11-05T01:22:24+00:00",
+          "content_id": "25598b16-4468-4901-bb47-a210420184fb",
+          "creator_id": "attacker_MF03",
+          "guess": "unsure",
+          "model_score": 0.0,
+          "style_score": 0.5,
+          "combined_score": 0.25,
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "status": "decided",
+          "http_status": 200,
+          "request_id": "7774e632-c928-450e-99a3-1b83994f48d8",
+          "path": "/submit",
+          "method": "POST"
+        }
+      ],
+      "after_audit": [
+        {
+          "timestamp": "2026-11-05T01:43:57+00:00",
+          "creator_id": "attacker_MF03",
+          "event": "rejected",
+          "status": "rejected",
+          "reason": "unsupported_control_characters",
+          "request_id": "0288e929-5a6b-4f2e-b916-22b15993c970",
+          "path": "/submit",
+          "method": "POST",
+          "http_status": 400,
+          "source_ip": "127.0.0.1"
+        }
+      ]
+    }
+  ],
+  "unchanged_attack_cases": 55,
+  "criteria": [
+    {
+      "criterion": 1,
+      "target": "At most 1 of 20 human pieces labelled ai",
+      "before_values": [
+        "0/20 AI labels; 20/20 usable",
+        "0/20 AI labels; 20/20 usable",
+        "0/20 AI labels; 20/20 usable"
+      ],
+      "after_values": [
+        "0/20 AI labels; 20/20 usable",
+        "0/20 AI labels; 20/20 usable",
+        "0/20 AI labels; 20/20 usable"
+      ],
+      "before_verdict": "MET",
+      "after_verdict": "MET"
+    },
+    {
+      "criterion": 2,
+      "target": "AI mean - human mean >= 0.20; 10 samples each",
+      "before_values": [
+        "AI mean - human mean = -0.056844",
+        "AI mean - human mean = -0.056844",
+        "AI mean - human mean = -0.056844"
+      ],
+      "after_values": [
+        "AI mean - human mean = -0.056844",
+        "AI mean - human mean = -0.056844",
+        "AI mean - human mean = -0.056844"
+      ],
+      "before_verdict": "MISSED",
+      "after_verdict": "MISSED"
+    },
+    {
+      "criterion": 3,
+      "target": "7/7 specified scores correct; all 3 labels",
+      "before_values": [
+        "7/7 correct",
+        "7/7 correct",
+        "7/7 correct"
+      ],
+      "after_values": [
+        "7/7 correct",
+        "7/7 correct",
+        "7/7 correct"
+      ],
+      "before_verdict": "MET",
+      "after_verdict": "MET"
+    },
+    {
+      "criterion": 4,
+      "target": "5/5 distinct appeals recorded with reasoning and under_review",
+      "before_values": [
+        "5/5 appeal lifecycles",
+        "5/5 appeal lifecycles",
+        "5/5 appeal lifecycles"
+      ],
+      "after_values": [
+        "5/5 appeal lifecycles",
+        "5/5 appeal lifecycles",
+        "5/5 appeal lifecycles"
+      ],
+      "before_verdict": "MET",
+      "after_verdict": "MET"
+    },
+    {
+      "criterion": 5,
+      "target": "6/6 specified invalid submissions return 400 without decisions",
+      "before_values": [
+        "6/6 invalid cases rejected with no decisions",
+        "6/6 invalid cases rejected with no decisions",
+        "6/6 invalid cases rejected with no decisions"
+      ],
+      "after_values": [
+        "6/6 invalid cases rejected with no decisions",
+        "6/6 invalid cases rejected with no decisions",
+        "6/6 invalid cases rejected with no decisions"
+      ],
+      "before_verdict": "MET",
+      "after_verdict": "MET"
+    }
+  ],
+  "conclusion": "Only MF03 handling changed: a completed inference/decision became an explicit pre-inference 400 rejection. No attack verdict or criterion verdict improved; the score-separation miss and nine unsure evasion outcomes remain."
+}
