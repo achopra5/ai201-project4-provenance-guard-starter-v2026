@@ -222,6 +222,15 @@ def submit():
         if error is not None:
             return error
 
+    # Unit 8's single measured handling change: reject unsupported invisible
+    # controls before inference; preserve ordinary multiline/indented writing.
+    if any((ord(char) < 32 and char not in "\t\n\r") or ord(char) == 127
+           for char in payload["text"]):
+        return error_response(
+            "unsupported_control_characters",
+            "Text contains unsupported control characters. Remove them and submit again.",
+        )
+
     try:
         model_score = detector.model_signal(payload["text"])
     except ValueError as exc:

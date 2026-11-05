@@ -87,6 +87,25 @@ class AuditInstrumentationTests(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(audit.read_entries()[0]["creator_id"], "writer?")
 
+    def test_unsupported_controls_rejected_before_model_with_audit(self):
+        for control in ("\x00", "\x01", "\x1b", "\x7f"):
+            response = self.client.post("/submit", json={
+                "text": "A submitted draft." + control + "More writing follows.",
+                "creator_id": "writer"})
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(response.json["error"], "unsupported_control_characters")
+        self.model.assert_not_called()
+        events = audit.read_entries()
+        self.assertEqual(len(events), 4)
+        self.assertTrue(all(e["event"] == "rejected" for e in events))
+        self.assertTrue(all("content_id" not in e and "model_score" not in e for e in events))
+
+    def test_tabs_newlines_and_carriage_returns_preserve_writing(self):
+        text = "First\tline.\nSecond line.\rThird line."
+        response = self.client.post("/submit", json={"text": text, "creator_id": "writer"})
+        self.assertEqual(response.status_code, 200)
+        self.model.assert_called_once_with(text)
+
 
 class IsolatedLimiterTests(unittest.TestCase):
     def test_minute_day_scope_fallback_and_preinference_rejection(self):
