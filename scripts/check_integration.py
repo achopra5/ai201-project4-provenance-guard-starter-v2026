@@ -2,6 +2,7 @@
 """Exercise real cached GPT-2 and the entire Flask pipeline with temporary logs.
 
 Run: HF_HUB_OFFLINE=1 .venv/bin/python scripts/check_integration.py
+Saves Unit 8 preparation evidence without overwriting Unit 7 artifacts.
 Not discovered by the fast unit suite; no hosted API, attack set, or Unit 8 run.
 """
 
@@ -66,9 +67,14 @@ def main():
         short = client.post("/submit", json={"text": "a", "creator_id": "short"})
         assert short.status_code == 400 and short.json["error"] == "unscorable_text"
         result["checks"].append("One-token input returns JSON 400, with no completed decision.")
-        assert len(client.get("/log").json["entries"]) == 4
-    config.RESULTS_DIR.mkdir(exist_ok=True)
-    (config.RESULTS_DIR / "integration.json").write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
+        entries = client.get("/log").json["entries"]
+        assert len(entries) == 5
+        assert sum(e.get("status") == "decided" for e in entries) == 3
+        assert sum(e.get("event") == "appeal" for e in entries) == 1
+        assert sum(e.get("event") == "rejected" for e in entries) == 1
+    output_dir = config.RESULTS_DIR / "unit8"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "integration_preparation.json").write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
     print(f"PASS: {len(result['checks'])} real-model integration checks.")
 
 

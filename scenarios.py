@@ -1,118 +1,74 @@
-"""
-What your test runs. ← UNIT 8, MILESTONE 3
+"""Unit 8: frozen scenarios for all five original criteria.
 
-Each of your five criteria needs something run against it. A criterion about
-false positives needs your own writing. One about label coverage needs inputs
-across the score range. One about the appeal path needs a real content_id.
-
-Working that out is Milestone 3's first step, and this file is where you write
-it down. `run_eval.py` runs everything here three times.
-
-Two are filled in as examples. Replace them with what your criteria actually
-need — these are a shape, not a set.
-
-A scenario carries **either** of these:
-
-    "texts"   a list of strings. Each is sent as {"text": ..., "creator_id": ...}
-              with a creator_id made up for you. Use this for most criteria.
-
-    "bodies"  a list of whole request bodies, sent exactly as written. Use this
-              when the malformed request IS the point — empty text, no `text`
-              field at all, something enormous. A bad-input criterion needs it,
-              because you cannot express "the field is missing" as a string.
+Human input is required, not synthesized. The first ten of the declared 20
+human pieces form criterion 2's subset. Loading this module never scores text.
 """
 
+import hashlib
+import json
+from pathlib import Path
+
+import config
+
+DATA_DIR = config.ROOT / "data" / "unit8"
+BOUNDARY_CASES = [
+    (0.0, "human"), (0.20, "human"), (0.200001, "unsure"),
+    (0.50, "unsure"), (0.849999, "unsure"), (0.85, "ai"), (1.0, "ai"),
+]
 SCENARIOS = [
-    {
-        "name": "my own writing",
-        "criterion": 1,
-        # ⚠️ PUT YOUR OWN WRITING HERE. Not AI text, not a sample from the web —
-        # things you actually wrote. This is the criterion that matters most and
-        # it's meaningless with someone else's prose.
-        "texts": [
-            "REPLACE ME with a paragraph you wrote yourself.",
-            "REPLACE ME with another one. Ten pieces is the usual number.",
-        ],
-    },
-    {
-        "name": "label coverage",
-        "criterion": 2,
-        # Inputs spread across your score range, so you can check all three
-        # labels are actually reachable.
-        "texts": [
-            "REPLACE ME with something you're confident is AI-generated.",
-            "REPLACE ME with something you're confident is human-written.",
-            "REPLACE ME with something genuinely borderline.",
-        ],
-    },
-    # A bad-input criterion looks like this. Uncomment and adjust if that's one
-    # of your five — these are raw request bodies, sent exactly as written.
-    #
-    # {
-    #     "name": "bad input",
-    #     "criterion": 3,
-    #     "bodies": [
-    #         {"text": "", "creator_id": "eval_bad_empty"},
-    #         {"creator_id": "eval_bad_missing"},          # no text field at all
-    #         {"text": "word " * 50000, "creator_id": "eval_bad_huge"},
-    #         {"text": None, "creator_id": "eval_bad_null"},
-    #     ],
-    # },
-
-    # TODO: add what your remaining criteria need.
-    #
-    # A criterion about the appeal path can't be tested by sending text alone;
-    # it needs a submission first and then an appeal against the content_id
-    # that came back. You'll need to test that one by hand, or extend this file
-    # and run_eval.py to do it. Saying which you did is part of the write-up.
+    {"criterion": 1, "name": "False positives", "target": "At most 1 of 20 human pieces labelled ai", "kind": "false_positives"},
+    {"criterion": 2, "name": "Score separation", "target": "AI mean - human mean >= 0.20; 10 samples each", "kind": "separation"},
+    {"criterion": 3, "name": "Label coverage", "target": "7/7 specified scores correct; all 3 labels", "kind": "boundaries"},
+    {"criterion": 4, "name": "Appeals", "target": "5/5 distinct appeals recorded with reasoning and under_review", "kind": "appeals"},
+    {"criterion": 5, "name": "Invalid inputs", "target": "6/6 specified invalid submissions return 400 without decisions", "kind": "invalid"},
 ]
 
 
-def validate() -> list[str]:
-    """
-    Complain about anything malformed, before a long run rather than during.
+def load_cohorts(data_dir=DATA_DIR):
+    """Validate provenance declarations/counts before permitting any evaluation."""
+    manifests = {}
+    for key in ("human", "ai"):
+        path = Path(data_dir) / f"{key}_samples.json"
+        if not path.exists():
+            raise ValueError(f"Missing {path}: authentic owner-written human samples and publication permission are required; placeholders cannot be evaluated.")
+        manifests[key] = json.loads(path.read_text(encoding="utf-8"))
+    human, ai = manifests["human"], manifests["ai"]
+    if not isinstance(human, dict) or not isinstance(ai, dict):
+        raise ValueError("Both manifests must be JSON objects.")
+    if human.get("public_coursework_use") is not True or not human.get("author") or not human.get("authorship_attestation"):
+        raise ValueError("Human samples need explicit publication permission, named author, and an accurate authorship attestation.")
+    if not ai.get("origin"):
+        raise ValueError("AI samples need a documented generation origin.")
+    all_ids, all_texts = set(), set()
+    for key, expected in (("human", 20), ("ai", 10)):
+        records = manifests[key].get("samples")
+        if not isinstance(records, list) or len(records) != expected:
+            raise ValueError(f"{key} manifest needs exactly {expected} samples, not a changed denominator.")
+        for record in records:
+            if not isinstance(record, dict) or any(not isinstance(record.get(k), str) or not record[k].strip() for k in ("id", "text", "source")):
+                raise ValueError(f"Every {key} sample needs nonblank id, text, and source strings.")
+            if record["id"] in all_ids or record["text"] in all_texts:
+                raise ValueError("Sample IDs and exact texts must be unique across both cohorts.")
+            if len(record["text"]) > config.MAX_TEXT_CHARS:
+                raise ValueError(f"{record['id']} exceeds the existing API size limit; discuss the cohort before scoring it.")
+            all_ids.add(record["id"])
+            all_texts.add(record["text"])
+    return manifests
 
-    A "bodies" scenario is deliberately exempt from the empty check — an empty
-    string is the whole point of a bad-input case, and refusing to run one
-    would make that criterion untestable.
-    """
-    problems = []
-    for i, scenario in enumerate(SCENARIOS, 1):
-        if not scenario.get("name"):
-            problems.append(f"scenario {i} has no name")
 
-        texts = scenario.get("texts")
-        bodies = scenario.get("bodies")
+def snapshot(cohorts):
+    """Capture exact data, original criteria, and expected boundary answers."""
+    return {"cohorts": cohorts, "boundary_cases": BOUNDARY_CASES,
+            "criteria_sha256": hashlib.sha256((config.ROOT / "criteria.md").read_bytes()).hexdigest()}
 
-        if texts and bodies:
-            problems.append(
-                f"scenario {i} ('{scenario.get('name')}') has both texts and "
-                f"bodies — pick one"
-            )
-            continue
 
-        if bodies:
-            for j, body in enumerate(bodies, 1):
-                if not isinstance(body, dict):
-                    problems.append(
-                        f"scenario {i}, body {j} is not a dict — bodies are whole "
-                        f"request bodies, like {{'text': '', 'creator_id': 'x'}}"
-                    )
-            continue
+def fingerprint(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
 
-        if not texts:
-            problems.append(f"scenario {i} has no texts and no bodies")
-            continue
 
-        for j, text in enumerate(texts, 1):
-            if not str(text).strip():
-                problems.append(
-                    f"scenario {i}, text {j} is empty — if an empty submission is what "
-                    f"you're testing, use 'bodies' instead of 'texts'"
-                )
-            elif str(text).startswith("REPLACE ME"):
-                problems.append(
-                    f"scenario {i} ('{scenario.get('name')}'), text {j} is still "
-                    f"the placeholder"
-                )
-    return problems
+def validate():
+    try:
+        load_cohorts()
+    except (ValueError, OSError) as exc:
+        return [str(exc)]
+    return []

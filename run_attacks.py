@@ -53,6 +53,9 @@ import argparse
 import csv
 import datetime as dt
 import json
+import hashlib
+import subprocess
+import time
 import sys
 from pathlib import Path
 
@@ -131,7 +134,7 @@ def load_attacks(folder: Path):
     return attacks, problems
 
 
-def send(url, attack, timeout):
+def send(url, attack, timeout, evidence=None):
     """
     One request. Returns (status_code, parsed_body_or_none, error_or_none).
 
@@ -141,6 +144,7 @@ def send(url, attack, timeout):
     """
     import requests
 
+    started = time.perf_counter()
     try:
         if "raw" in attack:
             response = requests.post(
@@ -155,8 +159,16 @@ def send(url, attack, timeout):
     except Exception as exc:  # noqa: BLE001
         return None, None, f"{type(exc).__name__}: {exc}"
 
+    if evidence is not None:
+        evidence.update({"request_id": response.headers.get("X-Request-ID"),
+                         "response_text": response.text,
+                         "retry_after": response.headers.get("Retry-After"),
+                         "elapsed_seconds": time.perf_counter() - started})
     try:
-        return response.status_code, response.json(), None
+        payload = response.json()
+        if not isinstance(payload, dict):
+            return response.status_code, payload, "response JSON was not an object"
+        return response.status_code, payload, None
     except ValueError:
         return response.status_code, None, f"response wasn't JSON: {response.text[:200]}"
 
@@ -383,7 +395,7 @@ def run_flood(args):
               "GET /health tells you which.")
 
     config.RESULTS_DIR.mkdir(exist_ok=True)
-    stamp = dt.datetime.now().strftime("%Y-%m-%d_%H%M")
+    stamp = dt.datetime.now().strftime("%Y-%m-%d_%H%M%S_%f")
     path = config.RESULTS_DIR / f"flood_{stamp}.md"
     path.write_text(
         f"# Rate limit check\n\n"
@@ -430,6 +442,32 @@ def main():
               "Or test your rate limit instead: --flood 15", file=sys.stderr)
         sys.exit(1)
 
+    if not args.label:
+        args.label = "unlabelled-" + dt.datetime.now().strftime("%Y%m%d-%H%M%S-%f")
+    if not all(c.isalnum() or c in "_-" for c in args.label):
+        parser.error("Supply --label before or --label after (letters, numbers, '_' and '-' only).")
+    if args.label in ("before", "after") and (args.attack_id or args.family or args.one_per_family or args.show):
+        parser.error("Recorded before/after experiments must execute the full set; use a different label for filtered diagnostics.")
+    evidence_path = config.RESULTS_DIR / "unit8" / f"attacks_{args.label}.json"
+    if evidence_path.exists():
+        parser.error(f"{evidence_path} exists; refusing to overwrite an experiment or resend its baseline.")
+    args.run_started = dt.datetime.now(dt.timezone.utc).isoformat()
+    args.source_sha256 = {name: hashlib.sha256((Path(args.folder) / name).read_bytes()).hexdigest()
+                          for name in ("attacks.csv", "attacks_malformed_requests.csv")
+                          if (Path(args.folder) / name).is_file()}
+    if set(args.source_sha256) != {"attacks.csv", "attacks_malformed_requests.csv"}:
+        parser.error("The complete staff set requires both attacks.csv and attacks_malformed_requests.csv.")
+    if args.label == "after":
+        baseline = config.RESULTS_DIR / "unit8" / "attacks_before.json"
+        if not baseline.exists():
+            parser.error("A completed before attack run is required first.")
+        previous = json.loads(baseline.read_text())
+        if not previous.get("complete") or previous.get("source_sha256") != args.source_sha256:
+            parser.error("Before must be complete and source hashes must match the exact same staff set.")
+    args.runtime_sha256 = {name: hashlib.sha256((config.ROOT / name).read_bytes()).hexdigest()
+                           for name in ("app.py", "config.py", "scoring.py", "stylometry.py", "detector.py", "audit.py")}
+    args.git_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=config.ROOT, text=True).strip()
+
     folder = Path(args.folder)
     attacks, problems = load_attacks(folder)
     if problems:
@@ -437,8 +475,8 @@ def main():
               f"SKIPPED:", file=sys.stderr)
         for problem in problems:
             print(f"  - {problem}", file=sys.stderr)
-        print("Say so in your write-up — a skipped row is a gap in your run.\n",
-              file=sys.stderr)
+        print("No attacks sent: obtain the complete correctly formatted archive before running. No rows may be silently skipped.", file=sys.stderr)
+        sys.exit(2)
     if not attacks:
         print(f"No attack files found in {folder}.\n"
               f"Expected attacks.csv — check the path.", file=sys.stderr)
@@ -462,18 +500,24 @@ def main():
               f"Start your service first:  python app.py", file=sys.stderr)
         sys.exit(1)
 
+    args.health = health
     warn_about_rate_limits(attacks, health)
 
     print(f"{len(attacks)} attacks against {args.url}")
     print("Signal one runs a model. The first request is slow while it loads;\n"
           "after that, a second or two each.\n")
 
+    # Checkpoint every response. An interruption leaves explicit incomplete
+    # evidence and cannot be mistaken for a complete baseline or overwritten.
+    evidence_path.parent.mkdir(parents=True, exist_ok=True)
+    write_attack_evidence([], args, complete=False, exclusive=True)
     rows = []
     for i, attack in enumerate(attacks, 1):
-        status, payload, error = send(args.url, attack, args.timeout)
+        http_evidence = {}
+        status, payload, error = send(args.url, attack, args.timeout, http_evidence)
         verdict, note = auto_verdict(status, payload, error)
 
-        payload = payload or {}
+        payload = payload if isinstance(payload, dict) else {}
         row = {
             "id": attack["id"],
             "family": attack["family"],
@@ -493,8 +537,10 @@ def main():
             "error": error,
             "verdict": verdict,
             "note": note,
+            "http": http_evidence,
         }
         rows.append(row)
+        write_attack_evidence(rows, args, complete=False)
 
         mark = verdict or "?"
         print(f"  [{i:>2}/{len(attacks)}] {attack['id']:<6} {attack['family']:<17} "
@@ -503,9 +549,24 @@ def main():
     write_report(rows, args)
 
 
+def write_attack_evidence(rows, args, complete, exclusive=False):
+    path = config.RESULTS_DIR / "unit8" / f"attacks_{args.label}.json"
+    value = {"produced_by": "run_attacks.py::main", "label": args.label,
+             "started_at": args.run_started,
+             "updated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+             "complete": complete, "git_commit": args.git_commit, "url": args.url,
+             "source_sha256": args.source_sha256,
+             "runtime_sha256": args.runtime_sha256,
+             "health_before": args.health, "rows": rows}
+    with path.open("x" if exclusive else "w", encoding="utf-8") as stream:
+        json.dump(value, stream, indent=2)
+        stream.write("\n")
+    return path
+
+
 def write_report(rows, args):
     config.RESULTS_DIR.mkdir(exist_ok=True)
-    stamp = dt.datetime.now().strftime("%Y-%m-%d_%H%M")
+    stamp = dt.datetime.now().strftime("%Y-%m-%d_%H%M%S_%f")
     label = f"_{args.label}" if args.label else ""
     path = config.RESULTS_DIR / f"attack_run_{stamp}{label}.md"
 
@@ -582,6 +643,8 @@ def write_report(rows, args):
         ]
 
     path.write_text("\n".join(lines), encoding="utf-8")
+    raw_path = write_attack_evidence(rows, args, complete=True)
+    print(f"\nWrote {raw_path.relative_to(config.ROOT)}")
 
     print(f"\n{'=' * 60}")
     print(f"Wrote {path.relative_to(config.ROOT)}")
