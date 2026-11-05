@@ -146,3 +146,83 @@ exist. No improvement has been chosen or applied. The owner will provide samples
 in chat; preserve their order and wording, using 1–10 as the separation subset.
 A proposed change must respond to the combined attack/criteria evidence, and any
 safety-policy change requires owner approval. The original targets remain fixed.
+
+## Acceptance baseline — three actual trials
+
+The frozen, owner-approved mixed-author cohort was committed as `f787792` before
+any acceptance scores were obtained. Its combined manifest/criteria/boundary
+fingerprint is `689e45fb7ebd3004835e13f5625998543c105ca2b9ae2de28d59316f0c52447f`.
+The source material is user-attested human writing, not independently verified;
+20 excerpts from fewer works are not independent full-document samples. The
+first ten declared excerpts are the fixed separation subset. All inputs,
+including feedback and example essays, are attributed with those limits.
+
+`run_eval.py --label before --url http://127.0.0.1:5058` executed all five
+criteria three times on the unchanged instrumented service, started with fresh
+in-memory counters and the same 8/minute, 100/day policy. Unique stated
+identities isolate legitimate submissions without disabling the limiter.
+The six fallback-IP invalid requests across the three trials remained below
+the minute allowance. No implementation was changed between trials.
+
+Actual values were identical across all three trials:
+
+- Criterion 1: 0/20 high-confidence AI labels on the 20 human excerpts; MET.
+- Criterion 2: human mean 0.5757811029891394, AI mean 0.5189370898250648;
+  difference -0.0568440131640746, below +0.20; MISSED.
+- Criterion 3: 7/7 direct numerical mappings correct, all three labels; MET.
+- Criterion 4: 5/5 actual submission-to-appeal lifecycles with exact reasoning,
+  original decisions retained, and latest status under_review; MET.
+- Criterion 5: 6/6 specified invalid HTTP requests returned 400 with correlated
+  rejection events and no completed decisions; MET.
+
+Complete raw cases for all 15 trials, including exact responses, audit histories,
+request IDs, snapshot and source hashes are in `results/unit8/eval_before.json`.
+The generated five-row table and actual JSON per criterion are also in
+`results/unit8/eval_before.md`. This is genuine evaluation, not the preparation
+unit-test suite. Repeating deterministic outputs is expected, not evidence of
+skipping trials or 60 independent human samples.
+
+### Criterion 2 diagnosis
+
+The route returned all 20 usable responses in each separation trial, so this
+is not a missing-data, denominator, limiter, or transport failure. The two
+component group means establish the mechanism:
+
+- Model: human 0.562880; AI 0.509640; difference -0.053240.
+- Style: human 0.5886822059782788; AI 0.5282341796501296;
+  difference -0.0604480263281492.
+- The equal mean preserves their negative group differences, yielding
+  -0.0568440131640746. Thresholds do not affect this numerical criterion.
+
+Stages: model signal and surface stylometry provide weak authorship proxies;
+the combination inherits their reversed group ordering. A convex reweighting
+alone can only place the difference between -0.060448 and -0.053240, so cannot
+reach +0.20. Creative AI examples (including poetry and fiction) can be less
+predictable and more varied than formal human excerpts. That is a plausible
+explanation of corpus effects, not a controlled causal comparison. User-attested
+authorship, mixed genres, PDF extraction, repeated source documents, and small
+cohorts limit generalization. No samples were removed or replaced after scores.
+
+### Proposed single handling improvement
+
+The verified MF03 observation is narrower than classifier accuracy: the route
+accepted NUL and escape/control characters, ran GPT-2, and returned model score
+0.0, style 0.5, combined 0.25 with unsure. It met the baseline's permissive
+string contract and did not crash; it was classified HELD for that stated
+objective. Still, the route lacks a guard against unsupported invisible controls,
+and the inference is unnecessary for this content.
+
+The one planned substantive change is a pre-inference 400 for C0 control
+characters other than tab, newline, and carriage return, plus DEL. It will
+produce a useful JSON error and the existing rejection audit event. It will not
+strip/rewrite writing, ban non-Latin/emoji text, or change signals, scores,
+weights, thresholds, labels, or rate limits. Expected measured benefit: MF03
+changes from a completed inference/decision to an explicit rejection. Expected
+cost: text intentionally containing those controls must be cleaned before
+submission; ordinary multiline writing remains valid. No improvement in the
+criterion-2 separation or the nine evasion verdicts is promised. The original
+review rules and targets remain fixed for the after comparison.
+
+A broader classifier change would require additional validated evidence; this
+assignment permits one focused change. Record any lack of detection improvement
+honestly rather than tuning the cohort or thresholds until the numbers improve.

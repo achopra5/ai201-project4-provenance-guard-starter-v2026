@@ -623,43 +623,118 @@ they do not amount to verification of the writer.
 
 ## Run Log and Verdicts
 
-**Not run yet.** The owner will supply 20 authentic writing samples in chat.
-Their exact order and wording, source declaration, and publication permission
-will be saved in `data/unit8/human_samples.json` before any criterion scores are
-obtained. Samples 1–10 form the declared separation subset. Ten AI examples are
-already fixed in `data/unit8/ai_samples.json`; none were selected by score.
+The owner supplied and approved a **mixed-author** human corpus. It contains
+20 distinct excerpts from five PDFs and instructor feedback, with source/page
+references and hashes. Human origin is user-attested; it is not independently
+verified, and these are not 20 independent works or exclusively the owner's
+writing. The owner explicitly approved this departure from the suggestion to
+use one's own writing and permission to commit the excerpts. Only extraction
+whitespace/ligatures and repeated page furniture were cleaned; no prose was
+rewritten. These limitations qualify the results without changing any targets.
 
-The extended `run_eval.py` implements all five original criteria and all three
-trials. It records raw replies, exact denominators, request-ID/audit checks,
-original-criteria and dataset hashes, and direct boundary-function outputs.
-Errors and 429s cannot silently disappear from the denominator or count as
-successful validation. Before/after must use identical cohorts. An incomplete
-or missing run is never reported as MET. The evaluator currently refuses to
-start because the human manifest is missing. Preparation unit tests are not
-substitutes for the required acceptance trials.
+The [human manifest](data/unit8/human_samples.json) was committed as `f787792`
+before scoring. The first ten excerpts form the fixed human separation subset.
+The ten [AI samples](data/unit8/ai_samples.json) were generated before evaluation.
+The combined manifests, original criteria, and boundary-answer hash is
+`689e45fb7ebd3004835e13f5625998543c105ca2b9ae2de28d59316f0c52447f`.
 
-Once the human cohort is frozen and the service is started with fresh counters:
+The service was restarted with fresh in-memory counters and unchanged limits
+before this run. Valid submissions use unique stated identities; the limiter
+remains enabled. No implementation changed between trials.
 
 ```bash
 .venv/bin/python run_eval.py --label before --url http://127.0.0.1:5058
 ```
 
-The fixed criteria are unchanged: at most 1/20 human AI labels; mean separation
-at least 0.20 on 10+10; all seven boundary scores; five durable appeals; six
-invalid cases with 400 and no decision. A completed five-row three-trial table
-and real JSON for each criterion will be added only after execution.
+| Criterion | Original target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. False positives | At most 1 of 20 human pieces labelled ai | 0/20 AI labels; 20/20 usable | 0/20 AI labels; 20/20 usable | 0/20 AI labels; 20/20 usable | MET |
+| 2. Score separation | AI mean - human mean >= 0.20; 10 samples each | AI mean - human mean = -0.056844 | AI mean - human mean = -0.056844 | AI mean - human mean = -0.056844 | MISSED |
+| 3. Label coverage | 7/7 specified scores correct; all 3 labels | 7/7 correct | 7/7 correct | 7/7 correct | MET |
+| 4. Appeals | 5/5 distinct appeals recorded with reasoning and under_review | 5/5 appeal lifecycles | 5/5 appeal lifecycles | 5/5 appeal lifecycles | MET |
+| 5. Invalid inputs | 6/6 specified invalid submissions return 400 without decisions | 6/6 invalid cases rejected with no decisions | 6/6 invalid cases rejected with no decisions | 6/6 invalid cases rejected with no decisions | MET |
 
-**Diagnoses of the attack misses:** EV01–EV09 all return unsure. For EV01 the
-low component is actually the model (0.163500 versus style 0.604390), so the
-staff target's suggestion that only style is responsible is not sufficient.
-EV02 and EV06 have high sentence-length spread that lowers the style regularity
-component. EV07 is one sentence and EV08 only ten words, triggering the neutral
-style fallback; punctuation variation does not even reach its density component
-in EV07. EV03, EV04, EV05, and EV09 produce moderate/human-like signals whose
-mean stays inside the wide unsure band. [Every broken ID has a stage and
-mechanism in the analysis](docs/unit8/baseline-analysis.md). Edit effects
-relative to an unedited control remain hypotheses where no paired experiment
-was performed. There are no acceptance misses to diagnose until those trials run.
+All 15 trial records are saved in [eval_before.json](results/unit8/eval_before.json),
+with complete real responses and evidence. [eval_before.md](results/unit8/eval_before.md)
+contains the same five-row table and complete first-trial JSON. Identical
+results are expected from these deterministic signals; all three were executed.
+
+**Real machine-readable output for every criterion**, produced by
+`run_eval.py::run_trial` through its corresponding `evaluate_*` function.
+The following exact summary fields are extracted from actual first-trial
+results; full cases, histories, and responses remain in the linked JSON.
+
+```json
+[
+  {
+    "criterion": 1,
+    "verdict": "MET",
+    "trial": 1,
+    "passed": true,
+    "value": "0/20 AI labels; 20/20 usable",
+    "false_positives": 0,
+    "usable": 20,
+    "denominator": 20
+  },
+  {
+    "criterion": 2,
+    "verdict": "MISSED",
+    "trial": 1,
+    "passed": false,
+    "value": "AI mean - human mean = -0.056844",
+    "human_mean": 0.5757811029891394,
+    "ai_mean": 0.5189370898250648,
+    "difference": -0.056844013164074614
+  },
+  {
+    "criterion": 3,
+    "verdict": "MET",
+    "trial": 1,
+    "passed": true,
+    "value": "7/7 correct",
+    "execution": "Direct scoring.py::score_to_label calls; no HTTP requests"
+  },
+  {
+    "criterion": 4,
+    "verdict": "MET",
+    "trial": 1,
+    "passed": true,
+    "value": "5/5 appeal lifecycles"
+  },
+  {
+    "criterion": 5,
+    "verdict": "MET",
+    "trial": 1,
+    "passed": true,
+    "value": "6/6 invalid cases rejected with no decisions"
+  }
+]
+```
+
+**How the verdicts were decided:** Criterion 1 has all 20 usable cases and zero
+AI labels in every trial. Criterion 2 falls below +0.20 in all trials, so it is
+MISSED. All seven fixed mappings pass each time; all five actual appeals retain
+reasoning and history; all six actual invalid requests return 400 with no
+decision, supported by their request-ID audit events. MET requires all three
+trials; preparation tests were not substituted for these results.
+
+**Diagnosis of criterion 2:** The mean model score is 0.562880 for human and
+0.509640 for AI; style means are 0.588682 and 0.528234. Both signals order the
+groups opposite the desired direction, and averaging preserves that error.
+The actual combined difference is −0.056844. A convex reweighting alone cannot
+reach +0.20 because both component differences are negative. This is a
+signal/combination limitation, not a route failure or a threshold issue.
+Genre differences and repeated source works may contribute; no controlled
+ablation establishes their causal contributions. No hard samples were excluded.
+
+**Diagnoses of all nine broken attacks:** EV01's lower component is actually
+the model (0.163500 versus style 0.604390). EV02 and EV06 have high sentence
+spread that lowers surface regularity. EV07's one sentence and EV08's ten
+words trigger the neutral style fallback. EV03, EV04, EV05, and EV09 produce
+moderate/human-like readings whose mean remains in the wide unsure interval.
+[Every broken ID has a stage and mechanism in the baseline analysis](docs/unit8/baseline-analysis.md).
+Edit effects relative to an unedited control remain hypotheses where no paired
+experiment was performed.
 
 ## The Improvement
 
