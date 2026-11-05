@@ -1,0 +1,44 @@
+{
+  "recorded_at": "2026-11-05T01:51:26.422867+00:00",
+  "produced_by": "Final verification script in Codex session",
+  "attack_attempts_before": 56,
+  "attack_attempts_after": 56,
+  "criterion_trials_before": 15,
+  "criterion_trials_after": 15,
+  "same_staff_hashes": true,
+  "same_frozen_cohort_sha256": "689e45fb7ebd3004835e13f5625998543c105ca2b9ae2de28d59316f0c52447f",
+  "only_changed_runtime_file": "app.py",
+  "only_changed_attack_case": "MF03",
+  "unchanged_attack_cases": 55,
+  "original_criteria_and_signals_preserved": true,
+  "original_audit_prefix_preserved": true,
+  "total_append_only_audit_events": 465,
+  "new_unique_correlated_request_events": 463,
+  "readme_contains_both_full_attack_tables": true,
+  "real_model_integration_checks": 4,
+  "commands": [
+    {
+      "command": [
+        "/Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv/bin/python",
+        "test.py"
+      ],
+      "exit_code": 0,
+      "stdout": "\nAI201 environment check\n------------------------------------------------------------\n[PASS] Python version\n         3.12.7 on Darwin\n[PASS] Virtual environment\n         /Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv\n[PASS] Pinned packages\n         all 7 import cleanly\n[PASS] Free disk space\n         476.8 GB\n[PASS] Memory\n         24.0 GB\n[PASS] PyTorch\n         2.15.0\n[PASS] Flask\n         flask and flask-limiter both import\n[PASS] Detector model\n         already downloaded\n[PASS] The service\n         /ping answers \u2014 the starter works before you edit it\n------------------------------------------------------------\n9 passed, 0 failed, 0 to look at, 0 skipped\n\nYou're set. See you in class.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/adi/code/codePath_201/ai201-project4-provenance-guard-starter-v2026/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "----------------------------------------------------------------------\nRan 49 tests in 0.215s\n\nOK\n"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-11-05T01:46:53+00:00",
+  "produced_by": "scripts/check_integration.py::main",
+  "checks": [
+    "One model load and one tokenizer load across three real submissions; /health remained loaded.",
+    "All three reader labels reached with real inference on synthetic demonstration text.",
+    "Real submission appealed; exact reasoning and final under_review status persisted alongside original decision.",
+    "One-token input returns JSON 400, with no completed decision."
+  ],
+  "submissions": [
+    {
+      "name": "irregular_synthetic",
+      "origin": "Codex-generated functional demonstration, not a known-human sample.",
+      "text": "Hush! Zymurgy, quincunx; xylophagous nuthatches—why did copper, heliotrope, and obsidian orbit my aunt's cracked barometer while a phosphorescent accordion sneezed beneath seventeen upside-down umbrellas? Eh?",
+      "response": {
+        "confidence": 0.16048846153846152,
+        "content_id": "421fbb86-1de1-4ec4-b26f-42e0ef4ea937",
+        "guess": "human",
+        "label": "This writing appears likely to be human-written. This is an automated estimate, not proof of authorship. The writer can request a review.",
+        "model_score": 0.1479,
+        "status": "decided",
+        "style_score": 0.17307692307692304
+      }
+    },
+    {
+      "name": "ordinary_synthetic",
+      "origin": "Codex-generated functional demonstration, not a known-human sample.",
+      "text": "A writing platform needs clear rules. Writers should understand how their work will be reviewed and how to ask for help when the automated system makes a mistake.",
+      "response": {
+        "confidence": 0.5163738683127572,
+        "content_id": "211e748e-e33b-4260-8c37-932a6a69eef3",
+        "guess": "unsure",
+        "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+        "model_score": 0.5739,
+        "status": "decided",
+        "style_score": 0.45884773662551437
+      }
+    },
+    {
+      "name": "repetitive_synthetic",
+      "origin": "Codex-generated functional demonstration, not a known-human sample.",
+      "text": "The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. The system should provide clear and reliable information for all users. ",
+      "response": {
+        "confidence": 0.9636407407407408,
+        "content_id": "4f56ef1b-fd89-4040-8d68-b9a58cc89d87",
+        "guess": "ai",
+        "label": "This writing shows patterns associated with AI-generated text. This is an automated estimate, not proof of AI use. The writer can request a review.",
+        "model_score": 0.9958,
+        "status": "decided",
+        "style_score": 0.9314814814814815
+      }
+    }
+  ],
+  "appeal": {
+    "content_id": "421fbb86-1de1-4ec4-b26f-42e0ef4ea937",
+    "message": "Your review request was recorded. The writing is now under review.",
+    "status": "under_review"
+  }
+}

@@ -323,11 +323,13 @@ validation record and submission steps.
 
 ---
 
-**Unit 8 status — November 4, 2026:** Instrumentation and the complete staff
-attack baseline are finished. Human acceptance samples are pending the owner's
-chat messages and explicit publication/authorship confirmation. No acceptance
-trials, improvement, or after run has occurred. Unit 7's write-up above records
-the historical baseline; the current instrumentation is described below.
+**Unit 8 status — November 4, 2026:** Completed locally: approved limits and
+full audit instrumentation, both complete 56-case staff runs, all five criteria
+across three real trials before and after, diagnoses, and one measured handling
+improvement. Four criteria are MET; score separation is MISSED. The owner approved
+the mixed-author human excerpts and their coursework use before scoring. Unit 7's
+write-up above is the historical baseline; current results are below. Nothing
+has been pushed or submitted automatically.
 
 ## Rate Limiting
 
@@ -738,39 +740,259 @@ experiment was performed.
 
 ## The Improvement
 
-**Not selected or applied.** The full attack baseline exists, but the criteria
-baseline is awaiting human samples. Selection must follow both measurements.
-Any change to weights, thresholds, labels, or the safety tradeoff requires the
-owner's approval. Exactly one substantive improvement will be committed
-separately and evaluated against the same staff files and frozen cohort.
-No after outcomes or improvement benefits are claimed.
+**The one change:** `app.py::submit` now rejects C0 control characters other
+than tab, newline, and carriage return, plus DEL, before invoking either signal.
+The response is HTTP 400 with `unsupported_control_characters` and an instruction
+to remove the controls and resubmit. Existing audit instrumentation records the
+rejection. The dedicated implementation commit is `ea0dbd4`; baseline criteria
+were committed earlier in `8524fa8`. See [the pre-measurement improvement record](docs/unit8/improvement.md).
+
+**Which diagnosis pointed at it:** MF03 mixed NUL/control/terminal escape bytes
+with words. The baseline route only validated string type, nonblank content,
+and length, so it ran GPT-2 and returned model 0.0, style 0.5, combined 0.25,
+unsure. That did not violate the original permissive contract or crash, and it
+was correctly marked HELD by our frozen review rules. It nevertheless exposed
+a missing pre-inference guard and an unnecessary authorship estimate on this
+input. The focused improvement addresses that narrower handling weakness.
+
+**Expected benefit and cost:** Avoid the inference and give an actionable error
+for unsupported controls. A caller who intentionally uses those controls must
+remove them; tabs, newlines, carriage returns, Unicode, Arabic, emoji, and
+punctuation remain subject to the same ordinary contract. The code rejects
+rather than silently rewriting text. No signals, weights, thresholds, labels,
+rate limits, cohort samples, targets, or review rules were changed. This is one
+validation rule, not an attempt to repair detector accuracy by tuning the cohort.
+
+### Attack Run — After
+
+The service was restarted with the same policy and fresh in-memory counters,
+retaining the append-only log. Both source-file hashes match the before run.
+
+```bash
+HF_HUB_OFFLINE=1 AI201_DEBUG=0 PORT=5058 .venv/bin/python app.py
+.venv/bin/python run_attacks.py --set data/unit8/staff_attack_set --label after --url http://127.0.0.1:5058
+.venv/bin/python scripts/review_attack_run.py --label after
+```
+
+All 56 cases executed again. The [raw after artifact](results/unit8/attacks_after.json)
+and [reviewed after artifact](results/unit8/attacks_after_reviewed.json) retain
+responses and their actual audit events. The same judgment rules apply.
+
+| ID | Family | Objective | HTTP | Model | Style | Combined | Guess | Verdict |
+|---|---|---|---|---|---|---|---|---|
+| EV01 | evasion | signal two: typos raise word variety | 200 | 0.163500 | 0.604390 | 0.383945 | unsure | BROKE |
+| EV02 | evasion | signal two: broken-up sentences raise length spread | 200 | 0.594300 | 0.373285 | 0.483793 | unsure | BROKE |
+| EV03 | evasion | signal two: a pasted quotation changes the shape | 200 | 0.666200 | 0.493190 | 0.579695 | unsure | BROKE |
+| EV04 | evasion | signal one: unusual words raise perplexity | 200 | 0.611400 | 0.594805 | 0.603103 | unsure | BROKE |
+| EV05 | evasion | both signals: heavy human editing pass | 200 | 0.321200 | 0.434063 | 0.377631 | unsure | BROKE |
+| EV06 | evasion | signal two: one very long sentence and one very short | 200 | 0.572700 | 0.375000 | 0.473850 | unsure | BROKE |
+| EV07 | evasion | signal two: padding with punctuation | 200 | 0.586200 | 0.500000 | 0.543100 | unsure | BROKE |
+| EV08 | evasion | signal one: text below the token window | 200 | 0.245200 | 0.500000 | 0.372600 | unsure | BROKE |
+| EV09 | evasion | both: AI text with a human opening paragraph bolted on | 200 | 0.704200 | 0.492110 | 0.598155 | unsure | BROKE |
+| EV10 | evasion | signal two: repeated stanza structure | 200 | 0.979200 | 0.761069 | 0.870135 | ai | HELD |
+| FP01 | false_positive | plain, clear human writing with no flourishes | 200 | 0.617500 | 0.557367 | 0.587434 | unsure | HELD |
+| FP02 | false_positive | human writing in a formal register | 200 | 0.738700 | 0.633080 | 0.685890 | unsure | HELD |
+| FP03 | false_positive | a non-native English speaker writing carefully | 200 | 0.805100 | 0.601933 | 0.703517 | unsure | HELD |
+| FP04 | false_positive | a student essay written to a rubric | 200 | 0.832900 | 0.548340 | 0.690620 | unsure | HELD |
+| FP05 | false_positive | technical documentation written by a person | 200 | 0.800500 | 0.642977 | 0.721738 | unsure | HELD |
+| FP06 | false_positive | a person imitating a formal template | 200 | 0.881400 | 0.531132 | 0.706266 | unsure | HELD |
+| FP07 | false_positive | human writing that repeats a phrase deliberately | 200 | 0.881600 | 0.532341 | 0.706970 | unsure | HELD |
+| FP08 | false_positive | very short genuine human submission | 200 | 0.322300 | 0.500000 | 0.411150 | unsure | HELD |
+| PI01 | prompt_injection | instruction to ignore the check | 200 | 0.462500 | 0.435166 | 0.448833 | unsure | HELD |
+| PI02 | prompt_injection | instruction disguised as a system message | 200 | 0.204400 | 0.400319 | 0.302359 | unsure | HELD |
+| PI03 | prompt_injection | instruction wrapped in the writer's voice | 200 | 0.594300 | 0.536046 | 0.565173 | unsure | HELD |
+| PI04 | prompt_injection | attempt to make the label text hostile | 200 | 0.499800 | 0.464566 | 0.482183 | unsure | HELD |
+| PI05 | prompt_injection | attempt to inject into the audit log | 200 | 0.640100 | 0.253678 | 0.446889 | unsure | HELD |
+| PI06 | prompt_injection | instruction plus real human text | 200 | 0.558300 | 0.562193 | 0.560247 | unsure | HELD |
+| MF01 | malformed | text is only whitespace | 400 | — | — | — | — | HELD |
+| MF02 | malformed | text is a single character | 400 | — | — | — | — | HELD |
+| MF03 | malformed | text is control characters | 400 | — | — | — | — | HELD |
+| MF04 | malformed | text is only punctuation | 200 | 0.011200 | 0.500000 | 0.255600 | unsure | HELD |
+| MF05 | malformed | text is a very long single word | 200 | 0.997600 | 0.500000 | 0.748800 | unsure | HELD |
+| MF06 | malformed | text is emoji only | 200 | 0.996900 | 0.500000 | 0.748450 | unsure | HELD |
+| MF07 | malformed | text is right-to-left script | 200 | 0.906400 | 0.500000 | 0.703200 | unsure | HELD |
+| MF08 | malformed | text is 60,000 characters | 413 | — | — | — | — | HELD |
+| RQ01 | malformed | no text field at all | 400 | — | — | — | — | HELD |
+| RQ02 | malformed | no creator_id | 400 | — | — | — | — | HELD |
+| RQ03 | malformed | text is a number | 400 | — | — | — | — | HELD |
+| RQ04 | malformed | text is a list | 400 | — | — | — | — | HELD |
+| RQ05 | malformed | text is null | 400 | — | — | — | — | HELD |
+| RQ06 | malformed | creator_id is an object | 400 | — | — | — | — | HELD |
+| RQ07 | malformed | body is a JSON array, not an object | 400 | — | — | — | — | HELD |
+| RQ08 | malformed | body is unparseable JSON | 400 | — | — | — | — | HELD |
+| RQ09 | malformed | body is empty | 400 | — | — | — | — | HELD |
+| RQ10 | malformed | body is form-encoded, not JSON | 400 | — | — | — | — | HELD |
+| RQ11 | malformed | body is JSON claiming to be plain text | 400 | — | — | — | — | HELD |
+| RQ12 | malformed | deeply nested JSON | 400 | — | — | — | — | HELD |
+| FL01_01 | flood_same_creator | 20 rapid submissions from one creator | 200 | 0.028700 | 0.500000 | 0.264350 | unsure | HELD |
+| FL01_02 | flood_same_creator | 20 rapid submissions from one creator | 200 | 0.028700 | 0.500000 | 0.264350 | unsure | HELD |
+| FL01_03 | flood_same_creator | 20 rapid submissions from one creator | 200 | 0.028700 | 0.500000 | 0.264350 | unsure | HELD |
+| FL01_04 | flood_same_creator | 20 rapid submissions from one creator | 200 | 0.028700 | 0.500000 | 0.264350 | unsure | HELD |
+| FL01_05 | flood_same_creator | 20 rapid submissions from one creator | 200 | 0.028700 | 0.500000 | 0.264350 | unsure | HELD |
+| FL01_06 | flood_same_creator | 20 rapid submissions from one creator | 200 | 0.028700 | 0.500000 | 0.264350 | unsure | HELD |
+| FL01_07 | flood_same_creator | 20 rapid submissions from one creator | 200 | 0.028700 | 0.500000 | 0.264350 | unsure | HELD |
+| FL01_08 | flood_same_creator | 20 rapid submissions from one creator | 200 | 0.028700 | 0.500000 | 0.264350 | unsure | HELD |
+| FL01_09 | flood_same_creator | 20 rapid submissions from one creator | 429 | — | — | — | — | HELD |
+| FL01_10 | flood_same_creator | 20 rapid submissions from one creator | 429 | — | — | — | — | HELD |
+| FL01_11 | flood_same_creator | 20 rapid submissions from one creator | 429 | — | — | — | — | HELD |
+| FL01_12 | flood_same_creator | 20 rapid submissions from one creator | 429 | — | — | — | — | HELD |
+
+### Criteria — After, three actual trials
+
+The service was restarted again with the same rate policy and fresh counters,
+matching the before criteria run. Exact cohort/criteria fingerprint:
+`689e45fb7ebd3004835e13f5625998543c105ca2b9ae2de28d59316f0c52447f`.
+
+```bash
+.venv/bin/python run_eval.py --label after --url http://127.0.0.1:5058
+```
+
+| Criterion | Original target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. False positives | At most 1 of 20 human pieces labelled ai | 0/20 AI labels; 20/20 usable | 0/20 AI labels; 20/20 usable | 0/20 AI labels; 20/20 usable | MET |
+| 2. Score separation | AI mean - human mean >= 0.20; 10 samples each | AI mean - human mean = -0.056844 | AI mean - human mean = -0.056844 | AI mean - human mean = -0.056844 | MISSED |
+| 3. Label coverage | 7/7 specified scores correct; all 3 labels | 7/7 correct | 7/7 correct | 7/7 correct | MET |
+| 4. Appeals | 5/5 distinct appeals recorded with reasoning and under_review | 5/5 appeal lifecycles | 5/5 appeal lifecycles | 5/5 appeal lifecycles | MET |
+| 5. Invalid inputs | 6/6 specified invalid submissions return 400 without decisions | 6/6 invalid cases rejected with no decisions | 6/6 invalid cases rejected with no decisions | 6/6 invalid cases rejected with no decisions | MET |
+
+[eval_after.json](results/unit8/eval_after.json) stores every raw trial and
+[eval_after.md](results/unit8/eval_after.md) stores the table with real first-trial
+JSON for every criterion. Exactly 15 trials ran in each phase. The score
+separation remains −0.056844; no failed target was lowered or reinterpreted.
+
+### Measured comparison
+
+```bash
+.venv/bin/python scripts/compare_unit8.py
+```
+
+The [comparison artifact](results/unit8/comparison.json) verifies matching staff
+and cohort hashes and compares every case, criterion value, and verdict.
+
+| Attack family | Before HELD / BROKE | After HELD / BROKE |
+|---|---|---|
+| evasion | 1 / 9 | 1 / 9 |
+| false_positive | 8 / 0 | 8 / 0 |
+| prompt_injection | 6 / 0 | 6 / 0 |
+| malformed | 20 / 0 | 20 / 0 |
+| flood_same_creator | 12 / 0 | 12 / 0 |
+
+MF03 is the **only changed attack case**. Before: HTTP 200 with a completed
+decision and signal scores. After: HTTP 400, `unsupported_control_characters`,
+a rejection event, and no content ID or scores. The route checks before the
+model call, and the dedicated test verifies that inference is not invoked.
+The other 55 cases retain their statuses, guesses, and numerical scores.
+
+HTTP totals changed from 37 successes/14 validation 400s to 36 successes/15
+validation 400s; one 413 and four 429s remain in each phase. Audit correlation
+is 56/56 in both. No crashes or 5xx responses occurred.
+
+**Actual MF03 before/after events** (exact records extracted from the reviewed
+artifacts, not reconstructed):
+
+```json
+{
+  "before": [
+    {
+      "timestamp": "2026-11-05T01:22:24+00:00",
+      "content_id": "25598b16-4468-4901-bb47-a210420184fb",
+      "creator_id": "attacker_MF03",
+      "guess": "unsure",
+      "model_score": 0.0,
+      "style_score": 0.5,
+      "combined_score": 0.25,
+      "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+      "status": "decided",
+      "http_status": 200,
+      "request_id": "7774e632-c928-450e-99a3-1b83994f48d8",
+      "path": "/submit",
+      "method": "POST"
+    }
+  ],
+  "after": [
+    {
+      "timestamp": "2026-11-05T01:43:57+00:00",
+      "creator_id": "attacker_MF03",
+      "event": "rejected",
+      "status": "rejected",
+      "reason": "unsupported_control_characters",
+      "request_id": "0288e929-5a6b-4f2e-b916-22b15993c970",
+      "path": "/submit",
+      "method": "POST",
+      "http_status": 400,
+      "source_ip": "127.0.0.1"
+    }
+  ]
+}
+```
+
+**Did it help?** It improved control-character handling and avoided one
+completed inference/decision on the official set. It did **not** improve the
+47 HELD/9 BROKE outcome, false positives, separation, or any criterion verdict.
+No ordinary corpus response changed and no measured detection regression
+occurred. Timing/cost savings were not benchmarked; cold/warm request timings
+are not a controlled performance comparison. The scope cost is that intentional
+unsupported control characters now require caller cleanup.
 
 ## What's Still Broken
 
-At baseline, EV01–EV09 evade the AI label by landing in unsure. They expose
-weak authorship proxies, variability normalization, short-evidence fallbacks,
-and the deliberate cost of the protective 0.85 AI boundary. A paired editing
-ablation could establish which text changes cause which component movements;
-known authorship/process evidence would be more meaningful than more confident
-labels. These are investigation directions, not additional changes applied.
+All remaining broken attacks are **EV01–EV09**, still unsure after the change.
+Their individual scores, stages, and confirmed-versus-hypothesized mechanisms
+are preserved in [the baseline analysis](docs/unit8/baseline-analysis.md):
 
-Rotating unauthenticated creator IDs can evade the per-ID quota. The service has
-no global inference budget, authenticated identity, staffed review queue, or
-multi-worker audit database. This is local coursework, not a production system.
-The remaining-failure account and measured comparison will be finalized after
-the original criteria and one improvement have both been evaluated.
+- **EV01, EV04, EV05:** wording/spelling and conversational rewriting can
+  produce human-like or moderate model scores. Next investigate matched edits
+  and genuine source/provenance evidence; do not assume a low perplexity-based
+  index establishes authorship. These were left because the one change was
+  deliberately limited to the verified handling gap.
+- **EV02, EV03, EV06, EV09:** sentence structure, quotations, and mixed prose
+  affect the stylometry proxies and their average. Next use paired ablations
+  with both signals recorded to isolate each transformation. Replacing several
+  heuristics at once would destroy attribution of the single measured change.
+- **EV07 and EV08:** one detected sentence or ten word tokens trigger neutral
+  style. More writing or process evidence could make uncertainty more useful;
+  assigning confident AI labels from so little evidence would change the
+  owner's safety tradeoff. The conservative fallback remains intentional.
 
-**The existing production tradeoff:** Preserve the owner's preference for fewer
-false accusations even though more AI text receives unsure, with the cost of
-missed detection borne by the platform. Review should give writers a practical
-way to contest estimates; this service currently records the request and status
-rather than staffing or completing that review.
+**Criterion 2 remains MISSED in all six before/after trials.** Human mean
+0.575781 exceeds AI mean 0.518937. Both signal mean differences are negative,
+so convex reweighting cannot reach +0.20. Next collect an independently verified,
+more diverse evaluation corpus with document/author-level separation, report
+uncertainty, and investigate better provenance evidence. The current frozen
+cohort must remain in the record; replacing difficult samples or lowering the
+target would not fix this miss. The small, correlated, mixed-author sample and
+user-attested ground truth limit generalization.
 
-**Unit 8 AI-use record so far:** Codex proposed the limiter policy, built and
-tested instrumentation and experimental harnesses, executed the staff baseline,
-and drafted objective-specific judgments and diagnoses. The owner approved
-8/minute and 100/day with creator-ID/IP fallback and identified the staff source
-folder. No owner code edits, manual tests, or review of these results are claimed.
+The remaining three text-only edge types (punctuation, a long single word,
+emoji) and Arabic still produce safe unsure responses rather than categorical
+language bans. Unauthenticated creator IDs can rotate around quotas, and there
+is no global inference budget, staffed review queue, or multi-worker audit
+database. Those are code/design limitations beyond what the staff set proves.
+They were left because each would be another independent substantive change.
+This local coursework service is not production-ready.
+
+**The production tradeoff:** I favor fewer false accusations against human
+writers and accept more AI text receiving unsure, with missed detection and
+review costs borne by the platform. Writers need a practical, staffed appeal
+path; this service records review requests and status but does not adjudicate
+them or justify punishment from an automated estimate.
+
+**Unit 8 AI-use record:** Codex proposed and implemented the limiter and
+instrumentation, built and tested the evaluation harnesses, executed the staff
+and criteria runs, and drafted explicit judgments, diagnoses, and comparisons.
+The owner approved 8/minute and 100/day with creator-ID/IP fallback, identified
+the staff source, supplied the PDF/feedback materials, and explicitly approved
+the mixed-author cohort and committing its excerpts. Codex selected source-linked
+excerpts before scoring and made the single documented control-character guard
+under the authorized engineering scope. No owner code edits, manual tests, or
+review of the final results are claimed.
+
+### Final verification and handoff
+
+The original `criteria.md`, both signals, score combination, thresholds, and
+labels remain unchanged. All earlier audit entries are retained. Final checks
+and the local commit sequence are in [the Unit 8 report](docs/unit8/final-report.md).
+No GitHub push or Course Portal submission has been performed.
 
 <!-- ═════════════════════════════════════════════════════════════════════
 
@@ -790,17 +1012,17 @@ folder. No owner code edits, manual tests, or review of these results are claime
 
      SUBMISSION CHECKLIST — unit 8
 
-       [ ] Rate limiting on /submit, with your numbers justified
-       [ ] The pasted run of status codes showing 429
-       [ ] Audit log with all nine fields, recording rejections too
-       [ ] The attack set run IN FULL, every input with an outcome
-       [ ] Ten audit log entries pasted as text
-       [ ] Five criteria across three trials
-       [ ] A diagnosis for every miss and every broken attack — stage AND mechanism
-       [ ] One improvement, with Attack Run — After
-       [ ] What's Still Broken, including the production trade
-       [ ] At least four new commits
-       [ ] The SAME repository URL as last unit
+       [x] Rate limiting on /submit, with your numbers justified
+       [x] The pasted run of status codes showing 429
+       [x] Audit log with all nine fields, recording rejections too
+       [x] The attack set run IN FULL, every input with an outcome
+       [x] Ten audit log entries pasted as text
+       [x] Five criteria across three trials
+       [x] A diagnosis for every miss and every broken attack — stage AND mechanism
+       [x] One improvement, with Attack Run — After
+       [x] What's Still Broken, including the production trade
+       [x] At least four new commits
+       [x] The SAME repository URL as last unit
 
      Do not delete and recreate this repository.
      ═════════════════════════════════════════════════════════════════════ -->

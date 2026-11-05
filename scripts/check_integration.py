@@ -7,6 +7,7 @@ Not discovered by the fast unit suite; no hosted API, attack set, or Unit 8 run.
 """
 
 import json
+import argparse
 import math
 import sys
 import tempfile
@@ -32,6 +33,12 @@ DEMONSTRATIONS = [
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path,
+                        default=config.RESULTS_DIR / "unit8" / "integration_final.json")
+    args = parser.parse_args()
+    if args.output.exists():
+        parser.error(f"{args.output} exists; choose a new output path to preserve evidence.")
     result = {"timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"),
               "produced_by": "scripts/check_integration.py::main", "checks": [], "submissions": []}
     with tempfile.TemporaryDirectory() as tmp, \
@@ -72,9 +79,9 @@ def main():
         assert sum(e.get("status") == "decided" for e in entries) == 3
         assert sum(e.get("event") == "appeal" for e in entries) == 1
         assert sum(e.get("event") == "rejected" for e in entries) == 1
-    output_dir = config.RESULTS_DIR / "unit8"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / "integration_preparation.json").write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with args.output.open("x", encoding="utf-8") as stream:
+        stream.write(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
     print(f"PASS: {len(result['checks'])} real-model integration checks.")
 
 

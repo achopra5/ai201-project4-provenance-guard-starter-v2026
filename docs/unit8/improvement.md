@@ -50,3 +50,18 @@ from an uncontrolled cold/warm timing comparison.
 No other substantive fix is authorized as part of this experiment. A broader
 classifier improvement needs appropriate validation data and is deferred rather
 than tuned on this small mixed-source cohort.
+
+## Actual after results
+
+The complete set and all five criteria ran again, with source/cohort hashes
+unchanged and fresh in-memory counters for each phase. MF03 alone changed:
+200/decided with scores became 400/rejected without scores. All other 55 attack
+responses retain statuses, labels, and scores. The original review rules still
+mark the set 47 HELD/9 BROKE. All 56 audit correlations hold in both phases.
+
+All three after trials reproduce each before criterion value: false positives
+0/20; separation -0.056844; boundary checks 7/7; appeals 5/5; invalid cases 6/6.
+Four criteria are MET, separation MISSED. No detection benefit or controlled
+latency saving is claimed. The handling improvement worked for its one targeted
+case and leaves the scientific failures visible. Raw and derived comparisons
+are in `results/unit8/comparison.json`. No second substantive change was made.

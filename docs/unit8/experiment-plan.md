@@ -146,3 +146,18 @@ scoring; samples 1–10 are the fixed separation subset. This is user-attested
 human origin, not independent verification and not a claim of 20 independent
 works or exclusively owner-written text. The manifest and cohort README preserve
 these limitations and the explicit permission. No criteria targets are changed.
+
+## Final execution checkpoint
+
+Earlier sections preserve the plan and historical pending-input checkpoints;
+those dependencies are now resolved. The owner approved the mixed-author corpus
+and committing its excerpts. It was frozen in `f787792` before all 15 acceptance
+baseline trials, recorded in `8524fa8`. Four criteria were MET and separation
+MISSED. One pre-inference control-character validation rule was committed in
+`ea0dbd4`; no signals/weights/thresholds/labels changed. The complete same 56-case
+set and all 15 criteria trials were rerun, with evidence committed in `d53dd5f`.
+Fresh server processes reset in-memory counters before each complete phase,
+without deleting any audit history. Both source hashes and cohort fingerprints
+match. Only MF03 handling changed; all attack and criterion verdicts remain the
+same. See `docs/unit8/final-report.md` and the completed README for final results,
+remaining failures, exact commands, and the submission handoff.
