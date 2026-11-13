@@ -1,0 +1,2645 @@
+{
+  "commit": "37dc9f75672e7c28b91f0e9c7ee3cf91313427c8",
+  "python": "3.12.7",
+  "platform": "macOS-27.2-arm64-arm-64bit",
+  "reference_commit": "109e83359a86b739a6277ece352893a34de17bda",
+  "trials": [
+    {
+      "trial": 1,
+      "cases": [
+        {
+          "case": "t1-case1",
+          "ready_ms": 116.43495900352718,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "f800c289-5ddf-48d2-86d8-a714a63b28d9",
+            "client_ms": 62.830458002281375,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.4097,
+              "content_id": "348f8310-d14b-4a21-858d-16eea4025d5d",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.3194,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "8ceca1f8-f052-47d6-a68c-23661fb76303",
+            "client_ms": 1609.9087500042515,
+            "input_bytes": 108
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "348f8310-d14b-4a21-858d-16eea4025d5d",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "55c62f21-342d-43d1-b346-704a27435c90",
+            "client_ms": 1.1613329988904297,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "fdb47153-9958-4ad9-b207-3464548fc2a3",
+            "client_ms": 0.9538329977658577,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:12.150+00:00",
+              "request_id": "f800c289-5ddf-48d2-86d8-a714a63b28d9",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.106542,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:13.760+00:00",
+              "request_id": "8ceca1f8-f052-47d6-a68c-23661fb76303",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 108,
+              "http_status": 200,
+              "duration_ms": 1608.65125,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.4097,
+                "model_score": 0.3194,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:13.762+00:00",
+              "request_id": "55c62f21-342d-43d1-b346-704a27435c90",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.263958,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:13.763+00:00",
+              "request_id": "fdb47153-9958-4ad9-b207-3464548fc2a3",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.312333,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:13+00:00",
+              "content_id": "348f8310-d14b-4a21-858d-16eea4025d5d",
+              "creator_id": "t1-case1",
+              "guess": "unsure",
+              "model_score": 0.3194,
+              "style_score": 0.5,
+              "combined_score": 0.4097,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "8ceca1f8-f052-47d6-a68c-23661fb76303",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:13+00:00",
+              "content_id": "348f8310-d14b-4a21-858d-16eea4025d5d",
+              "creator_id": "t1-case1",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "55c62f21-342d-43d1-b346-704a27435c90",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t1-case2",
+          "ready_ms": 124.13925000146264,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "23edbed1-3349-4db1-8a58-196c33d069af",
+            "client_ms": 52.76374999812106,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.39865,
+              "content_id": "20bd26ca-8cb8-4bec-b9f3-f560d5a31ae8",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.2973,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "34db6014-1998-449b-ac17-eaedf4509c4d",
+            "client_ms": 1558.5346669977298,
+            "input_bytes": 132
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "20bd26ca-8cb8-4bec-b9f3-f560d5a31ae8",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "89dbb8f9-3d3b-42fb-a17d-1808d0591b0b",
+            "client_ms": 0.9723330003907904,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "99c289ce-6156-4f0a-aa39-0d5b6b853e06",
+            "client_ms": 0.9415839958819561,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:14.342+00:00",
+              "request_id": "23edbed1-3349-4db1-8a58-196c33d069af",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.106458,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:15.900+00:00",
+              "request_id": "34db6014-1998-449b-ac17-eaedf4509c4d",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 132,
+              "http_status": 200,
+              "duration_ms": 1557.520666,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.39865,
+                "model_score": 0.2973,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:15.902+00:00",
+              "request_id": "89dbb8f9-3d3b-42fb-a17d-1808d0591b0b",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.208625,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:15.903+00:00",
+              "request_id": "99c289ce-6156-4f0a-aa39-0d5b6b853e06",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.274541,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:15+00:00",
+              "content_id": "20bd26ca-8cb8-4bec-b9f3-f560d5a31ae8",
+              "creator_id": "t1-case2",
+              "guess": "unsure",
+              "model_score": 0.2973,
+              "style_score": 0.5,
+              "combined_score": 0.39865,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "34db6014-1998-449b-ac17-eaedf4509c4d",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:15+00:00",
+              "content_id": "20bd26ca-8cb8-4bec-b9f3-f560d5a31ae8",
+              "creator_id": "t1-case2",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "89dbb8f9-3d3b-42fb-a17d-1808d0591b0b",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t1-case3",
+          "ready_ms": 107.29325000284007,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "c0c3a85c-5318-4d08-9e72-530e00649e94",
+            "client_ms": 55.12050000106683,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.52205,
+              "content_id": "fdb5c0ad-fb1c-4c17-90b5-e89da31248e2",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.5441,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "588909a6-fcdd-4e34-9560-08325c3a8061",
+            "client_ms": 1490.405208998709,
+            "input_bytes": 152
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "fdb5c0ad-fb1c-4c17-90b5-e89da31248e2",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "fd5ea3cd-d53c-4bb1-8cef-00317a033d7c",
+            "client_ms": 0.913249998120591,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "b61da416-2774-4539-b00c-cae5d2cb5ec2",
+            "client_ms": 1.0662499989848584,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:16.353+00:00",
+              "request_id": "c0c3a85c-5318-4d08-9e72-530e00649e94",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.099041,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:17.843+00:00",
+              "request_id": "588909a6-fcdd-4e34-9560-08325c3a8061",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 152,
+              "http_status": 200,
+              "duration_ms": 1489.381708,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.52205,
+                "model_score": 0.5441,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:17.845+00:00",
+              "request_id": "fd5ea3cd-d53c-4bb1-8cef-00317a033d7c",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.2065,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:17.846+00:00",
+              "request_id": "b61da416-2774-4539-b00c-cae5d2cb5ec2",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.336709,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:17+00:00",
+              "content_id": "fdb5c0ad-fb1c-4c17-90b5-e89da31248e2",
+              "creator_id": "t1-case3",
+              "guess": "unsure",
+              "model_score": 0.5441,
+              "style_score": 0.5,
+              "combined_score": 0.52205,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "588909a6-fcdd-4e34-9560-08325c3a8061",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:17+00:00",
+              "content_id": "fdb5c0ad-fb1c-4c17-90b5-e89da31248e2",
+              "creator_id": "t1-case3",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "fd5ea3cd-d53c-4bb1-8cef-00317a033d7c",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t1-case4",
+          "ready_ms": 110.79549999703886,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "ad5d3477-2d0b-4861-b334-5bbbf91088b3",
+            "client_ms": 33.16104200348491,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.3066,
+              "content_id": "e78aca80-5900-4bbd-8359-ddad3b0d181e",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.1132,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "d34bd6e7-e43b-4342-b495-e9ba79759833",
+            "client_ms": 1493.1298329975107,
+            "input_bytes": 135
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "e78aca80-5900-4bbd-8359-ddad3b0d181e",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "b32e62ff-9b23-4958-a734-495f09b49d4d",
+            "client_ms": 1.3463340001180768,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "46655af3-589a-455e-9a99-ec52787181ec",
+            "client_ms": 1.1434169937274419,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:18.307+00:00",
+              "request_id": "ad5d3477-2d0b-4861-b334-5bbbf91088b3",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.097417,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:19.800+00:00",
+              "request_id": "d34bd6e7-e43b-4342-b495-e9ba79759833",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 135,
+              "http_status": 200,
+              "duration_ms": 1491.941208,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.3066,
+                "model_score": 0.1132,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:19.802+00:00",
+              "request_id": "b32e62ff-9b23-4958-a734-495f09b49d4d",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.321833,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:19.803+00:00",
+              "request_id": "46655af3-589a-455e-9a99-ec52787181ec",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.34475,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:19+00:00",
+              "content_id": "e78aca80-5900-4bbd-8359-ddad3b0d181e",
+              "creator_id": "t1-case4",
+              "guess": "unsure",
+              "model_score": 0.1132,
+              "style_score": 0.5,
+              "combined_score": 0.3066,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "d34bd6e7-e43b-4342-b495-e9ba79759833",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:19+00:00",
+              "content_id": "e78aca80-5900-4bbd-8359-ddad3b0d181e",
+              "creator_id": "t1-case4",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "b32e62ff-9b23-4958-a734-495f09b49d4d",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t1-case5",
+          "ready_ms": 108.75345800013747,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "1660fbcf-4336-4284-84f8-dfa1b9fb7479",
+            "client_ms": 35.88966599636478,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.38555,
+              "content_id": "e332e325-0e5b-48af-926d-31afaa298cf6",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.2711,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "368d66fa-7319-491c-acd6-28d19fd1fdf3",
+            "client_ms": 1501.6279999981634,
+            "input_bytes": 146
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "e332e325-0e5b-48af-926d-31afaa298cf6",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "6728c0ae-1eda-493f-863b-6e5dfc52b998",
+            "client_ms": 0.9922079989337362,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "1ae379a8-b7ee-4c0d-9baa-86fae9b77f06",
+            "client_ms": 0.9519579980405979,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:20.254+00:00",
+              "request_id": "1660fbcf-4336-4284-84f8-dfa1b9fb7479",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.101917,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:21.755+00:00",
+              "request_id": "368d66fa-7319-491c-acd6-28d19fd1fdf3",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 146,
+              "http_status": 200,
+              "duration_ms": 1500.629084,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.38555,
+                "model_score": 0.2711,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:21.757+00:00",
+              "request_id": "6728c0ae-1eda-493f-863b-6e5dfc52b998",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.188584,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:21.758+00:00",
+              "request_id": "1ae379a8-b7ee-4c0d-9baa-86fae9b77f06",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.27125,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:21+00:00",
+              "content_id": "e332e325-0e5b-48af-926d-31afaa298cf6",
+              "creator_id": "t1-case5",
+              "guess": "unsure",
+              "model_score": 0.2711,
+              "style_score": 0.5,
+              "combined_score": 0.38555,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "368d66fa-7319-491c-acd6-28d19fd1fdf3",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:21+00:00",
+              "content_id": "e332e325-0e5b-48af-926d-31afaa298cf6",
+              "creator_id": "t1-case5",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "6728c0ae-1eda-493f-863b-6e5dfc52b998",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        }
+      ],
+      "passes": {
+        "structured_logging": 5,
+        "performance": 5,
+        "deployment": 5,
+        "failure_logging": 5,
+        "submit_and_appeal": 5
+      }
+    },
+    {
+      "trial": 2,
+      "cases": [
+        {
+          "case": "t2-case1",
+          "ready_ms": 112.99599999620114,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "da7a673a-3d35-40f2-99c2-68a8af7a8ec7",
+            "client_ms": 37.840459001017734,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.4097,
+              "content_id": "f5ea37d8-d6ed-4a64-a383-e194030babd7",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.3194,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "44c9c40e-4fbc-4c38-b73c-5ebc1e06622e",
+            "client_ms": 1452.0003340003313,
+            "input_bytes": 108
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "f5ea37d8-d6ed-4a64-a383-e194030babd7",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "36bc7b93-7275-4ae4-899a-5f0bbfdaab7f",
+            "client_ms": 1.1681670002872124,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "d756ac33-3317-4e1a-8040-fe4a03750032",
+            "client_ms": 0.9653330052969977,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:22.222+00:00",
+              "request_id": "da7a673a-3d35-40f2-99c2-68a8af7a8ec7",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.101916,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:23.675+00:00",
+              "request_id": "44c9c40e-4fbc-4c38-b73c-5ebc1e06622e",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 108,
+              "http_status": 200,
+              "duration_ms": 1450.953417,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.4097,
+                "model_score": 0.3194,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:23.676+00:00",
+              "request_id": "36bc7b93-7275-4ae4-899a-5f0bbfdaab7f",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.29525,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:23.677+00:00",
+              "request_id": "d756ac33-3317-4e1a-8040-fe4a03750032",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.310958,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:23+00:00",
+              "content_id": "f5ea37d8-d6ed-4a64-a383-e194030babd7",
+              "creator_id": "t2-case1",
+              "guess": "unsure",
+              "model_score": 0.3194,
+              "style_score": 0.5,
+              "combined_score": 0.4097,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "44c9c40e-4fbc-4c38-b73c-5ebc1e06622e",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:23+00:00",
+              "content_id": "f5ea37d8-d6ed-4a64-a383-e194030babd7",
+              "creator_id": "t2-case1",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "36bc7b93-7275-4ae4-899a-5f0bbfdaab7f",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t2-case2",
+          "ready_ms": 110.08954199496657,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "0fd9fdfd-83e6-426b-b0e3-ba9bbc58da7f",
+            "client_ms": 32.49625000171363,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.39865,
+              "content_id": "1d98c976-8d27-4c07-80d1-19c525d73687",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.2973,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "97af0b34-bf0e-48ab-b9d4-b55fedd0efb8",
+            "client_ms": 1459.4913330001873,
+            "input_bytes": 132
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "1d98c976-8d27-4c07-80d1-19c525d73687",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "8bab5ea3-0d5f-4c65-9d8a-915143bed846",
+            "client_ms": 0.8730829940759577,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "1907f158-14c6-4560-80bf-898355752417",
+            "client_ms": 0.854457997775171,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:24.136+00:00",
+              "request_id": "0fd9fdfd-83e6-426b-b0e3-ba9bbc58da7f",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.094333,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:25.595+00:00",
+              "request_id": "97af0b34-bf0e-48ab-b9d4-b55fedd0efb8",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 132,
+              "http_status": 200,
+              "duration_ms": 1458.576333,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.39865,
+                "model_score": 0.2973,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:25.597+00:00",
+              "request_id": "8bab5ea3-0d5f-4c65-9d8a-915143bed846",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.190625,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:25.597+00:00",
+              "request_id": "1907f158-14c6-4560-80bf-898355752417",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.262291,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:25+00:00",
+              "content_id": "1d98c976-8d27-4c07-80d1-19c525d73687",
+              "creator_id": "t2-case2",
+              "guess": "unsure",
+              "model_score": 0.2973,
+              "style_score": 0.5,
+              "combined_score": 0.39865,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "97af0b34-bf0e-48ab-b9d4-b55fedd0efb8",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:25+00:00",
+              "content_id": "1d98c976-8d27-4c07-80d1-19c525d73687",
+              "creator_id": "t2-case2",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "8bab5ea3-0d5f-4c65-9d8a-915143bed846",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t2-case3",
+          "ready_ms": 107.90341599931708,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "f61d9bf6-94e5-4b08-8bfd-16f5f9c1651f",
+            "client_ms": 34.549167001387104,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.52205,
+              "content_id": "9e9f6469-2b7d-4ce5-9f29-cdb9cc15649b",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.5441,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "4e34f17f-5bd9-4ece-8a42-7e8db3318ed1",
+            "client_ms": 1460.0011660004384,
+            "input_bytes": 152
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "9e9f6469-2b7d-4ce5-9f29-cdb9cc15649b",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "6e15f3d5-ee01-46e2-9dc5-8d36f6ade951",
+            "client_ms": 1.2724999978672713,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "fde028ad-540f-440b-87ac-fb6cb9061fad",
+            "client_ms": 1.0362499961047433,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:26.049+00:00",
+              "request_id": "f61d9bf6-94e5-4b08-8bfd-16f5f9c1651f",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.109334,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:27.509+00:00",
+              "request_id": "4e34f17f-5bd9-4ece-8a42-7e8db3318ed1",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 152,
+              "http_status": 200,
+              "duration_ms": 1458.939291,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.52205,
+                "model_score": 0.5441,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:27.511+00:00",
+              "request_id": "6e15f3d5-ee01-46e2-9dc5-8d36f6ade951",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.304458,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:27.512+00:00",
+              "request_id": "fde028ad-540f-440b-87ac-fb6cb9061fad",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.309167,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:27+00:00",
+              "content_id": "9e9f6469-2b7d-4ce5-9f29-cdb9cc15649b",
+              "creator_id": "t2-case3",
+              "guess": "unsure",
+              "model_score": 0.5441,
+              "style_score": 0.5,
+              "combined_score": 0.52205,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "4e34f17f-5bd9-4ece-8a42-7e8db3318ed1",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:27+00:00",
+              "content_id": "9e9f6469-2b7d-4ce5-9f29-cdb9cc15649b",
+              "creator_id": "t2-case3",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "6e15f3d5-ee01-46e2-9dc5-8d36f6ade951",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t2-case4",
+          "ready_ms": 111.64858299889602,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "f6a09290-7ed4-4452-90a4-bceaf5c8d0c2",
+            "client_ms": 33.93595799570903,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.3066,
+              "content_id": "1fe0f3a9-0370-4ce4-928d-9b485b638ebd",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.1132,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "1d5900c4-f63f-4588-b262-32c244c02e44",
+            "client_ms": 1471.5205829998013,
+            "input_bytes": 135
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "1fe0f3a9-0370-4ce4-928d-9b485b638ebd",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "72564aca-16b5-4d6b-a330-d82b5ef8cd3f",
+            "client_ms": 0.9366669983137399,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "964ab832-3f59-442e-8662-3891ce7cee88",
+            "client_ms": 1.0700000057113357,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:27.973+00:00",
+              "request_id": "f6a09290-7ed4-4452-90a4-bceaf5c8d0c2",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.107292,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:29.444+00:00",
+              "request_id": "1d5900c4-f63f-4588-b262-32c244c02e44",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 135,
+              "http_status": 200,
+              "duration_ms": 1470.614334,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.3066,
+                "model_score": 0.1132,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:29.446+00:00",
+              "request_id": "72564aca-16b5-4d6b-a330-d82b5ef8cd3f",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.221917,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:29.447+00:00",
+              "request_id": "964ab832-3f59-442e-8662-3891ce7cee88",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.330125,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:29+00:00",
+              "content_id": "1fe0f3a9-0370-4ce4-928d-9b485b638ebd",
+              "creator_id": "t2-case4",
+              "guess": "unsure",
+              "model_score": 0.1132,
+              "style_score": 0.5,
+              "combined_score": 0.3066,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "1d5900c4-f63f-4588-b262-32c244c02e44",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:29+00:00",
+              "content_id": "1fe0f3a9-0370-4ce4-928d-9b485b638ebd",
+              "creator_id": "t2-case4",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "72564aca-16b5-4d6b-a330-d82b5ef8cd3f",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t2-case5",
+          "ready_ms": 109.52379199443385,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "cc18bf27-b8e0-44ef-9025-fd977320b86e",
+            "client_ms": 33.80983399983961,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.38555,
+              "content_id": "d50e3648-4325-4ae9-a56b-b6fc3c7ca5b1",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.2711,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "aedf0674-409d-429e-94eb-d5a1800a9f25",
+            "client_ms": 1478.7992499987013,
+            "input_bytes": 146
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "d50e3648-4325-4ae9-a56b-b6fc3c7ca5b1",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "2367bf68-3992-49ed-91fb-16395f7ac7dc",
+            "client_ms": 1.236084004631266,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "f733dcfa-9f2a-41e4-9f2a-0dcadfceb240",
+            "client_ms": 1.092583996069152,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:29.906+00:00",
+              "request_id": "cc18bf27-b8e0-44ef-9025-fd977320b86e",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.112667,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:31.385+00:00",
+              "request_id": "aedf0674-409d-429e-94eb-d5a1800a9f25",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 146,
+              "http_status": 200,
+              "duration_ms": 1477.69,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.38555,
+                "model_score": 0.2711,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:31.387+00:00",
+              "request_id": "2367bf68-3992-49ed-91fb-16395f7ac7dc",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.288583,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:31.388+00:00",
+              "request_id": "f733dcfa-9f2a-41e4-9f2a-0dcadfceb240",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.301875,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:31+00:00",
+              "content_id": "d50e3648-4325-4ae9-a56b-b6fc3c7ca5b1",
+              "creator_id": "t2-case5",
+              "guess": "unsure",
+              "model_score": 0.2711,
+              "style_score": 0.5,
+              "combined_score": 0.38555,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "aedf0674-409d-429e-94eb-d5a1800a9f25",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:31+00:00",
+              "content_id": "d50e3648-4325-4ae9-a56b-b6fc3c7ca5b1",
+              "creator_id": "t2-case5",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "2367bf68-3992-49ed-91fb-16395f7ac7dc",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        }
+      ],
+      "passes": {
+        "structured_logging": 5,
+        "performance": 5,
+        "deployment": 5,
+        "failure_logging": 5,
+        "submit_and_appeal": 5
+      }
+    },
+    {
+      "trial": 3,
+      "cases": [
+        {
+          "case": "t3-case1",
+          "ready_ms": 110.58712499652756,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "dd1a35c5-3e01-4987-8508-fef9409a160c",
+            "client_ms": 32.82487499382114,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.4097,
+              "content_id": "1733cec4-fcf2-40a3-8251-5fa0acdb39bd",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.3194,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "3d9b682b-e894-4a60-a85a-2b1f8e0a6dc0",
+            "client_ms": 1478.7637920017005,
+            "input_bytes": 108
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "1733cec4-fcf2-40a3-8251-5fa0acdb39bd",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "52c16334-153b-4483-86c6-8cee83bb5762",
+            "client_ms": 0.913249998120591,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "0e4c4dec-de2d-4e63-be96-7f4babd55e13",
+            "client_ms": 0.847500006784685,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:31.847+00:00",
+              "request_id": "dd1a35c5-3e01-4987-8508-fef9409a160c",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.106,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:33.325+00:00",
+              "request_id": "3d9b682b-e894-4a60-a85a-2b1f8e0a6dc0",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 108,
+              "http_status": 200,
+              "duration_ms": 1477.894,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.4097,
+                "model_score": 0.3194,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:33.327+00:00",
+              "request_id": "52c16334-153b-4483-86c6-8cee83bb5762",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.206041,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:33.327+00:00",
+              "request_id": "0e4c4dec-de2d-4e63-be96-7f4babd55e13",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.267125,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:33+00:00",
+              "content_id": "1733cec4-fcf2-40a3-8251-5fa0acdb39bd",
+              "creator_id": "t3-case1",
+              "guess": "unsure",
+              "model_score": 0.3194,
+              "style_score": 0.5,
+              "combined_score": 0.4097,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "3d9b682b-e894-4a60-a85a-2b1f8e0a6dc0",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:33+00:00",
+              "content_id": "1733cec4-fcf2-40a3-8251-5fa0acdb39bd",
+              "creator_id": "t3-case1",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "52c16334-153b-4483-86c6-8cee83bb5762",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t3-case2",
+          "ready_ms": 108.62733399699209,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "691a753f-e0ad-48dd-bc5e-e4cd05d1b97e",
+            "client_ms": 38.03833299753023,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.39865,
+              "content_id": "eb9bfd18-e185-4c60-991f-90a626de3841",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.2973,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "2ff55997-5c5a-437b-b43b-3acfb89ee27f",
+            "client_ms": 1461.0778330024914,
+            "input_bytes": 132
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "eb9bfd18-e185-4c60-991f-90a626de3841",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "2d8a9fdc-5528-474b-b5d6-9247fd4b5528",
+            "client_ms": 0.9043749960255809,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "fa233b10-d2f8-4649-a328-134b1f166a2b",
+            "client_ms": 0.8743330035940744,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:33.784+00:00",
+              "request_id": "691a753f-e0ad-48dd-bc5e-e4cd05d1b97e",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.096875,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:35.246+00:00",
+              "request_id": "2ff55997-5c5a-437b-b43b-3acfb89ee27f",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 132,
+              "http_status": 200,
+              "duration_ms": 1460.079708,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.39865,
+                "model_score": 0.2973,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:35.247+00:00",
+              "request_id": "2d8a9fdc-5528-474b-b5d6-9247fd4b5528",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.206292,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:35.248+00:00",
+              "request_id": "fa233b10-d2f8-4649-a328-134b1f166a2b",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.269333,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:35+00:00",
+              "content_id": "eb9bfd18-e185-4c60-991f-90a626de3841",
+              "creator_id": "t3-case2",
+              "guess": "unsure",
+              "model_score": 0.2973,
+              "style_score": 0.5,
+              "combined_score": 0.39865,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "2ff55997-5c5a-437b-b43b-3acfb89ee27f",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:35+00:00",
+              "content_id": "eb9bfd18-e185-4c60-991f-90a626de3841",
+              "creator_id": "t3-case2",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "2d8a9fdc-5528-474b-b5d6-9247fd4b5528",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t3-case3",
+          "ready_ms": 110.47904199949699,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "8f949086-ad93-42d2-a3ab-9abd605067a3",
+            "client_ms": 32.892250004806556,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.52205,
+              "content_id": "3e43031a-4f89-4cd1-9029-f07f828e6f1d",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.5441,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "b93ce3ce-e673-42ef-8698-4665bb329677",
+            "client_ms": 1471.7554160015425,
+            "input_bytes": 152
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "3e43031a-4f89-4cd1-9029-f07f828e6f1d",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "905bc89e-631e-4ba2-9265-39937b561803",
+            "client_ms": 1.2499160002334975,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "0bdbe271-32ad-4ea7-b31c-ff32b8bf4b8c",
+            "client_ms": 1.021500000206288,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:35.708+00:00",
+              "request_id": "8f949086-ad93-42d2-a3ab-9abd605067a3",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.124125,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:37.180+00:00",
+              "request_id": "b93ce3ce-e673-42ef-8698-4665bb329677",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 152,
+              "http_status": 200,
+              "duration_ms": 1470.60775,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.52205,
+                "model_score": 0.5441,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:37.182+00:00",
+              "request_id": "905bc89e-631e-4ba2-9265-39937b561803",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.290083,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:37.183+00:00",
+              "request_id": "0bdbe271-32ad-4ea7-b31c-ff32b8bf4b8c",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.286167,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:37+00:00",
+              "content_id": "3e43031a-4f89-4cd1-9029-f07f828e6f1d",
+              "creator_id": "t3-case3",
+              "guess": "unsure",
+              "model_score": 0.5441,
+              "style_score": 0.5,
+              "combined_score": 0.52205,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "b93ce3ce-e673-42ef-8698-4665bb329677",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:37+00:00",
+              "content_id": "3e43031a-4f89-4cd1-9029-f07f828e6f1d",
+              "creator_id": "t3-case3",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "905bc89e-631e-4ba2-9265-39937b561803",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t3-case4",
+          "ready_ms": 108.97295899485471,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "bc4a1de1-c3ce-4ff8-b7bd-28c7b1bb4a81",
+            "client_ms": 35.093334001430776,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.3066,
+              "content_id": "53232b45-bf6c-41dd-8217-a6cab258915a",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.1132,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "f57c942f-98e0-461f-986d-368fa267d40f",
+            "client_ms": 1463.3340829968802,
+            "input_bytes": 135
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "53232b45-bf6c-41dd-8217-a6cab258915a",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "f463c256-7f1d-4527-b7d9-4cb3ae3d3bdc",
+            "client_ms": 1.0769590007839724,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "687c0255-e8a0-45df-966c-4df3108f6077",
+            "client_ms": 1.126625000324566,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:37.643+00:00",
+              "request_id": "bc4a1de1-c3ce-4ff8-b7bd-28c7b1bb4a81",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.11475,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:39.107+00:00",
+              "request_id": "f57c942f-98e0-461f-986d-368fa267d40f",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 135,
+              "http_status": 200,
+              "duration_ms": 1462.250125,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.3066,
+                "model_score": 0.1132,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:39.108+00:00",
+              "request_id": "f463c256-7f1d-4527-b7d9-4cb3ae3d3bdc",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.225542,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:39.109+00:00",
+              "request_id": "687c0255-e8a0-45df-966c-4df3108f6077",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.356208,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:39+00:00",
+              "content_id": "53232b45-bf6c-41dd-8217-a6cab258915a",
+              "creator_id": "t3-case4",
+              "guess": "unsure",
+              "model_score": 0.1132,
+              "style_score": 0.5,
+              "combined_score": 0.3066,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "f57c942f-98e0-461f-986d-368fa267d40f",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:39+00:00",
+              "content_id": "53232b45-bf6c-41dd-8217-a6cab258915a",
+              "creator_id": "t3-case4",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "f463c256-7f1d-4527-b7d9-4cb3ae3d3bdc",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        },
+        {
+          "case": "t3-case5",
+          "ready_ms": 111.07091700250749,
+          "health": {
+            "http_status": 200,
+            "body": {
+              "detector_loaded": false,
+              "detector_model": "gpt2",
+              "log_entries": 0,
+              "ok": true,
+              "rate_limit_policy": {
+                "caller": "creator_id; source IP for missing/invalid ID",
+                "per_day": 100,
+                "per_minute": 8,
+                "storage": "memory://"
+              },
+              "rate_limiting": true
+            },
+            "request_id": "17ebada3-93d7-4354-a5f7-6ed76c728857",
+            "client_ms": 34.74912499950733,
+            "input_bytes": null
+          },
+          "submit": {
+            "http_status": 200,
+            "body": {
+              "confidence": 0.38555,
+              "content_id": "8f1cf433-739b-4de7-b468-c6c1e2a65fe3",
+              "guess": "unsure",
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "model_score": 0.2711,
+              "status": "decided",
+              "style_score": 0.5
+            },
+            "request_id": "1112b593-1f8f-4771-b817-c714e179f424",
+            "client_ms": 1500.3991249977844,
+            "input_bytes": 146
+          },
+          "appeal": {
+            "http_status": 200,
+            "body": {
+              "content_id": "8f1cf433-739b-4de7-b468-c6c1e2a65fe3",
+              "message": "Your review request was recorded. The writing is now under review.",
+              "status": "under_review"
+            },
+            "request_id": "32c16715-f808-4325-a2aa-a4c4cdd102f2",
+            "client_ms": 1.1902499973075464,
+            "input_bytes": 140
+          },
+          "invalid": {
+            "http_status": 400,
+            "body": {
+              "error": "invalid_text",
+              "message": "text must be a nonblank string."
+            },
+            "request_id": "356fa4a2-4b7b-4729-8ecb-0d8ca24f51b2",
+            "client_ms": 1.0356659986427985,
+            "input_bytes": 38
+          },
+          "checks": {
+            "structured_logging": true,
+            "performance": true,
+            "deployment": true,
+            "failure_logging": true,
+            "submit_and_appeal": true
+          },
+          "requests": [
+            {
+              "timestamp": "2026-11-13T16:36:39.569+00:00",
+              "request_id": "17ebada3-93d7-4354-a5f7-6ed76c728857",
+              "method": "GET",
+              "route": "/health",
+              "input_bytes": null,
+              "http_status": 200,
+              "duration_ms": 0.101333,
+              "model_loaded_before": false,
+              "output": {
+                "status": "ok"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:41.070+00:00",
+              "request_id": "1112b593-1f8f-4771-b817-c714e179f424",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 146,
+              "http_status": 200,
+              "duration_ms": 1499.364709,
+              "model_loaded_before": false,
+              "output": {
+                "guess": "unsure",
+                "confidence": 0.38555,
+                "model_score": 0.2711,
+                "style_score": 0.5,
+                "status": "decided"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:41.071+00:00",
+              "request_id": "32c16715-f808-4325-a2aa-a4c4cdd102f2",
+              "method": "POST",
+              "route": "/appeal",
+              "input_bytes": 140,
+              "http_status": 200,
+              "duration_ms": 0.287125,
+              "model_loaded_before": true,
+              "output": {
+                "status": "under_review"
+              }
+            },
+            {
+              "timestamp": "2026-11-13T16:36:41.072+00:00",
+              "request_id": "356fa4a2-4b7b-4729-8ecb-0d8ca24f51b2",
+              "method": "POST",
+              "route": "/submit",
+              "input_bytes": 38,
+              "http_status": 400,
+              "duration_ms": 0.327042,
+              "model_loaded_before": true,
+              "error": "invalid_text"
+            }
+          ],
+          "decision_and_appeal": [
+            {
+              "timestamp": "2026-11-13T16:36:41+00:00",
+              "content_id": "8f1cf433-739b-4de7-b468-c6c1e2a65fe3",
+              "creator_id": "t3-case5",
+              "guess": "unsure",
+              "model_score": 0.2711,
+              "style_score": 0.5,
+              "combined_score": 0.38555,
+              "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+              "status": "decided",
+              "http_status": 200,
+              "request_id": "1112b593-1f8f-4771-b817-c714e179f424",
+              "path": "/submit",
+              "method": "POST"
+            },
+            {
+              "timestamp": "2026-11-13T16:36:41+00:00",
+              "content_id": "8f1cf433-739b-4de7-b468-c6c1e2a65fe3",
+              "creator_id": "t3-case5",
+              "event": "appeal",
+              "status": "under_review",
+              "reasoning": "Synthetic acceptance case requesting review of the original decision.",
+              "http_status": 200,
+              "request_id": "32c16715-f808-4325-a2aa-a4c4cdd102f2",
+              "path": "/appeal",
+              "method": "POST"
+            }
+          ]
+        }
+      ],
+      "passes": {
+        "structured_logging": 5,
+        "performance": 5,
+        "deployment": 5,
+        "failure_logging": 5,
+        "submit_and_appeal": 5
+      }
+    }
+  ],
+  "warm_cost": {
+    "submissions": [
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.4097,
+          "content_id": "ac9a00e5-b189-4014-a83f-61e5022775a7",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.3194,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "cc26c896-596e-4b4a-b7b8-914ab477ae52",
+        "client_ms": 18.881750002037734,
+        "input_bytes": 115
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.39865,
+          "content_id": "be60dce6-f926-49d5-9b5a-d6f4703eb59d",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.2973,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "e508396d-0956-45ee-b85a-13bb69da233c",
+        "client_ms": 24.794165998173412,
+        "input_bytes": 139
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.52205,
+          "content_id": "fd1b3b9d-648c-4260-b0d9-b0e97fad13a5",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.5441,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "e1ed2464-3553-48f7-8af8-81d28da8540a",
+        "client_ms": 25.34591699804878,
+        "input_bytes": 159
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.3066,
+          "content_id": "0c052236-85d8-4bd7-a240-8420a68b1c8e",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.1132,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "b403375d-1734-457a-a343-4fd462eee8a4",
+        "client_ms": 24.085917000775225,
+        "input_bytes": 142
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.38555,
+          "content_id": "3911e173-3772-4b54-9a3e-c045e14632e2",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.2711,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "c2d5aaca-e902-49da-8434-ef422c7e86ed",
+        "client_ms": 24.83129100437509,
+        "input_bytes": 153
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.4097,
+          "content_id": "3fe48743-87ea-496c-b576-d8397b0a6fac",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.3194,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "c908a513-a9cb-4b8c-8d29-1a46e3f46d42",
+        "client_ms": 19.29491699411301,
+        "input_bytes": 115
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.39865,
+          "content_id": "c3deb9ca-1c15-4b7d-b80a-16856a93d092",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.2973,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "0ddc4ff7-8e76-4cd3-ab27-8ce8f1bfc02b",
+        "client_ms": 24.62050000031013,
+        "input_bytes": 139
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.52205,
+          "content_id": "d7b48918-9076-43cb-91d2-42ebfd4cc5bb",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.5441,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "ff283386-402f-456a-9449-6a6c4d13d0d3",
+        "client_ms": 24.31287500075996,
+        "input_bytes": 159
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.3066,
+          "content_id": "c75eed31-8405-4a61-8c7c-45bd5cbf81d4",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.1132,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "4ceb4ccf-0d7c-43d0-903f-a9d96d69c317",
+        "client_ms": 24.08925000054296,
+        "input_bytes": 142
+      },
+      {
+        "http_status": 200,
+        "body": {
+          "confidence": 0.38555,
+          "content_id": "ac39d0d8-0563-4d9a-b4f6-23d00ab2fb7a",
+          "guess": "unsure",
+          "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+          "model_score": 0.2711,
+          "status": "decided",
+          "style_score": 0.5
+        },
+        "request_id": "5c98b52f-95c7-406e-b521-7c5f5a1e7da5",
+        "client_ms": 24.119666006299667,
+        "input_bytes": 154
+      }
+    ],
+    "requests": [
+      {
+        "timestamp": "2026-11-13T16:36:41.091+00:00",
+        "request_id": "cc26c896-596e-4b4a-b7b8-914ab477ae52",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 115,
+        "http_status": 200,
+        "duration_ms": 18.159208,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.4097,
+          "model_score": 0.3194,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.116+00:00",
+        "request_id": "e508396d-0956-45ee-b85a-13bb69da233c",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 139,
+        "http_status": 200,
+        "duration_ms": 23.981666,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.39865,
+          "model_score": 0.2973,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.141+00:00",
+        "request_id": "e1ed2464-3553-48f7-8af8-81d28da8540a",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 159,
+        "http_status": 200,
+        "duration_ms": 24.369792,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.52205,
+          "model_score": 0.5441,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.165+00:00",
+        "request_id": "b403375d-1734-457a-a343-4fd462eee8a4",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 142,
+        "http_status": 200,
+        "duration_ms": 23.271208,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.3066,
+          "model_score": 0.1132,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.190+00:00",
+        "request_id": "c2d5aaca-e902-49da-8434-ef422c7e86ed",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 153,
+        "http_status": 200,
+        "duration_ms": 23.921375,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.38555,
+          "model_score": 0.2711,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.210+00:00",
+        "request_id": "c908a513-a9cb-4b8c-8d29-1a46e3f46d42",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 115,
+        "http_status": 200,
+        "duration_ms": 18.203833,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.4097,
+          "model_score": 0.3194,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.234+00:00",
+        "request_id": "0ddc4ff7-8e76-4cd3-ab27-8ce8f1bfc02b",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 139,
+        "http_status": 200,
+        "duration_ms": 23.703875,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.39865,
+          "model_score": 0.2973,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.259+00:00",
+        "request_id": "ff283386-402f-456a-9449-6a6c4d13d0d3",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 159,
+        "http_status": 200,
+        "duration_ms": 23.325458,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.52205,
+          "model_score": 0.5441,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.283+00:00",
+        "request_id": "4ceb4ccf-0d7c-43d0-903f-a9d96d69c317",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 142,
+        "http_status": 200,
+        "duration_ms": 23.066875,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.3066,
+          "model_score": 0.1132,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      },
+      {
+        "timestamp": "2026-11-13T16:36:41.307+00:00",
+        "request_id": "5c98b52f-95c7-406e-b521-7c5f5a1e7da5",
+        "method": "POST",
+        "route": "/submit",
+        "input_bytes": 154,
+        "http_status": 200,
+        "duration_ms": 23.207917,
+        "model_loaded_before": true,
+        "output": {
+          "guess": "unsure",
+          "confidence": 0.38555,
+          "model_score": 0.2711,
+          "style_score": 0.5,
+          "status": "decided"
+        }
+      }
+    ],
+    "mean_server_ms": 22.5211207,
+    "mean_client_ms": 23.437624900543597,
+    "server_seconds_per_100": 2.25211207
+  },
+  "verdicts": {
+    "structured_logging": "MET",
+    "performance": "MET",
+    "deployment": "MET",
+    "failure_logging": "MET",
+    "submit_and_appeal": "MET"
+  }
+}

@@ -1,0 +1,24 @@
+Unit 9 clean-checkout setup
+Platform: macOS 27.2 arm64, Python 3.12.7, CPU
+Runner: Gunicorn 23.0.0, one sync worker, loopback
+Detector: gpt2 at cached snapshot 607a30d783dfa663caf39e06633721c8d4cfcd7e
+Rate limiting: enabled in both evaluation phases
+
+From the repository root, the initial setup was:
+  .venv/bin/python -m pip download -r requirements-capstone.txt -d .private/unit9/wheels
+  git clone --no-local --branch codex/unit9-capstone . .private/unit9/clean
+  cd .private/unit9/clean
+  python3.12 -m venv .venv
+  .venv/bin/python -m pip install --no-index --find-links ../wheels -r requirements-capstone.txt
+  .venv/bin/python -m pip check
+  HF_HUB_OFFLINE=1 .venv/bin/python -c 'import detector; print(detector.warm_up())'
+  git status --porcelain
+
+The package download was invoked with a temporary Python 3.12 venv and a
+workspace-local pip cache. The install used the same pinned PyPI artifacts
+via the downloaded wheel directory. The GPT-2 snapshot was already cached.
+Observed checks: "No broken requirements found." and "gpt2 loaded and ready."
+The new clone's status was empty. The same environment was used for the
+Unit 8 prediction reference and both Unit 9 phases. The clean checkout was
+fast-forwarded between phases. Each case started a new Gunicorn process
+using the RUNNING.md command with a free loopback port and isolated log paths.

@@ -1,0 +1,99 @@
+{
+  "commit": "109e83359a86b739a6277ece352893a34de17bda",
+  "health": {
+    "http_status": 200,
+    "body": {
+      "detector_loaded": false,
+      "detector_model": "gpt2",
+      "log_entries": 465,
+      "ok": true,
+      "rate_limit_policy": {
+        "caller": "creator_id; source IP for missing/invalid ID",
+        "per_day": 100,
+        "per_minute": 8,
+        "storage": "memory://"
+      },
+      "rate_limiting": true
+    },
+    "request_id": null,
+    "client_ms": 176.57675000373274,
+    "input_bytes": null
+  },
+  "submissions": [
+    {
+      "http_status": 200,
+      "body": {
+        "confidence": 0.4097,
+        "content_id": "7971c5de-34ae-421d-a10c-5dd5ebfc32cd",
+        "guess": "unsure",
+        "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+        "model_score": 0.3194,
+        "status": "decided",
+        "style_score": 0.5
+      },
+      "request_id": "d4e1db8f-c4a6-46aa-82f8-129ff5cb8279",
+      "client_ms": 3117.454874998657,
+      "input_bytes": 120
+    },
+    {
+      "http_status": 200,
+      "body": {
+        "confidence": 0.39865,
+        "content_id": "386f4531-7fba-463c-9534-f7be2ff6c849",
+        "guess": "unsure",
+        "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+        "model_score": 0.2973,
+        "status": "decided",
+        "style_score": 0.5
+      },
+      "request_id": "55b11ecf-c5bd-4154-94cc-648753bb240e",
+      "client_ms": 26.13487499911571,
+      "input_bytes": 144
+    },
+    {
+      "http_status": 200,
+      "body": {
+        "confidence": 0.52205,
+        "content_id": "f42828a8-2792-46c4-bf05-398fb5ee232d",
+        "guess": "unsure",
+        "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+        "model_score": 0.5441,
+        "status": "decided",
+        "style_score": 0.5
+      },
+      "request_id": "e27c5afc-bceb-4010-9e8b-f4d3ed2f7ca3",
+      "client_ms": 25.152125002932735,
+      "input_bytes": 164
+    },
+    {
+      "http_status": 200,
+      "body": {
+        "confidence": 0.3066,
+        "content_id": "cd1fdc33-085b-4b47-9ab2-7b8c29db3947",
+        "guess": "unsure",
+        "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+        "model_score": 0.1132,
+        "status": "decided",
+        "style_score": 0.5
+      },
+      "request_id": "17d251fe-154c-4675-a955-9293d1eb10c5",
+      "client_ms": 24.37445800023852,
+      "input_bytes": 147
+    },
+    {
+      "http_status": 200,
+      "body": {
+        "confidence": 0.38555,
+        "content_id": "4054a589-6b6c-4131-a6d0-a558bd7dc4b8",
+        "guess": "unsure",
+        "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.",
+        "model_score": 0.2711,
+        "status": "decided",
+        "style_score": 0.5
+      },
+      "request_id": "be76df52-e771-4007-882e-83adb7a712bf",
+      "client_ms": 24.589125001512002,
+      "input_bytes": 158
+    }
+  ]
+}
