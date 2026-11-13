@@ -300,7 +300,7 @@ were performed by Codex. No code authorship or validation by the owner is claime
 - Actual HTTP: `.venv/bin/python scripts/capture_sample.py` — submission,
   appeal, log status transition, ping, and model loading captured through curl.
 
-The owner's five original criteria are in [criteria.md](criteria.md), committed
+The owner's five original criteria are in [criteria.md](docs/unit8/criteria.md), committed
 as `26e6ce2` before implementation and new calibration/test results. Numerical
 label coverage, five appeal lifecycles, and the six invalid-input cases are
 covered by deterministic tests. The false-positive and mean-separation targets
@@ -1186,3 +1186,220 @@ telemetry, and a measured cost per request.
 Shape A, Deploy and Instrument. Path B, Local with Logs. The scope covers
 Gunicorn startup, request timing, and outcome records. Model changes,
 interface work, and hosted infrastructure fall outside this scope.
+
+**Running It**
+
+Path B runs on loopback with one Gunicorn worker and cached GPT-2. The
+clean-checkout instructions, pinned environment, model files, and startup
+command are in [RUNNING.md](RUNNING.md#unit-9-capstone--local-gunicorn-with-logs).
+The setup record includes the successful default-port smoke test.
+The working checkout passed all 56 unit tests. The clean clone passed 55
+and skipped the test that needs the private Unit 8 corpus. Four cached-model
+integration checks passed in the clean clone.
+[Setup record](results/unit9/setup.txt) · [Smoke log](results/unit9/smoke-requests.jsonl)
+
+**Instrumentation**
+
+`logs/requests.jsonl` holds one event per Flask request. The event records the
+UTC timestamp, request ID, method, matched route, declared body bytes
+(`null` when absent), HTTP status, monotonic elapsed milliseconds, whether
+GPT-2 was already loaded, and either a safe outcome or an error code. The
+duration covers Flask request hooks through response preparation, including
+validation, inference, and the Unit 8 audit write. It excludes the telemetry
+write itself and transfer of the response. The client timer covers HTTP
+connection through reading the entire response body. The telemetry contains
+no submitted writing, appeal reasons, headers, or query strings. Its request ID
+matches the Unit 8 audit ID for submissions and appeals.
+If the telemetry file is unavailable, Flask reports the write failure to its
+error logger and returns the original HTTP response.
+
+Ten warm inference events from the final run and one deliberate validation
+failure from the same evaluation.
+
+```jsonl
+{"timestamp": "2026-11-13T16:37:58.879+00:00", "request_id": "9ba31d3e-3bd9-4c7b-a9a2-d27abeeb6bf0", "method": "POST", "route": "/submit", "input_bytes": 115, "http_status": 200, "duration_ms": 17.297542, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.4097, "model_score": 0.3194, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:58.902+00:00", "request_id": "faa1c3ab-34af-44e2-9e5c-93d8880f3f84", "method": "POST", "route": "/submit", "input_bytes": 139, "http_status": 200, "duration_ms": 22.617583, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.39865, "model_score": 0.2973, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:58.926+00:00", "request_id": "e469f763-8c24-41eb-9b9d-b081ee51f70a", "method": "POST", "route": "/submit", "input_bytes": 159, "http_status": 200, "duration_ms": 23.281709, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.52205, "model_score": 0.5441, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:58.951+00:00", "request_id": "893bc372-d078-4a2f-987e-03aa0fac63e6", "method": "POST", "route": "/submit", "input_bytes": 142, "http_status": 200, "duration_ms": 23.036666, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.3066, "model_score": 0.1132, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:58.973+00:00", "request_id": "0ba23cc3-b819-454a-bb05-60b6256cd916", "method": "POST", "route": "/submit", "input_bytes": 153, "http_status": 200, "duration_ms": 21.911875, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.38555, "model_score": 0.2711, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:58.991+00:00", "request_id": "602670e7-d0e5-422e-b406-b8ecdbe11dd4", "method": "POST", "route": "/submit", "input_bytes": 115, "http_status": 200, "duration_ms": 16.685292, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.4097, "model_score": 0.3194, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:59.014+00:00", "request_id": "26785bf4-bd6f-4bd6-b8d8-d934a5e9dc93", "method": "POST", "route": "/submit", "input_bytes": 139, "http_status": 200, "duration_ms": 21.993875, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.39865, "model_score": 0.2973, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:59.037+00:00", "request_id": "2c5a2334-c2ad-41a1-901b-f757d12f54d7", "method": "POST", "route": "/submit", "input_bytes": 159, "http_status": 200, "duration_ms": 22.320125, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.52205, "model_score": 0.5441, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:59.060+00:00", "request_id": "bbd1b344-0ec2-4bbf-bfd2-a438f1bbcf8b", "method": "POST", "route": "/submit", "input_bytes": 142, "http_status": 200, "duration_ms": 21.648792, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.3066, "model_score": 0.1132, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:59.083+00:00", "request_id": "9ad803c4-c921-4236-a872-1223a32e3ed1", "method": "POST", "route": "/submit", "input_bytes": 154, "http_status": 200, "duration_ms": 21.893625, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.38555, "model_score": 0.2711, "style_score": 0.5, "status": "decided"}}
+{"timestamp": "2026-11-13T16:37:58.860+00:00", "request_id": "4bda92d5-dbc2-4bbf-a630-51cb80fce50e", "method": "POST", "route": "/submit", "input_bytes": 38, "http_status": 400, "duration_ms": 0.247834, "model_loaded_before": true, "error": "invalid_text"}
+```
+
+**What It Costs**
+
+After the startup change, ten sequential successful warm inference requests
+averaged **21.269 ms** of server wall time per run and **22.215 ms** of
+client-side loopback HTTP time. The samples cycle through five fixed synthetic
+texts. The server timer covers the full request handling described above.
+At 100 comparable warm requests per day, `100 × 21.269 / 1000 ≈ 2.127`
+seconds of server request time per day, plus model loading each time the
+worker starts. This is elapsed processing time on the test laptop. There
+was no per-request API charge. The initial warm run averaged 22.521 ms
+server-side across ten requests. Both ten-sample sets are in the raw reports.
+[Before measurements](results/unit9/before.json) · [After measurements](results/unit9/after.json)
+
+**Run Log and Verdicts**
+
+The five criteria were committed as written in `039af0a`. Each phase ran
+three trials. Each trial started five fresh Gunicorn processes from the clean
+checkout. In each process the runner checked health, submitted one fixed
+synthetic fixture, appealed it, then submitted empty text. The valid
+submission supplied evidence for criteria 1, 2, 3, and 5. The empty-text
+submission supplied criterion 4. Criterion 5 compared guess, confidence,
+both signal scores, label, and status with real HTTP output from the same
+fixtures on the Unit 8 commit `109e833`. It also checked that the original
+decision and the appeal were both present in the audit with their matching
+request IDs and that the appeal retained its reason.
+[Criteria](criteria.md) · [Before trials](results/unit9/before.json) · [Unit 8 reference](results/unit9/unit8-reference.json)
+
+| Criterion | Target | Trial 1 | Trial 2 | Trial 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. Structured logging | 5/5 valid request records | 5/5 | 5/5 | 5/5 | MET |
+| 2. Performance measurement | 5/5 positive, finite timings within the 100 ms allowance | 5/5 | 5/5 | 5/5 | MET |
+| 3. Reproducible deployment | 5/5 fresh starts with health and inference | 5/5 | 5/5 | 5/5 | MET |
+| 4. Failure logging | 5/5 expected errors with matching records | 5/5 | 5/5 | 5/5 | MET |
+| 5. Existing functionality | 5/5 original predictions with recorded appeals | 5/5 | 5/5 | 5/5 | MET |
+
+All five criteria were met on `37dc9f7`. The first request still paid for
+lazy GPT-2 loading on all 15 starts, as shown by the model state and request
+timings. The five criteria had no misses to diagnose.
+
+Trial 1, case 1 evidence, serialized as JSON from the recorded outputs.
+
+1. `request_telemetry.py::install.finish_request` wrote the correlated submission record.
+
+```jsonl
+{"timestamp": "2026-11-13T16:36:13.760+00:00", "request_id": "8ceca1f8-f052-47d6-a68c-23661fb76303", "method": "POST", "route": "/submit", "input_bytes": 108, "http_status": 200, "duration_ms": 1608.65125, "model_loaded_before": false, "output": {"guess": "unsure", "confidence": 0.4097, "model_score": 0.3194, "style_score": 0.5, "status": "decided"}}
+```
+
+2. `scripts/run_capstone.py::send` measured the complete HTTP exchange and
+   `request_telemetry.py::install.finish_request` measured the Flask interval.
+   These are the recorded client and server durations in milliseconds.
+
+```jsonl
+{"client_ms": 1609.9087500042515, "server_ms": 1608.65125}
+```
+
+3. `app.py::health` and `app.py::submit` returned these two HTTP 200 bodies
+   after a fresh Gunicorn start.
+
+```jsonl
+{"detector_loaded": false, "detector_model": "gpt2", "log_entries": 0, "ok": true, "rate_limit_policy": {"caller": "creator_id; source IP for missing/invalid ID", "per_day": 100, "per_minute": 8, "storage": "memory://"}, "rate_limiting": true}
+{"confidence": 0.4097, "content_id": "348f8310-d14b-4a21-858d-16eea4025d5d", "guess": "unsure", "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.", "model_score": 0.3194, "status": "decided", "style_score": 0.5}
+```
+
+4. `app.py::string_field` rejected empty text and
+   `request_telemetry.py::outcome` recorded the error.
+
+```jsonl
+{"error": "invalid_text", "message": "text must be a nonblank string."}
+{"timestamp": "2026-11-13T16:36:13.763+00:00", "request_id": "fdb47153-9958-4ad9-b207-3464548fc2a3", "method": "POST", "route": "/submit", "input_bytes": 38, "http_status": 400, "duration_ms": 0.312333, "model_loaded_before": true, "error": "invalid_text"}
+```
+
+5. `app.py::appeal` returned the review status and `audit.py::log_appeal`
+   persisted the appeal tied to the submission ID above.
+
+```jsonl
+{"content_id": "348f8310-d14b-4a21-858d-16eea4025d5d", "message": "Your review request was recorded. The writing is now under review.", "status": "under_review"}
+{"timestamp": "2026-11-13T16:36:13+00:00", "content_id": "348f8310-d14b-4a21-858d-16eea4025d5d", "creator_id": "t1-case1", "event": "appeal", "status": "under_review", "reasoning": "Synthetic acceptance case requesting review of the original decision.", "http_status": 200, "request_id": "55c62f21-342d-43d1-b346-704a27435c90", "path": "/appeal", "method": "POST"}
+```
+
+**The Improvement**
+
+Gunicorn now calls the existing `detector.warm_up()` in `post_worker_init`.
+The baseline health endpoint answered while GPT-2 was still unloaded, and
+the first real submit had to load the tokenizer and model before scoring.
+With the hook, the worker loads them before accepting requests. If loading
+raises `DetectorUnavailable`, startup logs a warning and the first valid
+submission can retry through the existing detector path.
+
+Across 15 fresh starts per phase, median first-submit HTTP time dropped
+from **1,478.8 ms to 50.6 ms**. The first submit saw a loaded model on
+**0/15 before and 15/15 after**. Median time from launching Gunicorn to
+the first successful health response rose from **110.5 ms to 1,546.8 ms**.
+The median of readiness plus first-submit HTTP time was **1,588.3 ms
+before and 1,596.1 ms after**. The change moves loading into startup.
+The slowest first submit after the change was **490.6 ms**, and the warm
+cost samples were short sequential runs on one laptop. All verdicts on
+`d620633` remained MET using the same inputs, thresholds, and runner.
+[After trials](results/unit9/after.json)
+
+| Criterion | Target | Trial 1 | Trial 2 | Trial 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. Structured logging | 5/5 valid request records | 5/5 | 5/5 | 5/5 | MET |
+| 2. Performance measurement | 5/5 positive, finite timings within the 100 ms allowance | 5/5 | 5/5 | 5/5 | MET |
+| 3. Reproducible deployment | 5/5 fresh starts with health and inference | 5/5 | 5/5 | 5/5 | MET |
+| 4. Failure logging | 5/5 expected errors with matching records | 5/5 | 5/5 | 5/5 | MET |
+| 5. Existing functionality | 5/5 original predictions with recorded appeals | 5/5 | 5/5 | 5/5 | MET |
+
+Trial 1, case 1 evidence, serialized as JSON from the recorded outputs.
+
+1. `request_telemetry.py::install.finish_request` wrote the correlated submission record.
+
+```jsonl
+{"timestamp": "2026-11-13T16:37:31.689+00:00", "request_id": "2ec858dd-3b69-4445-a062-03093c225924", "method": "POST", "route": "/submit", "input_bytes": 108, "http_status": 200, "duration_ms": 489.4995, "model_loaded_before": true, "output": {"guess": "unsure", "confidence": 0.4097, "model_score": 0.3194, "style_score": 0.5, "status": "decided"}}
+```
+
+2. `scripts/run_capstone.py::send` measured the complete HTTP exchange and
+   `request_telemetry.py::install.finish_request` measured the Flask interval.
+   These are the recorded client and server durations in milliseconds.
+
+```jsonl
+{"client_ms": 490.5843750020722, "server_ms": 489.4995}
+```
+
+3. `app.py::health` and `app.py::submit` returned these two HTTP 200 bodies
+   after a fresh Gunicorn start.
+
+```jsonl
+{"detector_loaded": true, "detector_model": "gpt2", "log_entries": 0, "ok": true, "rate_limit_policy": {"caller": "creator_id; source IP for missing/invalid ID", "per_day": 100, "per_minute": 8, "storage": "memory://"}, "rate_limiting": true}
+{"confidence": 0.4097, "content_id": "d880cbf1-4982-4f0d-b6de-614ed6e37310", "guess": "unsure", "label": "We cannot reliably determine how this writing was created. This label is not an accusation. The writer can request a review.", "model_score": 0.3194, "status": "decided", "style_score": 0.5}
+```
+
+4. `app.py::string_field` rejected empty text and
+   `request_telemetry.py::outcome` recorded the error.
+
+```jsonl
+{"error": "invalid_text", "message": "text must be a nonblank string."}
+{"timestamp": "2026-11-13T16:37:31.692+00:00", "request_id": "30980524-3fca-44bf-a144-fd37f61f5ddf", "method": "POST", "route": "/submit", "input_bytes": 38, "http_status": 400, "duration_ms": 0.38875, "model_loaded_before": true, "error": "invalid_text"}
+```
+
+5. `app.py::appeal` returned the review status and `audit.py::log_appeal`
+   persisted the appeal tied to the submission ID above.
+
+```jsonl
+{"content_id": "d880cbf1-4982-4f0d-b6de-614ed6e37310", "message": "Your review request was recorded. The writing is now under review.", "status": "under_review"}
+{"timestamp": "2026-11-13T16:37:31+00:00", "content_id": "d880cbf1-4982-4f0d-b6de-614ed6e37310", "creator_id": "t1-case1", "event": "appeal", "status": "under_review", "reasoning": "Synthetic acceptance case requesting review of the original decision.", "http_status": 200, "request_id": "f265585b-fb35-4acf-926b-8adb1a79ae4c", "path": "/appeal", "method": "POST"}
+```
+
+**What's Still Broken**
+
+All five targets passed. Criterion 2's 100 ms allowance is loose for this
+loopback setup. Across 30 measured first submissions, server duration was
+always below the client duration, with a gap of 0.870–1.258 ms. A future
+version of that criterion could allow 5 ms, keeping the positive, finite
+requirement. The committed criterion and both sets of verdicts use 100 ms.
+
+The warm-up check covers the cached-model path on one machine. With another
+unit, the first follow-up would be to test startup with a missing or corrupt
+cache. That would verify that the warning, health state, and retry response
+give an operator enough information to restore service.
+
+**How I Used AI**
+
+1. I asked Codex to instrument the existing Flask service and avoid logging
+   submitted writing or credentials. Codex added request timing with
+   allowlisted outcome fields, linked its request IDs to the existing audit,
+   and added a test that sends an echoed value, a query value, an unknown
+   path, and an authorization header to check that none appear in telemetry.
+2. I asked Codex to run my criteria, make one measured improvement, and repeat
+   the same trials. Codex measured the lazy-loading delay, moved GPT-2 loading
+   to Gunicorn worker startup, and reran all five criteria. It also reported
+   readiness and total launch-to-first-submit time to show where the delay went.
+
+These describe the work Codex performed and the criteria I supplied.

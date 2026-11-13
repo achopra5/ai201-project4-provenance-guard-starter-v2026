@@ -216,6 +216,9 @@ HF_HUB_OFFLINE=1 .venv/bin/gunicorn -c gunicorn.conf.py app:app
 The service binds `127.0.0.1:5000`. Set `PORT` if you need a different local
 port and substitute it in the commands below. One sync worker keeps the
 in-memory rate-limit state in one process. Its counters reset at restart.
+Gunicorn loads GPT-2 before the worker begins serving requests. If loading
+fails, Gunicorn logs a warning and the first valid submission retries using
+the detector's existing error handling. `/health` reports `detector_loaded`.
 Leave `AI201_RATE_LIMITS` at its default (enabled) and `AI201_DETECTOR_MODEL`
 at its default (`gpt2`) to reproduce the run. `AI201_AUDIT_LOG` and
 `AI201_REQUEST_LOG` optionally override the log paths.
@@ -241,6 +244,19 @@ weights and additional Flask/Gunicorn memory. Even the low estimate is about
 750 MB before other overhead, above the project brief's 512 MB free-tier
 budget. This run uses the documented local-with-logs path and keeps the model
 cache across starts.
+
+To repeat the capstone evaluation with the checked-in Unit 8 reference:
+
+```bash
+.venv/bin/python scripts/run_capstone.py --checkout . --gunicorn .venv/bin/gunicorn \
+  --reference results/unit9/unit8-reference.json --output /tmp/capstone-rerun.json
+.venv/bin/python -m unittest discover -s tests -q
+```
+
+The runner uses cached GPT-2, a fresh worker and temporary logs per case, and
+free loopback ports. The raw results record the exact service revision. To
+repeat the before phase, run the same harness with `--checkout` pointing to a
+clean checkout of `37dc9f7` and reuse the same Gunicorn environment.
 
 ---
 
