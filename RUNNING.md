@@ -115,7 +115,7 @@ position.**
 | Milestone | What you're doing | Where |
 |---|---|---|
 | 1 | Trace a submission on paper | Nothing to run |
-| 2 | Write your criteria | `criteria.md` — all five are yours |
+| 2 | Write your criteria | `docs/unit8/criteria.md` — archived Unit 7 criteria |
 | 3 | The route, one signal, the log | `app.py::submit`, `detector.py`, `audit.py` |
 | 4 | Second signal, combine, score | `stylometry.py`, `scoring.py::combine_signals` |
 | 5 | Labels and the appeal path | `scoring.py::score_to_label`, `app.py::appeal` |
@@ -185,52 +185,62 @@ trace look exactly like a quiet afternoon.
 
 ---
 
-## Running it somewhere else (unit 9)
+## Unit 9 capstone · local Gunicorn with logs
 
-Unit 9 asks you to deploy one of your systems. **Read this before you pick
-which one** — for this project the answer is already decided, and it isn't the
-hosted one.
+Run from the repository root on macOS or Linux. The recorded trials used
+Python 3.12.7 on Apple Silicon (arm64), a CPU, and Gunicorn 23.0.0. Use Python
+3.12 and reserve several GB of local disk for dependencies and the model.
 
-Flask's built-in server says "development server" on startup because that's
-what it is. A real one comes from `gunicorn`, which is in
-`requirements.txt` and unused until now:
+One-time setup from a clean checkout:
 
 ```bash
-gunicorn app:app --bind 0.0.0.0:$PORT
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements-capstone.txt
+.venv/bin/python -c 'import detector; print(detector.warm_up())'
 ```
 
-Two settings do the work, and both read the environment:
+The first model setup may need internet access. It caches the `gpt2` model
+and tokenizer through Hugging Face, typically under `~/.cache/huggingface/hub`.
+The evaluated snapshot was `607a30d783dfa663caf39e06633721c8d4cfcd7e`.
+It contains `model.safetensors` (523 MiB), `tokenizer.json` (1.3 MiB),
+`vocab.json` (about 1 MiB), `merges.txt` (446 KiB), and the small model,
+generation, and tokenizer JSON configuration files. Inference runs on the
+CPU. No API key is required.
 
-| Variable | Default | What it does |
-|---|---|---|
-| `HOST` | `127.0.0.1` | Loopback — your machine only. A host needs `0.0.0.0`, or nothing outside the box can reach the service and it looks like the app is down |
-| `PORT` | `5000` | Most hosts hand you a port in `PORT` and expect you to bind exactly that one |
-| `AI201_DEBUG` | `1` | Debug mode. Off automatically whenever `HOST` isn't loopback — an interactive debugger on a public address is a stranger's Python prompt inside your process |
+Start the service:
 
-Nothing about your local workflow changes. With no variables set you get
-`http://127.0.0.1:5000` and every `curl` above still works.
+```bash
+HF_HUB_OFFLINE=1 .venv/bin/gunicorn -c gunicorn.conf.py app:app
+```
 
-### This project will not fit a free host
+The service binds `127.0.0.1:5000`. Set `PORT` if you need a different local
+port and substitute it in the commands below. One sync worker keeps the
+in-memory rate-limit state in one process. Its counters reset at restart.
+Leave `AI201_RATE_LIMITS` at its default (enabled) and `AI201_DETECTOR_MODEL`
+at its default (`gpt2`) to reproduce the run. `AI201_AUDIT_LOG` and
+`AI201_REQUEST_LOG` optionally override the log paths.
 
-Say it plainly, because the arithmetic is the point:
+From a second terminal:
 
-| What has to be in memory | Roughly |
-|---|---|
-| `torch` | ~200–800 MB depending on the build |
-| the `gpt2` weights | ~550 MB on disk, loaded into RAM to score |
-| Flask, gunicorn, your code | the rest |
-| **A free tier gives you** | **512 MB** |
+```bash
+curl -fsS http://127.0.0.1:5000/health
+curl -fsS -X POST http://127.0.0.1:5000/submit \
+  -H 'Content-Type: application/json' \
+  -d '{"text":"The library opened early. Someone had already left a book by the door.","creator_id":"capstone-smoke"}'
+tail -n 2 logs/requests.jsonl
+```
 
-That's over budget before a single request arrives — and a free host has no
-persistent disk, so the 550 MB download starts again after every idle
-spin-down. There is no configuration that fixes this. The model is the size it
-is.
+Expect HTTP 200 from both routes and `status: "decided"` from `/submit`.
+Stop Gunicorn with `Ctrl-C`. Request telemetry appends to
+`logs/requests.jsonl`, and Gunicorn uses `logs/capstone-audit.jsonl` for
+submissions and appeals. Both are ignored by Git. The Flask development
+command in the earlier sections still defaults to `logs/audit.jsonl`.
 
-**So pair 4 extensions take Path B — local, with logs.** That is the expected
-answer for this project, not a fallback and not a failure. Working out that a
-system doesn't fit its host *before* you spend an evening watching it get
-killed is the skill unit 9 is actually testing. Write the arithmetic above in
-your write-up; that's the deliverable.
+The starter estimates 200–800 MB for PyTorch plus roughly 550 MB for GPT-2
+weights and additional Flask/Gunicorn memory. Even the low estimate is about
+750 MB before other overhead, above the project brief's 512 MB free-tier
+budget. This run uses the documented local-with-logs path and keeps the model
+cache across starts.
 
 ---
 
@@ -247,7 +257,8 @@ your write-up; that's the deliverable.
 | `run_attacks.py` | Runs the attack set — **unit 8** |
 | `run_eval.py` | Runs your criteria three times — **unit 8** |
 | `scenarios.py` | What your test runs. **You fill this in** |
-| `criteria.md` | Your five criteria. **You write all five** |
+| `criteria.md` | The five Unit 9 capstone acceptance criteria |
+| `docs/unit8/criteria.md` | The original Unit 7/8 acceptance criteria |
 | `logs/audit.jsonl` | Your audit log. **Commit it** |
 | `results/` | Attack runs and run logs. **Commit them** |
 
