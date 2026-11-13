@@ -1172,3 +1172,17 @@ No GitHub push or Course Portal submission has been performed.
 ---
 
 📖 **How to run this project: [RUNNING.md](RUNNING.md)**
+
+## Capstone
+
+**What This Extends**
+
+Provenance Guard from Units 7 and 8 scores submissions and records appeals.
+The capstone gives that service a documented local run path, structured HTTP
+telemetry, and a measured cost per request.
+
+**The Shape**
+
+Shape A, Deploy and Instrument. Path B, Local with Logs. The scope covers
+Gunicorn startup, request timing, and outcome records. Model changes,
+interface work, and hosted infrastructure fall outside this scope.
