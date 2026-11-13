@@ -67,7 +67,7 @@ def snapshot(cohorts):
         import corrected_corpus
         return {**corrected_corpus.public_snapshot(), "boundary_cases": BOUNDARY_CASES}
     return {"cohorts": cohorts, "boundary_cases": BOUNDARY_CASES,
-            "criteria_sha256": hashlib.sha256((config.ROOT / "criteria.md").read_bytes()).hexdigest()}
+            "criteria_sha256": hashlib.sha256((config.ROOT / "docs/unit8/criteria.md").read_bytes()).hexdigest()}
 
 
 def fingerprint(value):

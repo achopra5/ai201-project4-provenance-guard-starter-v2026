@@ -103,7 +103,7 @@ def build(source_dir, plan_path):
                 "frozen_on": plan["created_on"], "selection_plan_sha256": sha(plan_path.read_bytes()),
                 "extractor": {"package": "pypdf", "version": pypdf.__version__, "mode": "layout; whitespace collapse only"},
                 "ai_manifest_sha256": sha((ROOT / "data/unit8/ai_samples.json").read_bytes()),
-                "criteria_sha256": sha((ROOT / "criteria.md").read_bytes()),
+                "criteria_sha256": sha((ROOT / "docs/unit8/criteria.md").read_bytes()),
                 "sampling_unit": "20 excerpts from three owner-authored source documents, not 20 independent works.",
                 "separation_subset": [p["id"] for p in public_samples[:10]],
                 "prior_exposure": plan["prior_exposure"], "samples": public_samples}

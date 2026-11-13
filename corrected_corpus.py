@@ -49,7 +49,7 @@ def load(manifest_path=MANIFEST, private_path=PRIVATE, ai_path=AI):
         raise ValueError("The fixed separation subset changed.")
     if digest(ai_path) != manifest["ai_manifest_sha256"]:
         raise ValueError("The original AI cohort changed.")
-    if digest(config.ROOT / "criteria.md") != manifest["criteria_sha256"]:
+    if digest(config.ROOT / "docs/unit8/criteria.md") != manifest["criteria_sha256"]:
         raise ValueError("The original acceptance criteria changed.")
     ai = json.loads(ai_path.read_text())
     if len(ai.get("samples", [])) != 10:
@@ -61,4 +61,4 @@ def public_snapshot():
     """Only public metadata and hashes may be embedded in committed results."""
     return {"human_manifest": json.loads(MANIFEST.read_text()),
             "human_manifest_sha256": digest(MANIFEST), "ai_manifest_sha256": digest(AI),
-            "criteria_sha256": digest(config.ROOT / "criteria.md")}
+            "criteria_sha256": digest(config.ROOT / "docs/unit8/criteria.md")}
