@@ -88,5 +88,6 @@ RATE_LIMIT_STORAGE = "memory://"
 # ─── Paths ───────────────────────────────────────────────────────────────────
 
 LOG_DIR = ROOT / "logs"
-AUDIT_LOG = LOG_DIR / "audit.jsonl"
+AUDIT_LOG = Path(os.getenv("AI201_AUDIT_LOG", LOG_DIR / "audit.jsonl"))
+REQUEST_LOG = Path(os.getenv("AI201_REQUEST_LOG", LOG_DIR / "requests.jsonl"))
 RESULTS_DIR = ROOT / "results"

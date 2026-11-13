@@ -33,11 +33,13 @@ from flask import Flask, g, jsonify, request
 import audit
 import config
 import detector
+import request_telemetry
 import scoring
 import stylometry
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = config.MAX_REQUEST_BYTES
+request_telemetry.install(app)
 
 
 def error_response(error, message, status=400):

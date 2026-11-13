@@ -23,3 +23,7 @@ Thumbs.db
 
 # Owner-confirmed corrected Unit 8 excerpts and historical runtime copies stay local.
 .private/
+
+# Runtime logs for the local capstone service. Selected evidence lives in results/.
+/logs/requests.jsonl
+/logs/capstone-audit.jsonl
