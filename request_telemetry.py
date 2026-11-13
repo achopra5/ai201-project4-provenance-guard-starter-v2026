@@ -13,6 +13,12 @@ import detector
 
 _write_lock = Lock()
 _submit_fields = ("guess", "confidence", "model_score", "style_score", "status")
+_error_codes = frozenset({
+    "content_not_found", "detector_unavailable", "input_too_large", "invalid_content_id",
+    "invalid_creator_id", "invalid_json", "invalid_reasoning", "invalid_text",
+    "rate_limited", "scoring_unavailable", "storage_unavailable",
+    "unscorable_text", "unsupported_control_characters",
+})
 
 
 def install(app):
@@ -48,7 +54,7 @@ def install(app):
 
 
 def outcome(response):
-    """Describe successful routes using service-owned fields only."""
+    """Describe outcomes using service-owned fields only."""
     if response.status_code < 400:
         if request.method == "POST" and request.endpoint == "submit":
             body = response.get_json()
@@ -56,4 +62,8 @@ def outcome(response):
         if request.method == "POST" and request.endpoint == "appeal":
             return {"output": {"status": response.get_json()["status"]}}
         return {"output": {"status": "ok"}}
+    body = response.get_json(silent=True)
+    code = body.get("error") if isinstance(body, dict) else None
+    if isinstance(code, str) and code in _error_codes:
+        return {"error": code}
     return {"error": f"http_{response.status_code}"}
