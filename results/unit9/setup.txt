@@ -5,7 +5,8 @@ Detector: gpt2 at cached snapshot 607a30d783dfa663caf39e06633721c8d4cfcd7e
 Rate limiting: enabled in both evaluation phases
 
 From the repository root, the initial setup was:
-  .venv/bin/python -m pip download -r requirements-capstone.txt -d .private/unit9/wheels
+  python3.12 -m venv .private/unit9/package-check
+  PIP_CACHE_DIR="$PWD/.private/unit9/pip-cache" .private/unit9/package-check/bin/python -m pip download -r requirements-capstone.txt -d .private/unit9/wheels
   git clone --no-local --branch codex/unit9-capstone . .private/unit9/clean
   cd .private/unit9/clean
   python3.12 -m venv .venv
@@ -22,3 +23,19 @@ The new clone's status was empty. The same environment was used for the
 Unit 8 prediction reference and both Unit 9 phases. The clean checkout was
 fast-forwarded between phases. Each case started a new Gunicorn process
 using the RUNNING.md command with a free loopback port and isolated log paths.
+
+Final smoke check from the same clean clone at d620633
+  HF_HUB_OFFLINE=1 .venv/bin/gunicorn -c gunicorn.conf.py app:app
+  curl -fsS http://127.0.0.1:5000/health
+  curl -fsS -X POST http://127.0.0.1:5000/submit -H 'Content-Type: application/json' -d '{"text":"The library opened early. Someone had already left a book by the door.","creator_id":"capstone-smoke"}'
+Both requests returned HTTP 200. Health showed detector_loaded=true and
+rate_limiting=true. The submit returned status=decided. See smoke-requests.jsonl.
+The clone remained clean after startup, requests, and shutdown.
+
+Regression checks from the clean clone
+  .venv/bin/python test.py
+  .venv/bin/python -m unittest discover -s tests -q
+  HF_HUB_OFFLINE=1 .venv/bin/python scripts/check_integration.py --output ../integration-clean.json
+Preflight: 9 passed, 0 failed.
+Unit suite: 56 discovered, 55 passed, 1 skipped (the private Unit 8 corpus is absent from the clone).
+Cached-model integration: 4 passed, including real inference and an appeal.
